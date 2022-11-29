@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
     def new 
-        @user = User.new
+        # @user = User.new
     end  
 
     def create
@@ -10,14 +10,14 @@ class UsersController < ApplicationController
             session[:user_id] = user.id 
             redirect_to "/profile" 
         else 
-            redirect_to "/create" 
+            redirect_to "/users/new" 
             flash[:error] = user.errors.full_messages
         end 
     end 
 
     private 
     def user_params 
-        params.require(:user).permit(:email, :password)
+        params.permit(:email, :password, :password_confirmation)
     end 
 
 end 

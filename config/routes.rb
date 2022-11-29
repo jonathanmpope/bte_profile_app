@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'profiles#new'
 
-  resources :users, only: [:new, :create]
-
+  # resources :users, only: [:new, :create]
+  get '/users/new', to: 'users#new'
+  post '/users', to: 'users#create'
 end
