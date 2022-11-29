@@ -1,0 +1,15 @@
+class Profile < ApplicationRecord
+    belongs_to :user
+
+    validates_presence_of :type
+    validates_presence_of :strength_lower_score
+    validates_presence_of :strength_upper_score
+    validates_presence_of :power_score
+    validates_presence_of :strength_score 
+    validates_presence_of :conditioning_extended_capacity_score
+    validates_presence_of :conditioning_capacity_score
+    validates_presence_of :conditioning_extended_power_score
+    validates_presence_of :conditioning_power_score
+    validates_presence_of :conditioning_score
+    validates_presence_of :work_capacity_score
+end 
