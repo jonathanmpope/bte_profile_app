@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'users_sessions#destroy'
 
   get '/profile', to: 'profiles#new'
+  post '/profile', to: 'profiles#create'
 
   # resources :users, only: [:new, :create]
   get '/users/new', to: 'users#new'

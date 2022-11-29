@@ -2,6 +2,12 @@ class ProfilesController < ApplicationController
     before_action :require_logged_in
 
     def new 
+        if params[:commit] != nil  
+            @track = params[:track]
+        end 
+    end 
+
+    def create 
     end 
 
     private
