@@ -12,5 +12,10 @@ class UsersSessionsController < ApplicationController
             flash[:error] = "Sorry, your credentials are bad"
             render :new
         end 
-    end 
+    end
+    
+    def destroy 
+        session.destroy
+        redirect_to '/'
+    end
 end 
