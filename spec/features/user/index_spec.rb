@@ -68,4 +68,13 @@ RSpec.describe 'the landing page' do
 
         expect(page).to_not have_content("You're logged in")
     end
+
+    it 'links to the create an account page' do
+        visit '/'
+
+        click_on "Create Account"
+
+        expect(page).to have_content("Create an Account")
+        expect(current_path).to eq("/users/new")
+    end
 end 
