@@ -1,6 +1,7 @@
 class Profile < ApplicationRecord
     belongs_to :user
 
+    validates_presence_of :weight
     validates_presence_of :type
     validates_presence_of :strength_lower_score
     validates_presence_of :strength_upper_score

@@ -1,0 +1,25 @@
+<% if current_user %>
+    <h2>You're already logged in!</h2>
+    <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
+    <h2><%= link_to "Profile", '/profile' %></h2>
+<% else %>
+    <h2> Already have an account?</h2>
+    <h2><%= link_to "Login", '/' %></h2>
+<% end %>
+
+<h1> Create an Account</h1>
+<%= form_with url: '/users', method: :post, local: true do |form| %>
+    <%= form.label :email %>
+    <%= form.text_field :email, required: true %>
+    <br>
+    <br>
+    <%= form.label :password %>
+    <%= form.text_field :password, required: true %>
+    <br>
+    <br>
+    <%= form.label :password_confirmation %>
+    <%= form.text_field :password_confirmation, required: true %>
+    <br>
+    <br>
+    <%= form.submit "Create Account" %>
+<% end %>

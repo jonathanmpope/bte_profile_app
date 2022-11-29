@@ -9,7 +9,21 @@
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class= "container" >
+    <header class="item-a">
+      <img id="compass" src="<%= asset_path('BTE profile gen.png') %>" width="400" height="120">
+    </header>
+    <nav class="item-b">
+      <ul>
+        <li><%= link_to "Start Over", "/", {:class => "link"} %></li>      
+      </ul>
+    </nav>
+    <section class = "item-c">
+      <% flash.each do |name, msg|%>
+        <%= content_tag :div, msg, class: name %>
+      <% end %>
+      <%= yield %>
+    </section>
+    <footer class="item-d"> © 2022 Building the Elite, LLC  </footer>
   </body>
 </html>

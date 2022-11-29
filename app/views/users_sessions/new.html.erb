@@ -1,0 +1,24 @@
+<div>
+<h1>BTE Profile Generator</h1>
+<% if current_user %>
+    <p>You're logged in</p>
+    <h3><%= link_to "Logout", '/logout', method: :delete %></h3>
+    <h3><%= link_to "Profile", '/profile' %></h3>
+<% else %>
+    <h2>Create an Account</h2>
+        <p>* This will allow you to save your data and see changes in your profile over time *</p>
+        <%= button_to "Create Account", "/users/new", method: :get %>
+    <h2>Already have an account? Login below:</h2>
+    <%= form_with url: '/', method: :post, local: true do |form|%>
+        <%= form.label :email %>
+        <%= form.text_field :email, required: true %>
+        <br>
+        <br>
+        <%= form.label :password %>
+        <%= form.text_field :password, required: true %>
+        <br>
+        <br>
+        <%= form.submit "Login" %>
+    <% end %>
+<% end %>
+</div>
