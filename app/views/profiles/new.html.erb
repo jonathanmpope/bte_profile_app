@@ -1,0 +1,4 @@
+<% if current_user %>
+    <h2>Welcome, <%=current_user.email%>!</h2>
+    <%= link_to "Logout", '/logout', method: :delete %>
+<% end %>

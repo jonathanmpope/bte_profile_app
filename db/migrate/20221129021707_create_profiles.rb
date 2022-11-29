@@ -1,6 +1,7 @@
 class CreateProfiles < ActiveRecord::Migration[5.2]
   def change
     create_table :profiles do |t|
+      t.integer :weight 
       t.string :type
       t.float :strength_lower_score
       t.float :strength_upper_score

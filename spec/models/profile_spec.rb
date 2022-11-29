@@ -6,6 +6,7 @@ RSpec.describe Profile, type: :model do
     end 
 
     describe 'validations' do 
+        it { should validate_presence_of :weight }
         it { should validate_presence_of :type }
         it { should validate_presence_of :strength_lower_score }
         it { should validate_presence_of :strength_upper_score }

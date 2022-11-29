@@ -25,4 +25,21 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Welcome, #{email}!")
         expect(current_path).to eq("/profile")
     end
+
+    it 'will not let you login without valid credentials' do
+        visit '/'
+
+        user = User.create!(email: 'test@test.com', password: "test")
+
+        password = "test1"
+        email = 'test@test.com'
+
+        fill_in :email, with: email
+        fill_in :password, with: password
+
+        click_on "Login"
+
+        expect(page).to have_content("Sorry, your credentials are bad")
+        expect(current_path).to eq("/")
+    end
 end 
