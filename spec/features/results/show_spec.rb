@@ -21,19 +21,20 @@ RSpec.describe 'the landing page' do
         @weighted_pullup = @profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: 260)
     end 
 
-    it 'should be a page with several options and lets you select a track' do
+    it 'should show strenght results' do
         visit '/results'
+
         expect(page).to have_content("SOF Land Contract Assessment Results")
         expect(page).to have_content("Overall Score: 75")
-        expect(page).to have_content("Lower Body: 100")
-        expect(page).to have_content("Upper Body: 97")
-        expect(page).to have_content(@squat.value.to_i)
+        expect(page).to have_content("Lower Body Score: 100")
+        expect(page).to have_content("Upper Body Score: 97")
+        expect(page).to have_content(@squat.value.round(0))
         expect(page).to have_content(@squat.name)
-        expect(page).to have_content(@deadlift.value.to_i)
+        expect(page).to have_content(@deadlift.value.round(0))
         expect(page).to have_content(@deadlift.name)
-        expect(page).to have_content(@press.value.to_i)
+        expect(page).to have_content(@press.value.round(0))
         expect(page).to have_content(@press.name)
-        expect(page).to have_content(@weighted_pullup.value.to_i)
+        expect(page).to have_content(@weighted_pullup.value.round(0))
         expect(page).to have_content(@weighted_pullup.name)
     end 
 end 
