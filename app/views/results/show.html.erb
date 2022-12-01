@@ -5,4 +5,21 @@
 
 <% if @profile.track ==  'sof_land_cont' %>
     <h1>SOF Land Contract Assessment Results</h1>
+    <h2>Overall Score: <%= "#{((@profile.strength_score + @profile.conditioning_score + @profile.work_capacity_score) / 3).to_i}" %></h2>
+    <%= column_chart ({"Strength Score" => @profile.strength_score, "Conditioning Score" => @profile.conditioning_score, "Work Capacity Score" => @profile.work_capacity_score}), round: 0, width: "75%", colors: ["#f00", "#00f", "#0f0"], id: "users-chart"  %>
+    
+    <table>
+        <tr>
+            <th>Lower Body: <%= "#{@profile.strength_lower_score.to_i}" %></th>
+            <th>Upper Body: <%= "#{@profile.strength_upper_score.to_i}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= @squat.value.to_i %></td>
+            <td><%= @deadlift.name %>: <%= @deadlift.value.to_i %></td>
+        </tr>
+        <tr>
+            <td><%= @press.name %>: <%= @press.value.to_i %></td>
+            <td><%= @weighted_pullup.name %>: <%= @weighted_pullup.value.to_i %></td>
+        </tr>
+    </table>
 <% end %>
