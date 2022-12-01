@@ -1,11 +1,10 @@
 class CreateProfiles < ActiveRecord::Migration[5.2]
   def change
     create_table :profiles do |t|
-      t.integer :weight 
-      t.string :type
+      t.float :weight 
+      t.string :track
       t.float :strength_lower_score
       t.float :strength_upper_score
-      t.float :power_score
       t.float :strength_score
       t.float :conditioning_extended_capacity_score
       t.float :conditioning_capacity_score

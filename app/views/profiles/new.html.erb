@@ -3,7 +3,7 @@
     <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
 <% end %>
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
-    <h2>Assessment Track</h2>
+    <h1>Assessment Track</h1>
     <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep']], required: true %>
     <br>
     <br>
@@ -12,4 +12,64 @@
 
 <% if @track != nil && @track == 'sof_land_cont' %>
     <h2>SOF Land Contract Assessments</h2>
+    <%= form_with url: '/profile', method: :post, local: true do |form|%>
+        <h3>8 Mile Ruck:</h3>
+        <%= form.label :hours %>
+        <%= form.number_field :ruck_hours, in: 0..4, required: true %>
+        <%= form.label :minutes %>
+        <%= form.number_field :ruck_minutes, in: 0..59, required: true %>
+        <h3>5 Mile Run:</h3>
+        <%= form.label :minutes %>
+        <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
+        <%= form.label :seconds %>
+        <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+        <h3>1.5 Mile Run:</h3>
+        <%= form.label :minutes %>
+        <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
+        <%= form.label :seconds %>
+        <%= form.number_field :one_and_half_mile_run_seconds, in: 0..59, required: true %>
+        <h3>400m Run:</h3>
+        <%= form.label :minutes %>
+        <%= form.number_field :four_hundred_run_minutes, in: 0..5, required: true %>
+        <%= form.label :seconds %>
+        <%= form.number_field :four_hundred_run_seconds, in: 0..59, required: true %>
+        <h3>Pushups:</h3>
+        <%= form.label :reps %>
+        <%= form.number_field :pushup_reps, in: 0..150, required: true %>
+        <h3>Pull-ups:</h3>
+        <%= form.label :reps %>
+        <%= form.number_field :pullup_reps, in: 0..50, required: true %>
+        <h3>Hang:</h3>
+        <%= form.label :minutes %>
+        <%= form.number_field :hang_minutes, in: 0..5, required: true %>
+        <%= form.label :seconds %>
+        <%= form.number_field :hang_seconds, in: 0..59, required: true %>
+        <h3>Strength Work Units:</h3>
+        <%= form.radio_button :units, "imperial", required: true %>
+        <%= form.label :units, "Freedom Units (pounds)" %>
+        <%= form.radio_button :units, "metric" %>
+        <%= form.label :units, "Metric (kilograms)" %>
+        <h3>Current Bodyweight:</h3>
+        <%= form.label :weight %>
+        <%= form.number_field :body_weight, in: 0..999, required: true %>
+        <h3>Squat:</h3>
+        <%= form.select :squat, [["Back Squat",'Back Squat'],["Front Squat",'Front Squat']], required: true %>
+        <%= form.label :weight %>
+        <%= form.number_field :squat_weight, in: 0..999, required: true %>
+        <h3>Deadlift:</h3>
+        <%= form.select :deadlift, [["Trap Bar",'Trap Bar'],["Straight Bar",'Straight Bar']], required: true %>
+        <%= form.label :weight %>
+        <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
+        <h3>Press:</h3>
+        <%= form.select :press, [["Bench Press",'Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
+        <%= form.label :weight %>
+        <%= form.number_field :press_weight, in: 0..999, required: true %>
+        <h3>Weighted Pull-up:</h3>
+        <%= form.label :weight %>
+        <%= form.number_field :pullup_weight, in: 0..999, required: true %>
+        <br>
+        <br>
+        <%= form.hidden_field :profile, :value => @track %>
+        <%= form.submit "Submit Results" %>
+    <% end %>
 <% end %>
