@@ -1,0 +1,8 @@
+<% if current_user %>
+    <h2>Welcome, <%=current_user.email%>!</h2>
+    <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
+<% end %>
+
+<% if @profile.track ==  'sof_land_cont' %>
+    <h1>SOF Land Contract Assessment Results</h1>
+<% end %>

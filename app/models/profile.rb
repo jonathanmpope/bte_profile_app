@@ -1,11 +1,12 @@
 class Profile < ApplicationRecord
     belongs_to :user
+    has_many :exercises 
 
     validates_presence_of :weight
-    validates_presence_of :type
+    validates_presence_of :track
     validates_presence_of :strength_lower_score
     validates_presence_of :strength_upper_score
-    validates_presence_of :power_score
+    # validates_presence_of :power_score
     validates_presence_of :strength_score 
     validates_presence_of :conditioning_extended_capacity_score
     validates_presence_of :conditioning_capacity_score

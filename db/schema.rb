@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 2022_11_29_023429) do
   enable_extension "plpgsql"
 
   create_table "exercises", force: :cascade do |t|
-    t.string "type"
+    t.string "category"
     t.string "name"
-    t.integer "value"
+    t.float "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "profile_id"
@@ -32,11 +32,10 @@ ActiveRecord::Schema.define(version: 2022_11_29_023429) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.integer "weight"
-    t.string "type"
+    t.float "weight"
+    t.string "track"
     t.float "strength_lower_score"
     t.float "strength_upper_score"
-    t.float "power_score"
     t.float "strength_score"
     t.float "conditioning_extended_capacity_score"
     t.float "conditioning_capacity_score"
