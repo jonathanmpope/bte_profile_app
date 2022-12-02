@@ -30,4 +30,25 @@
     <div class = "secondary_chart">
         <%= column_chart ({"Upper Body" => @profile.strength_upper_score, "Lower Body" => @profile.strength_lower_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
     </div>
+    <br>
+    <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
+    <table>
+        <tr>
+            <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
+            <th>Capacity Score: <%= "#{@profile.conditioning_capacity_score.round(0)}" %></th>
+            <th>Extended Power Score: <%= "#{@profile.conditioning_extended_power_score.round(0)}" %></th>
+            <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
+            <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
+            <td><%= @extended_power.name %>: <%= @extended_power.value.to_i %> minutes <%= ((@extended_power.value - @extended_power.value.to_i) * 60).round(0) %> seconds </td>
+            <td><%= @power.name %>: <%= @power.value.to_i %> minutes <%= ((@power.value - @power.value.to_i) * 60).round(0) %> seconds</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class = "secondary_chart">
+        <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_extended_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+    </div>
 <% end %>
