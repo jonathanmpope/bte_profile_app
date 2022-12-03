@@ -11,6 +11,21 @@ class ResultsController < ApplicationController
         @capacity = @profile.exercises.where(name: "5 mile run")[0] 
         @extended_power = @profile.exercises.where(name: "1.5 mile run")[0] 
         @power = @profile.exercises.where(name: "400m run")[0] 
+        @pushups = @profile.exercises.where(name: "Pushups")[0] 
+        @pullups = @profile.exercises.where(name: "Pull-ups")[0] 
+        @hang = @profile.exercises.where(name: "Hang")[0] 
+        work_capacity_scores
+    end 
+
+    def work_capacity_scores 
+        @pushup_score = (@pushups.value / 80.0 - 0.5) * 2.0
+        @pushup_score >= 1.0 ? @pushup_score = 1 : @pushup_score
+
+        @pullup_score = (@pullups.value / 15.0 - 0.5) * 2
+        @pullup_score >= 1.0 ? @pullup_score = 1 : @pullup_score 
+
+        @hang_score = (@hang.value / 1.5 - 0.5) * 2
+        @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
     end 
 
     private

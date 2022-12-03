@@ -51,4 +51,20 @@
     <div class = "secondary_chart">
         <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_extended_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
     </div>
+    <br>
+    <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
+    <table>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class = "secondary_chart">
+        <%= column_chart ({"Pushups" => @pushup_score * 100 , "Pull-ups" => @pullup_score * 100, "Hang" => @hang_score * 100}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+    </div>
+     <br>
+    <br>
 <% end %>

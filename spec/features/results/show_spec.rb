@@ -25,6 +25,10 @@ RSpec.describe 'the landing page' do
         @capacity = @profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: 35.5)
         @extended_power = @profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: 10.6967)
         @power = @profile.exercises.create!(category: 'conditioning', name:'400m run', value: 1.896)
+
+        @pushups = @profile.exercises.create!(category: 'work capacity', name:'Pushups', value: 55)
+        @pullups = @profile.exercises.create!(category: 'work capacity', name:'Pull-ups', value: 12)
+        @hang = @profile.exercises.create!(category: 'work capacity', name:'Hang', value: 1.5)
     end 
 
     it 'should show strength results' do
@@ -61,5 +65,17 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content(@extended_power.name)
         expect(page).to have_content("1 minutes 54 seconds")
         expect(page).to have_content(@power.name)
+    end 
+
+    it 'should show work capacity results' do
+        visit '/results'
+        
+        expect(page).to have_content("Work Capacity Score: 53")
+        expect(page).to have_content(@pushups.name)
+        expect(page).to have_content("55 reps")
+        expect(page).to have_content(@pullups.name)
+        expect(page).to have_content("12 reps")
+        expect(page).to have_content(@hang.name)
+        expect(page).to have_content("1 minute(s) 30 seconds")
     end 
 end 
