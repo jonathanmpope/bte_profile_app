@@ -64,6 +64,12 @@
                 <td><%= @extended_power_swim.name %>: <%= @extended_power_swim.value.to_i %> minutes <%= ((@extended_power_swim.value - @extended_power_swim.value.to_i) * 60).round(0) %> seconds </td>
                 <td> </td>
             </tr>
+        <% elsif @profile.track == 'sof_mar_prep' %>
+            <tr>
+                <td> </td>
+                <td><%= @extended_power_swim.name %>: <%= @extended_power_swim.value.to_i %> minutes <%= ((@extended_power_swim.value - @extended_power_swim.value.to_i) * 60).round(0) %> seconds </td>
+                <td> </td>
+            </tr>
         <% end %>
     </table>
     <br>

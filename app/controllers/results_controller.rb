@@ -20,7 +20,6 @@ class ResultsController < ApplicationController
             work_capacity_scores_prep  
         end 
         @extended_power = @profile.exercises.where(name: "1.5 mile run")[0] 
-       
         if @profile.track == 'sof_mar_cont'
             @capacity_swim = @profile.exercises.where(name: "2000m swim")[0]
             @extended_power_swim = @profile.exercises.where(name: "500m swim")[0]

@@ -1,4 +1,4 @@
-module SofContractHelper
+module SofProfileHelper
     
     def sof_land_contract_profile_calc_starter_method(profile)
         @profile = profile
