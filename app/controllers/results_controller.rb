@@ -11,7 +11,7 @@ class ResultsController < ApplicationController
         @deadlift = @profile.exercises.where(name: "Straight Bar").or(@profile.exercises.where(name: "Trap Bar"))[0] 
         @press = @profile.exercises.where(name: "Bench Press").or(@profile.exercises.where(name: "Overhead Press (1 Arm)"))[0] 
         @weighted_pullup = @profile.exercises.where(name: "Weighted Pull-up")[0] 
-        if @profile.track == 'sof_mar_cont' || @profile.track == 'sof_land _cont'
+        if @profile.track == 'sof_mar_cont' || @profile.track == 'sof_land_cont'
             @extended_capacity = @profile.exercises.where(name: "8 mile ruck")[0] 
             @capacity = @profile.exercises.where(name: "5 mile run")[0]
             work_capacity_scores_cont

@@ -69,7 +69,11 @@
     <br>
     <br>
     <div class = "secondary_chart">
-        <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_extended_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+            <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+        <% else %>
+            <%= column_chart ({"Capacity Score" => @profile.conditioning_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+        <% end %>
     </div>
     <br>
     <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
