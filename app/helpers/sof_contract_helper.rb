@@ -61,6 +61,26 @@ module SofContractHelper
         conditioning_calc_land_prep(capacity, extended_power, power)
     end 
 
+     def sof_maritime_prep_profile_calc_starter_method(profile)
+        @profile = profile 
+        capacity = profile.exercises.create!(category: 'conditioning', name: params[:prep_run_or_ruck], value: "#{(params[:ruck_or_run_hours].to_i * 60) + params[:ruck_or_run_minutes].to_i}")
+        extended_power_swim = profile.exercises.create!(category: 'conditioning', name:'500m swim', value: "#{params[:five_hundred_swim_minutes].to_i + (params[:five_hundred_swim_seconds].to_f / 60)}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        strength_lower_calc_prep(squat_variation, deadlift_variation)
+        strength_upper_calc_prep(press_variation, weighted_pullup)
+        work_capacity_calc_prep(pushups, pullups, hang)
+        conditioning_calc_mar_prep(capacity, extended_power,  extended_power_swim, power)
+    end 
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
@@ -203,6 +223,29 @@ module SofContractHelper
         end 
 
         @extended_power_score = (10.5 / extended_power.value - 0.5) * 2.0
+        @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+
+        @power_score = (1.33 / power.value - 0.5) * 2.0
+        @power_score >= 1.0 ? @power_score = 1 : @power_score
+
+        @conditioning_score = (@capacity_score + @extended_power_score + @power_score) * 33
+        profile_update
+    end
+
+    def conditioning_calc_mar_prep(capacity, extended_power, extended_power_swim, power)
+        @extended_capacity_score = 0 
+
+        if capacity.name == '4 Mile Ruck'
+            @capacity_score = (60.0 / capacity.value - 0.5) * 2.0
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        else capacity.name == '3 Mile Run'
+            @capacity_score = (24.0 / capacity.value - 0.5) * 2.0
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        end 
+
+        extended_power_run_score = (10.5 / extended_power.value - 0.5) * 2.0
+        extended_power_swim_score = (10.5 / extended_power_swim.value - 0.5) * 2.0
+        @extended_power_score = (extended_power_run_score + extended_power_swim_score) / 2
         @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
 
         @power_score = (1.33 / power.value - 0.5) * 2.0

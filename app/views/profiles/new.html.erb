@@ -10,7 +10,7 @@
     <%= form.submit "Select Track" %>
 <% end %> 
 
-<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' %>
+<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' ||  @track == 'sof_mar_prep' %>
     <% if @track == 'sof_land_cont' %>
         <h2>SOF Land Contract Assessments</h2>
     <% elsif @track == 'sof_mar_cont' %>
