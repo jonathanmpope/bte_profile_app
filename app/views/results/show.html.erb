@@ -5,4 +5,66 @@
 
 <% if @profile.track ==  'sof_land_cont' %>
     <h1>SOF Land Contract Assessment Results</h1>
+    <h2>Overall Score: <%= "#{((@profile.strength_score + @profile.conditioning_score + @profile.work_capacity_score) / 3).round(0)}" %></h2>
+    <div class = "main_chart">
+        <%= column_chart ({"Strength Score" => @profile.strength_score, "Conditioning Score" => @profile.conditioning_score, "Work Capacity Score" => @profile.work_capacity_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+    </div>
+    <br>
+    <h2>Strength Score: <%= "#{@profile.strength_score.round(0)}" %></h2>
+    <table>
+        <tr>
+            <th>Lower Body Score: <%= "#{@profile.strength_lower_score.round(0)}" %></th>
+            <th>Upper Body Score: <%= "#{@profile.strength_upper_score.round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= @squat.value.round(0) %></td>
+            <td><%= @press.name %>: <%= @press.value.round(0) %></td>
+        </tr>
+        <tr>
+            <td><%= @deadlift.name %>: <%= @deadlift.value.round(0) %></td>
+            <td><%= @weighted_pullup.name %>: <%= @weighted_pullup.value.round(0) %></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class = "secondary_chart">
+        <%= column_chart ({"Upper Body" => @profile.strength_upper_score, "Lower Body" => @profile.strength_lower_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+    </div>
+    <br>
+    <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
+    <table>
+        <tr>
+            <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
+            <th>Capacity Score: <%= "#{@profile.conditioning_capacity_score.round(0)}" %></th>
+            <th>Extended Power Score: <%= "#{@profile.conditioning_extended_power_score.round(0)}" %></th>
+            <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
+            <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
+            <td><%= @extended_power.name %>: <%= @extended_power.value.to_i %> minutes <%= ((@extended_power.value - @extended_power.value.to_i) * 60).round(0) %> seconds </td>
+            <td><%= @power.name %>: <%= @power.value.to_i %> minutes <%= ((@power.value - @power.value.to_i) * 60).round(0) %> seconds</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class = "secondary_chart">
+        <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_extended_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+    </div>
+    <br>
+    <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
+    <table>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class = "secondary_chart">
+        <%= column_chart ({"Pushups" => @pushup_score * 100 , "Pull-ups" => @pullup_score * 100, "Hang" => @hang_score * 100}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+    </div>
+     <br>
+    <br>
 <% end %>

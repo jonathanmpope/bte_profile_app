@@ -170,4 +170,32 @@
      border-radius: 4px;
  }
 
- 
+ table {
+     border-collapse: collapse;
+     width: 50%;
+     margin: auto;
+ }
+
+ td,
+ th {
+     /* border: 1px solid #dddddd; */
+     text-align: center;
+     padding: 8px;
+ }
+
+ /* tr:nth-child(even) {
+     background-color: #dddddd;
+     color: black;
+ } */
+
+ .main_chart {
+    background-color: #dddddd;
+    margin: auto;
+    width: 50%;
+ }
+
+ .secondary_chart {
+     background-color: #dddddd;
+     margin: auto;
+     width: 30%;
+ }
