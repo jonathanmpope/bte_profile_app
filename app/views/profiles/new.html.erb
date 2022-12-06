@@ -10,7 +10,7 @@
     <%= form.submit "Select Track" %>
 <% end %> 
 
-<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' %>
+<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' %>
     <% if @track == 'sof_land_cont' %>
         <h2>SOF Land Contract Assessments</h2>
     <% elsif @track == 'sof_mar_cont' %>
@@ -21,22 +21,32 @@
         <h2>SOF Maritime Prep Assessments</h2>
     <% end %>
     <%= form_with url: '/profile', method: :post, local: true do |form|%>
-        <h3>8 Mile Ruck:</h3>
-        <%= form.label :hours %>
-        <%= form.number_field :ruck_hours, in: 0..4, required: true %>
-        <%= form.label :minutes %>
-        <%= form.number_field :ruck_minutes, in: 0..59, required: true %>
-        <h3>5 Mile Run:</h3>
-        <%= form.label :minutes %>
-        <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
-        <%= form.label :seconds %>
-        <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+        <% if @track == 'sof_mar_cont'  || @track == 'sof_land_cont' %>
+            <h3>8 Mile Ruck:</h3>
+            <%= form.label :hours %>
+            <%= form.number_field :ruck_hours, in: 0..4, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :ruck_minutes, in: 0..59, required: true %>
+            <h3>5 Mile Run:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+        <% end %>
         <% if @track == 'sof_mar_cont' %>
             <h3>2000m Swim:</h3>
             <%= form.label :minutes %>
             <%= form.number_field :two_thousand_swim_minutes, in: 0..59, required: true %>
             <%= form.label :seconds %>
             <%= form.number_field :two_thousand_swim_seconds, in: 0..59, required: true %>
+        <% end %>
+        <% if @track == 'sof_mar_prep'  || @track == 'sof_land_prep' %>
+            <h3>4 Mile Ruck or 3 Mile Run:</h3>
+            <%= form.select :prep_run_or_ruck, [["4 Mile Ruck",'4 Mile Ruck'],["3 Mile Run",'3 Mile Run']], required: true %>
+            <%= form.label :hours %>
+            <%= form.number_field :ruck_or_run_hours, in: 0..4, value: 0, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :ruck_or_run_minutes, in: 0..59, required: true %>
         <% end %>
         <h3>1.5 Mile Run:</h3>
         <%= form.label :minutes %>

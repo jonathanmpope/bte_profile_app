@@ -21,6 +21,9 @@ class ProfilesController < ApplicationController
         elsif params[:profile] == "sof_mar_cont"
             sof_maritime_contract_profile_calc_starter_method(profile)
             redirect_to '/results'
+        elsif params[:profile] == "sof_land_prep"
+            sof_land_prep_profile_calc_starter_method(profile)
+            redirect_to '/results'
         end 
     end 
 
