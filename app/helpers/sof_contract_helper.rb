@@ -1,4 +1,4 @@
-module SofLandContractHelper
+module SofContractHelper
     
     def sof_land_contract_profile_calc_starter_method(profile)
         @profile = profile
@@ -18,6 +18,29 @@ module SofLandContractHelper
         strength_upper_calc(press_variation, weighted_pullup)
         work_capacity_calc(pushups, pullups, hang)
         conditioning_calc(extended_capacity, capacity, extended_power, power)
+    end 
+
+    def sof_maritime_contract_profile_calc_starter_method(profile)
+        @profile = profile
+        extended_capacity = profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
+        capacity = profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: "#{params[:five_mile_minutes].to_i + (params[:five_mile_seconds].to_f / 60)}")
+        capacity_swim = profile.exercises.create!(category: 'conditioning', name:'2000m swim', value: "#{params[:two_thousand_swim_minutes].to_i + (params[:two_thousand_swim_seconds].to_f / 60)}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        extended_power_swim = profile.exercises.create!(category: 'conditioning', name:'500m swim', value: "#{params[:five_hundred_swim_minutes].to_i + (params[:five_hundred_swim_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        strength_lower_calc(squat_variation, deadlift_variation)
+        strength_upper_calc(press_variation, weighted_pullup)
+        work_capacity_calc(pushups, pullups, hang)
+        conditioning_mar_con_calc(extended_capacity, capacity, capacity_swim, extended_power, extended_power_swim, power)
+        # conditioning_calc(extended_capacity, capacity, extended_power, power)
     end 
 
     def unit_conversion
@@ -87,6 +110,27 @@ module SofLandContractHelper
         @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
 
         @extended_power_score = (9.0 / extended_power.value - 0.5) * 2.0
+        @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+
+        @power_score = (1.16 / power.value - 0.5) * 2.0
+        @power_score >= 1.0 ? @power_score = 1 : @power_score
+
+        @conditioning_score = (@extended_capacity_score + @capacity_score + @extended_power_score + @power_score) * 25
+        profile_update
+    end 
+
+    def conditioning_mar_con_calc(extended_capacity, capacity, capacity_swim, extended_power, extended_power_swim, power)
+        @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
+        @extended_capacity_score >= 1.0 ? @extended_capacity_score = 1 : @extended_capacity_score
+
+        capacity_run_score = (40.0 / capacity.value - 0.5) * 2.0
+        capacity_swim_score = (40.0 / capacity_swim.value - 0.5) * 2.0
+        @capacity_score = (capacity_run_score + capacity_swim_score) / 2
+        @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+
+        extended_power_run_score = (9.0 / extended_power.value - 0.5) * 2.0
+        extended_power_swim_score = (9.0 / extended_power_swim.value - 0.5) * 2.0
+        @extended_power_score = (extended_power_run_score + extended_power_swim_score) / 2
         @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
 
         @power_score = (1.16 / power.value - 0.5) * 2.0

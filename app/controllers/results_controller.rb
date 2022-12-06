@@ -14,6 +14,10 @@ class ResultsController < ApplicationController
         @pushups = @profile.exercises.where(name: "Pushups")[0] 
         @pullups = @profile.exercises.where(name: "Pull-ups")[0] 
         @hang = @profile.exercises.where(name: "Hang")[0] 
+        if @profile.track == 'sof_mar_cont'
+            @capacity_swim = @profile.exercises.where(name: "2000m swim")[0]
+            @extended_power_swim = @profile.exercises.where(name: "500m swim")[0]
+        end 
         work_capacity_scores
     end 
 

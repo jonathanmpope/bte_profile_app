@@ -10,8 +10,16 @@
     <%= form.submit "Select Track" %>
 <% end %> 
 
-<% if @track != nil && @track == 'sof_land_cont' %>
-    <h2>SOF Land Contract Assessments</h2>
+<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' %>
+    <% if @track == 'sof_land_cont' %>
+        <h2>SOF Land Contract Assessments</h2>
+    <% elsif @track == 'sof_mar_cont' %>
+        <h2>SOF Maritime Contract Assessments</h2>
+    <% elsif @track == 'sof_land_prep' %>
+        <h2>SOF Land Prep Assessments</h2>
+    <% else %>
+        <h2>SOF Maritime Prep Assessments</h2>
+    <% end %>
     <%= form_with url: '/profile', method: :post, local: true do |form|%>
         <h3>8 Mile Ruck:</h3>
         <%= form.label :hours %>
@@ -23,11 +31,25 @@
         <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
         <%= form.label :seconds %>
         <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+        <% if @track == 'sof_mar_cont' %>
+            <h3>2000m Swim:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :two_thousand_swim_minutes, in: 0..59, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :two_thousand_swim_seconds, in: 0..59, required: true %>
+        <% end %>
         <h3>1.5 Mile Run:</h3>
         <%= form.label :minutes %>
         <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
         <%= form.label :seconds %>
         <%= form.number_field :one_and_half_mile_run_seconds, in: 0..59, required: true %>
+        <% if @track == 'sof_mar_cont' || @track == 'sof_mar_prep' %>
+            <h3>500m Swim:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :five_hundred_swim_minutes, in: 0..20, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :five_hundred_swim_seconds, in: 0..59, required: true %>
+        <% end %>
         <h3>400m Run:</h3>
         <%= form.label :minutes %>
         <%= form.number_field :four_hundred_run_minutes, in: 0..5, required: true %>
