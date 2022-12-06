@@ -3,8 +3,16 @@
     <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
 <% end %>
 
-<% if @profile.track ==  'sof_land_cont' %>
-    <h1>SOF Land Contract Assessment Results</h1>
+
+    <% if @profile.track == 'sof_land_cont' %>  
+        <h1>SOF Land Contract Assessment Results</h1>
+    <% elsif @profile.track == 'sof_mar_cont' %>
+        <h1>SOF Maritime Contract Assessment Results</h1>
+    <% elsif @profile.track == 'sof_land_prep' %>
+        <h1>SOF Land Prep Assessment Results</h1>
+    <% else %>
+        <h1>SOF Maritime Prep Assessment Results</h1>
+    <% end %>
     <h2>Overall Score: <%= "#{((@profile.strength_score + @profile.conditioning_score + @profile.work_capacity_score) / 3).round(0)}" %></h2>
     <div class = "main_chart">
         <%= column_chart ({"Strength Score" => @profile.strength_score, "Conditioning Score" => @profile.conditioning_score, "Work Capacity Score" => @profile.work_capacity_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
@@ -34,22 +42,44 @@
     <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
     <table>
         <tr>
-            <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
+            <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+                <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
+            <% end %>
             <th>Capacity Score: <%= "#{@profile.conditioning_capacity_score.round(0)}" %></th>
             <th>Extended Power Score: <%= "#{@profile.conditioning_extended_power_score.round(0)}" %></th>
             <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
         </tr>
         <tr>
-            <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
+            <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+                <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
+            <% end %>
             <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
             <td><%= @extended_power.name %>: <%= @extended_power.value.to_i %> minutes <%= ((@extended_power.value - @extended_power.value.to_i) * 60).round(0) %> seconds </td>
             <td><%= @power.name %>: <%= @power.value.to_i %> minutes <%= ((@power.value - @power.value.to_i) * 60).round(0) %> seconds</td>
         </tr>
+        <% if @profile.track == 'sof_mar_cont' %>
+            <tr>
+                <td> </td>
+                <td><%= @capacity_swim.name %>: <%= @capacity_swim.value.to_i %> minutes <%= ((@capacity_swim.value - @capacity_swim.value.to_i) * 60).round(0) %> seconds</td>
+                <td><%= @extended_power_swim.name %>: <%= @extended_power_swim.value.to_i %> minutes <%= ((@extended_power_swim.value - @extended_power_swim.value.to_i) * 60).round(0) %> seconds </td>
+                <td> </td>
+            </tr>
+        <% elsif @profile.track == 'sof_mar_prep' %>
+            <tr>
+                <td> </td>
+                <td><%= @extended_power_swim.name %>: <%= @extended_power_swim.value.to_i %> minutes <%= ((@extended_power_swim.value - @extended_power_swim.value.to_i) * 60).round(0) %> seconds </td>
+                <td> </td>
+            </tr>
+        <% end %>
     </table>
     <br>
     <br>
     <div class = "secondary_chart">
-        <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_extended_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+            <%= column_chart ({"Extended Capacity" => @profile.conditioning_extended_capacity_score, "Capacity Score" => @profile.conditioning_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0", "#FFA500"] %>
+        <% else %>
+            <%= column_chart ({"Capacity Score" => @profile.conditioning_capacity_score, "Extended Power" => @profile.conditioning_extended_power_score, "Power" => @profile.conditioning_power_score}), round: 0, colors: ["#f00", "#00f", "#0f0"] %>
+        <% end %>
     </div>
     <br>
     <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
@@ -67,4 +97,3 @@
     </div>
      <br>
     <br>
-<% end %>
