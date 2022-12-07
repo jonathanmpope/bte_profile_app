@@ -44,6 +44,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    apexcharts (0.2.0)
     arel (9.0.0)
     bcrypt (3.1.18)
     bindex (0.8.1)
@@ -224,6 +225,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  apexcharts
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug

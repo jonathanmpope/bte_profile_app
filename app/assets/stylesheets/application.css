@@ -189,13 +189,13 @@
  } */
 
  .main_chart {
-    background-color: #dddddd;
+    background-color: #000000;
     margin: auto;
     width: 50%;
  }
 
  .secondary_chart {
-     background-color: #dddddd;
+     background-color: #000000;
      margin: auto;
      width: 30%;
  }
