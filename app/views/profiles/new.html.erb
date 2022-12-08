@@ -1,6 +1,5 @@
 <% if current_user %>
     <h2>Welcome, <%=current_user.email%>!</h2>
-    <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
 <% end %>
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>

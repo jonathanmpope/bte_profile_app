@@ -13,10 +13,13 @@
     <header class="item-a">
       <img id="compass" src="<%= asset_path('BTE profile gen.png') %>" width="400" height="120">
     </header>
-    <nav class="item-b">
-      <ul>
-        <li><%= link_to "Start Over", "/", {:class => "link"} %></li>      
-      </ul>
+    <nav class="item-b">      
+        <% if current_user %>
+          <%= link_to "New Profile", "/profile", {:class => "link"}%>
+          <%= link_to "Logout", '/logout', method: :delete, :class => "link" %>
+        <% else %>
+          <%= link_to "Login", "/", {:class => "link"} %>
+        <% end %>
     </nav>
     <section class = "item-c">
       <% flash.each do |name, msg|%>

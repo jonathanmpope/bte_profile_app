@@ -1,10 +1,5 @@
 <script src = "https://cdn.jsdelivr.net/npm/apexcharts" > </script>
 
-<% if current_user %>
-    <h2>Welcome, <%=current_user.email%>!</h2>
-    <h2><%= link_to "Logout", '/logout', method: :delete %></h2>
-<% end %>
-
 <% if @profile.track == 'sof_land_cont' %>  
     <h1>SOF Land Contract Assessment Results</h1>
 <% elsif @profile.track == 'sof_mar_cont' %>
@@ -26,19 +21,16 @@
                 tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}} %>
     <%= radar_chart(radar_series, options) %>
 </div>
-
-<%# <% if @profile_bias == 'Balanced' %>
+<% if @profile_bias == 'Balanced' %>
     <h3 class="headline"> You have no area that is significantly less developed. You should work on improving fitness across all domains.</h3>
-<%# <% elsif @profile_bias == 'Conditioning' %> %>
-    <h3 class="headline"> Your conditioning is significantly less developed. Your program should bias development in this area.</h3>
-<%# <% elsif @profile_bias == 'Strength' %> %>
-    <h3 class="headline"> Your strength is significantly less developed. Your program should bias development in this area.</h3>
-<%# <% elsif @profile_bias == 'Work Capacity' %> %>
-    <h3 class="headline"> Your strength is significantly less developed. Your program should bias development in this area.</h3>
-<%# <% else %> %>
+<% elsif @profile_bias == 'Conditioning' %> 
+    <h3 class="headline"> Conditioning is your limiting factor. Your program should bias development in this area.</h3>
+<% elsif @profile_bias == 'Strength' %>
+    <h3 class="headline"> Strength is your limiting factor. Your program should bias development in this area.</h3>
+<% else %>
     <h3 class="headline"> Your hitting, or are close to hitting all the standards in this track. It's time to level up!</h3>
-<%# <% end %> %> %>
-
+<% end %> 
+<p id='result_graph_info'>*Work capacity is a product of strength & conditioning, so even if this score is low, it's never the main focus of a program, but is always a consideration in all programs.*</p>
 <h2>Strength Score: <%= "#{@profile.strength_score.round(0)}" %></h2>
 <div class = "secondary_chart">
     <% strength_series = [{ name: "Your Score", data: { "Upper Body"=> @profile.strength_upper_score.to_i, "Lower Body"=> @profile.strength_lower_score.to_i }}] %>
