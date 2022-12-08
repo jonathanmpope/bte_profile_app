@@ -191,11 +191,15 @@
  .main_chart {
     background-color: #000000;
     margin: auto;
-    width: 50%;
+    width: 100%;
  }
 
  .secondary_chart {
      background-color: #000000;
      margin: auto;
-     width: 50%;
+     width: 60%;
+ }
+
+ .headline {
+    color: #F5A623;
  }

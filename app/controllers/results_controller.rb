@@ -3,6 +3,7 @@ class ResultsController < ApplicationController
 
     def show 
         @profile = current_user.profiles.last
+        # profile_bias_calc
         @power = @profile.exercises.where(name: "400m run")[0] 
         @pushups = @profile.exercises.where(name: "Pushups")[0] 
         @pullups = @profile.exercises.where(name: "Pull-ups")[0] 
@@ -49,6 +50,21 @@ class ResultsController < ApplicationController
         @hang_score = (@hang.value / 1.5 - 0.5) * 2
         @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
     end
+
+    # def profile_bias_calc
+    #     strength_diff = 
+    #     cond_diff = 
+    #     wc_diff = 
+    #     if   
+    #         @profile_bias = 'Progress'
+    #     elsif 
+    #         @profile_bias = 'Strength'
+    #     elsif 
+    #         @profile_bias = 'Conditioning'
+    #     else  
+    #         @profile_bias = 'Balanced'
+    #     end 
+    # end 
 
     private
     def require_logged_in
