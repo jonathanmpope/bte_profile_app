@@ -13,11 +13,13 @@
 <div class = "main_chart">
     <% radar_series = [{ name: "Your Score", data: { "Strength"=> @profile.strength_score.to_i, "Conditioning"=> @profile.conditioning_score.to_i, "Work Capacity" => @profile.work_capacity_score.to_i }}] %>
     <% options = { grid: { padding: {top: -60, bottom: -200} }, 
-                markers: {size: 10}, theme: 'palette4', fill: { opacity: 0.5 }, 
+                markers: {size: 10}, 
+                theme: 'palette4', 
+                fill: { opacity: 0.7 }, 
                 chart: {height: '400px'}, 
-                xaxis: {labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold'}}}, 
+                xaxis: {labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: ["#fcf8f7", "#fcf8f7", "#fcf8f7"]}}}, 
                 yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: false, style:{colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '10px', fontWeight: 'bold'}}}, 
-                dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}}, 
                 tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}} %>
     <%= radar_chart(radar_series, options) %>
 </div>
