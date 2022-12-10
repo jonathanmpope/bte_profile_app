@@ -64,7 +64,7 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("You're logged in")
         expect(page).to have_content("Profile")
 
-        click_on "Logout"
+        click_link "Logout"
 
         expect(page).to_not have_content("You're logged in")
     end
