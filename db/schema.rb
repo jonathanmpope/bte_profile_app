@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2022_11_29_023429) do
     t.float "conditioning_power_score"
     t.float "conditioning_score"
     t.float "work_capacity_score"
+    t.string "unit_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"

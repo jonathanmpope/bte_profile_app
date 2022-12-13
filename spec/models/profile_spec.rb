@@ -19,5 +19,6 @@ RSpec.describe Profile, type: :model do
         it { should validate_presence_of :conditioning_power_score }
         it { should validate_presence_of :conditioning_score }
         it { should validate_presence_of :work_capacity_score }
+        it { should validate_presence_of :unit_type }
     end 
 end 

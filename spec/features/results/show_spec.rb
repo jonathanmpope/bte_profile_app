@@ -16,7 +16,7 @@ RSpec.describe 'the landing page' do
     end 
 
     it 'should show strength results for sof land contract profile' do
-        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996)
+        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
         
         @squat = @profile.exercises.create!(category: 'strength', name: "Back Squat", value: 355)
         @deadlift = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: 455)
@@ -50,7 +50,7 @@ RSpec.describe 'the landing page' do
     end 
 
     it 'should show conditioning results for a sof land contract profile' do
-        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996)
+        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
         
         @squat = @profile.exercises.create!(category: 'strength', name: "Back Squat", value: 355)
         @deadlift = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: 455)
@@ -84,7 +84,7 @@ RSpec.describe 'the landing page' do
     end 
 
     it 'should show work capacity results for a sof land contract profile' do
-        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996)
+        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
         
         @squat = @profile.exercises.create!(category: 'strength', name: "Back Squat", value: 355)
         @deadlift = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: 455)
@@ -112,7 +112,7 @@ RSpec.describe 'the landing page' do
     end 
 
      it 'should show results for sof maritime contract profile' do
-        @profile = @user.profiles.create!(weight: 195.0, track: "sof_mar_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996)
+        @profile = @user.profiles.create!(weight: 195.0, track: "sof_mar_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
         
         @squat = @profile.exercises.create!(category: 'strength', name: "Back Squat", value: 355)
         @deadlift = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: 455)
@@ -143,7 +143,7 @@ RSpec.describe 'the landing page' do
     end 
 
     it 'should show results for sof land prep profile' do
-        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_prep", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996)
+        @profile = @user.profiles.create!(weight: 195.0, track: "sof_land_prep", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
         
         @squat = @profile.exercises.create!(category: 'strength', name: "Back Squat", value: 220)
         @deadlift = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: 304)
