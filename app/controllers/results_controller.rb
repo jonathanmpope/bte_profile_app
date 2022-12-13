@@ -31,23 +31,29 @@ class ResultsController < ApplicationController
 
     def work_capacity_scores_cont 
         @pushup_score = (@pushups.value / 80.0 - 0.5) * 2.0
+        @pushup_score <= 0 ? @pushup_score = 0 : @pushup_score
         @pushup_score >= 1.0 ? @pushup_score = 1 : @pushup_score
 
         @pullup_score = (@pullups.value / 15.0 - 0.5) * 2
+        @pullup_score <= 0 ? @pullup_score = 0 : @pullup_score 
         @pullup_score >= 1.0 ? @pullup_score = 1 : @pullup_score 
 
         @hang_score = (@hang.value / 1.5 - 0.5) * 2
+        @hang_score <= 0 ? @hang_score = 0 : @hang_score 
         @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
     end 
 
     def work_capacity_scores_prep 
         @pushup_score = (@pushups.value / 50.0 - 0.5) * 2.0
+        @pushup_score <= 0 ? @pushup_score = 0 : @pushup_score
         @pushup_score >= 1.0 ? @pushup_score = 1 : @pushup_score
 
         @pullup_score = (@pullups.value / 10.0 - 0.5) * 2
+        @pullup_score <= 0 ? @pullup_score = 0 : @pullup_score 
         @pullup_score >= 1.0 ? @pullup_score = 1 : @pullup_score 
 
         @hang_score = (@hang.value / 1.5 - 0.5) * 2
+        @hang_score <= 0 ? @hang_score = 0 : @hang_score 
         @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
     end
 
