@@ -14,7 +14,7 @@ class ProfilesController < ApplicationController
         else  
             bodyweight = params[:body_weight].to_f
         end 
-        profile = @user.profiles.create!(weight: bodyweight, track: params[:profile], strength_lower_score: 0, strength_upper_score: 0, strength_score: 0, conditioning_extended_capacity_score: 0, conditioning_capacity_score: 0, conditioning_extended_power_score: 0, conditioning_power_score: 0, conditioning_score: 0, work_capacity_score: 0)
+        profile = @user.profiles.create!(weight: bodyweight, track: params[:profile], strength_lower_score: 0, strength_upper_score: 0, strength_score: 0, conditioning_extended_capacity_score: 0, conditioning_capacity_score: 0, conditioning_extended_power_score: 0, conditioning_power_score: 0, conditioning_score: 0, work_capacity_score: 0, unit_type: params[:units])
         if params[:profile] == "sof_land_cont"
             sof_land_contract_profile_calc_starter_method(profile)
         elsif params[:profile] == "sof_mar_cont"

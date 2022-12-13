@@ -14,4 +14,5 @@ class Profile < ApplicationRecord
     validates_presence_of :conditioning_power_score
     validates_presence_of :conditioning_score
     validates_presence_of :work_capacity_score
+    validates_presence_of :unit_type
 end 

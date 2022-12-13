@@ -2,8 +2,7 @@
 <h1>BTE Profile Generator</h1>
 <% if current_user %>
     <p>You're logged in</p>
-    <h3><%= link_to "Logout", '/logout', method: :delete %></h3>
-    <h3><%= link_to "Profile", '/profile' %></h3>
+    <%= button_to "New Profile", '/profile', method: :get %>
 <% else %>
     <h2>Create an Account</h2>
         <p>* This will allow you to save your data and see changes in your profile over time *</p>

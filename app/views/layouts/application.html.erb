@@ -17,8 +17,6 @@
         <% if current_user %>
           <%= link_to "New Profile", "/profile", {:class => "link"}%>
           <%= link_to "Logout", '/logout', method: :delete, :class => "link" %>
-        <% else %>
-          <%= link_to "Login", "/", {:class => "link"} %>
         <% end %>
     </nav>
     <section class = "item-c">

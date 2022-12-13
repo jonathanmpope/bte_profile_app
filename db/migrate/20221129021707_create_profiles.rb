@@ -12,6 +12,7 @@ class CreateProfiles < ActiveRecord::Migration[5.2]
       t.float :conditioning_power_score
       t.float :conditioning_score
       t.float :work_capacity_score
+      t.string :unit_type
       
       t.timestamps
     end

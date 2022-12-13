@@ -21,7 +21,7 @@
     <% end %>
     <%= form_with url: '/profile', method: :post, local: true do |form|%>
         <% if @track == 'sof_mar_cont'  || @track == 'sof_land_cont' %>
-            <h3>8 Mile Ruck:</h3>
+            <h3>8 Mile / 12.9 km Ruck:</h3>
             <%= form.label :hours %>
             <%= form.number_field :ruck_hours, in: 0..4, required: true %>
             <%= form.label :minutes %>
@@ -47,7 +47,7 @@
             <%= form.label :minutes %>
             <%= form.number_field :ruck_or_run_minutes, in: 0..59, required: true %>
         <% end %>
-        <h3>1.5 Mile Run:</h3>
+        <h3>1.5 Mile / 2.4 km Run:</h3>
         <%= form.label :minutes %>
         <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
         <%= form.label :seconds %>
