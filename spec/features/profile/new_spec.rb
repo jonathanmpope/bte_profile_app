@@ -294,7 +294,7 @@ RSpec.describe 'the landing page' do
         fill_in("press_weight", with:126)
         fill_in("pullup_weight", with:144)
         click_button("Submit Results")
-        # save_and_open_page
+        
         expect(current_path).to eq("/results")
         expect(page).to have_content("SOF Land Prep Assessment Results")
         expect(page).to have_content("Overall Score: 6")
@@ -302,4 +302,46 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Conditioning Score: 0")
         expect(page).to have_content("Work Capacity Score: 0")
     end 
+
+    it 'should be a page with several options and lets you select sof maritime contract track with front squat, straigh bar dl, and oh press' do
+        select("SOF Maritime Contract", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("SOF Maritime Contract Assessments")
+
+        fill_in("ruck_hours", with:4)
+        fill_in("ruck_minutes", with:15)
+        fill_in("five_mile_minutes", with:59)
+        fill_in("five_mile_seconds", with:15)
+        fill_in("two_thousand_swim_minutes", with:59)
+        fill_in("two_thousand_swim_seconds", with:15)
+        fill_in("one_and_half_mile_run_minutes", with:20)
+        fill_in("one_and_half_mile_run_seconds", with:50)
+        fill_in("five_hundred_swim_minutes", with:20)
+        fill_in("five_hundred_swim_seconds", with:50)
+        fill_in("four_hundred_run_minutes", with:2)
+        fill_in("four_hundred_run_seconds", with:30)
+        fill_in("pushup_reps", with:20)
+        fill_in("pullup_reps", with:2)
+        fill_in("hang_minutes", with:0)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        select("Front Squat", from: "squat")
+        fill_in("squat_weight", with:187) 
+        select("Straight Bar", from: "deadlift")
+        fill_in("deadlift_weight", with:202)  
+        select("Overhead Press (1 Arm)", from: "press")
+        fill_in("press_weight", with:36)
+        fill_in("pullup_weight", with:136)
+        click_button("Submit Results")
+        
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("SOF Maritime Contract Assessment Results")
+        expect(page).to have_content("Overall Score: 7")
+        expect(page).to have_content("Strength Score: 12")
+        expect(page).to have_content("Conditioning Score: 9")
+        expect(page).to have_content("Work Capacity Score: 0")
+    end 
+
 end 
