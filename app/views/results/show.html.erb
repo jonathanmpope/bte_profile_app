@@ -46,63 +46,124 @@
     <%= column_chart(strength_series, options_2) %>
 </div>
 <h3 class="headline"> *Your Current Numbers* </h3>
-<table>
-    <tr>
-        <th>Lower Body Score: <%= "#{@profile.strength_lower_score.round(0)}" %></th>
-        <th>Upper Body Score: <%= "#{@profile.strength_upper_score.round(0)}" %></th>
-    </tr>
-    <tr>
-        <td><%= @squat.name %>: <%= @squat.value.round(0) %></td>
-        <td><%= @press.name %>: <%= @press.value.round(0) %></td>
-    </tr>
-    <tr>
-        <td><%= @deadlift.name %>: <%= @deadlift.value.round(0) %></td>
-        <td><%= @weighted_pullup.name %>: <%= @weighted_pullup.value.round(0) %></td>
-    </tr>
-</table>
+<% if @profile.unit_type == 'imperial' %>
+    <table>
+        <tr>
+            <th>Lower Body Score: <%= "#{@profile.strength_lower_score.round(0)}" %></th>
+            <th>Upper Body Score: <%= "#{@profile.strength_upper_score.round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= @squat.value.round(0) %></td>
+            <td><%= @press.name %>: <%= @press.value.round(0) %></td>
+        </tr>
+        <tr>
+            <td><%= @deadlift.name %>: <%= @deadlift.value.round(0) %></td>
+            <td><%= @weighted_pullup.name %>: <%= @weighted_pullup.value.round(0) %></td>
+        </tr>
+    </table>
+<% else %>
+    <table>
+        <tr>
+            <th>Lower Body Score: <%= "#{(@profile.strength_lower_score / 2.20462).round(0)}" %></th>
+            <th>Upper Body Score: <%= "#{(@profile.strength_upper_score / 2.20462).round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= (@squat.value / 2.20462).round(0) %></td>
+            <td><%= @press.name %>: <%= (@press.value / 2.20462).round(0) %></td>
+        </tr>
+        <tr>
+            <td><%= @deadlift.name %>: <%= (@deadlift.value / 2.20462).round(0) %></td>
+            <td><%= @weighted_pullup.name %>: <%= (@weighted_pullup.value / 2.20462).round(0) %></td>
+        </tr>
+    </table>
+<% end %>
 <h3 class="headline"> Strength standards for this track at your current bodyweight </h3>
 <p>*Hit these to move to the next track*</p>
-<table>
-    <tr>
-        <th>Lower Body: </th>
-        <th>Upper Body: </th>
-    </tr>
-    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+<% if @profile.unit_type == 'imperial' %>
+    <table>
         <tr>
-            <td>Back Squat: <%= (@profile.weight * 1.75).to_i %></td>
-            <td>Bench Press: <%= (@profile.weight * 1.25).to_i %></td>
+            <th>Lower Body: </th>
+            <th>Upper Body: </th>
         </tr>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+            <tr>
+                <td>Back Squat: <%= (@profile.weight * 1.75).to_i %></td>
+                <td>Bench Press: <%= (@profile.weight * 1.25).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= (@profile.weight * 1.5).to_i %></td>
+                <td>Overhead Press (1-arm): <%= (@profile.weight * 0.45).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= (@profile.weight * 2.0).to_i %></td>
+                <td>Weighted Pull-up: <%= (@profile.weight * 1.4).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= (@profile.weight * 1.75).to_i %></td>
+                <td> </td>
+            </tr>
+        <% elsif @profile.track == 'sof_mar_prep' || @profile.track == 'sof_land_prep' %>
+            <tr>
+                <td>Back Squat: <%= (@profile.weight * 1.5).to_i %></td>
+                <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= (@profile.weight * 1.25).to_i %></td>
+                <td>Overhead Press (1-arm): <%= (@profile.weight * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= (@profile.weight * 1.75).to_i %></td>
+                <td>Weighted Pull-up: <%= (@profile.weight * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
+                <td> </td>
+            </tr>
+        <% end %>
+    </table>
+<% else %>
+    <table>
         <tr>
-            <td>Front Squat: <%= (@profile.weight * 1.5).to_i %></td>
-            <td>Overhead Press (1-arm): <%= (@profile.weight * 0.45).to_i %></td>
+            <th>Lower Body: </th>
+            <th>Upper Body: </th>
         </tr>
-        <tr>
-            <td>Trap Bar DL: <%= (@profile.weight * 2.0).to_i %></td>
-            <td>Weighted Pull-up: <%= (@profile.weight * 1.4).to_i %></td>
-        </tr>
-        <tr>
-            <td>Straight Bar DL: <%= (@profile.weight * 1.75).to_i %></td>
-            <td> </td>
-        </tr>
-    <% elsif @profile.track == 'sof_mar_prep' || @profile.track == 'sof_land_prep' %>
-        <tr>
-            <td>Back Squat: <%= (@profile.weight * 1.5).to_i %></td>
-            <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
-        </tr>
-        <tr>
-            <td>Front Squat: <%= (@profile.weight * 1.25).to_i %></td>
-            <td>Overhead Press (1-arm): <%= (@profile.weight * 0.35).to_i %></td>
-        </tr>
-        <tr>
-            <td>Trap Bar DL: <%= (@profile.weight * 1.75).to_i %></td>
-            <td>Weighted Pull-up: <%= (@profile.weight * 1.2).to_i %></td>
-        </tr>
-        <tr>
-            <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
-            <td> </td>
-        </tr>
-    <% end %>
-</table>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+            <tr>
+                <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.75).to_i %></td>
+                <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td>Overhead Press (1-arm): <%= ((@profile.weight / 2.20462) * 0.45).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= ((@profile.weight / 2.20462) * 2.0).to_i %></td>
+                <td>Weighted Pull-up: <%= ((@profile.weight / 2.20462) * 1.4).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.75).to_i %></td>
+                <td> </td>
+            </tr>
+        <% elsif @profile.track == 'sof_mar_prep' || @profile.track == 'sof_land_prep' %>
+            <tr>
+                <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+                <td>Overhead Press (1-arm): <%= ((@profile.weight / 2.20462) * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= ((@profile.weight / 2.20462) * 1.75).to_i %></td>
+                <td>Weighted Pull-up: <%= ((@profile.weight / 2.20462) * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td> </td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>
 <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
 <div class = "secondary_chart">
     <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
