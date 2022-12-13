@@ -344,4 +344,40 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Work Capacity Score: 0")
     end 
 
+    it 'should be a page with several options and lets you select a track' do
+        select("SOF Land Contract", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("SOF Land Contract Assessments")
+
+        fill_in("ruck_hours", with:3)
+        fill_in("ruck_minutes", with:15)
+        fill_in("five_mile_minutes", with:55)
+        fill_in("five_mile_seconds", with:15)
+        fill_in("one_and_half_mile_run_minutes", with:20)
+        fill_in("one_and_half_mile_run_seconds", with:50)
+        fill_in("four_hundred_run_minutes", with:2)
+        fill_in("four_hundred_run_seconds", with:30)
+        fill_in("pushup_reps", with:40)
+        fill_in("pullup_reps", with:8)
+        fill_in("hang_minutes", with:0)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        select("Back Squat", from: "squat")
+        fill_in("squat_weight", with:222) 
+        select("Trap Bar", from: "deadlift")
+        fill_in("deadlift_weight", with:222)  
+        select("Bench Press", from: "press")
+        fill_in("press_weight", with:201)
+        fill_in("pullup_weight", with:201)
+        click_button("Submit Results")
+        
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("SOF Land Contract Assessment Results")
+        expect(page).to have_content("Overall Score: 19")
+        expect(page).to have_content("Strength Score: 39")
+        expect(page).to have_content("Conditioning Score: 17")
+        expect(page).to have_content("Work Capacity Score: 2")
+    end 
 end 
