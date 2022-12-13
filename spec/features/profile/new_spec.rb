@@ -267,4 +267,39 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Conditioning Score: 2")
         expect(page).to have_content("Work Capacity Score: 0")
     end
+
+    it 'will not have scores below zero - sof land prep' do
+        select("SOF Land Prep", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("SOF Land Prep Assessments")
+        select("3 Mile Run", from: "prep_run_or_ruck")
+        fill_in("ruck_or_run_hours", with:1)
+        fill_in("ruck_or_run_minutes", with:10)
+        fill_in("one_and_half_mile_run_minutes", with:44)
+        fill_in("one_and_half_mile_run_seconds", with:50)
+        fill_in("four_hundred_run_minutes", with:2)
+        fill_in("four_hundred_run_seconds", with:50)
+        fill_in("pushup_reps", with:20)
+        fill_in("pullup_reps", with:3)
+        fill_in("hang_minutes", with:0)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        select("Back Squat", from: "squat")
+        fill_in("squat_weight", with:136) 
+        select("Trap Bar", from: "deadlift")
+        fill_in("deadlift_weight", with:202)  
+        select("Bench Press", from: "press")
+        fill_in("press_weight", with:126)
+        fill_in("pullup_weight", with:144)
+        click_button("Submit Results")
+        # save_and_open_page
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("SOF Land Prep Assessment Results")
+        expect(page).to have_content("Overall Score: 6")
+        expect(page).to have_content("Strength Score: 18")
+        expect(page).to have_content("Conditioning Score: 0")
+        expect(page).to have_content("Work Capacity Score: 0")
+    end 
 end 
