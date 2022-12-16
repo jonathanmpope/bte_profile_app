@@ -3,19 +3,21 @@
 <% end %>
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>
-    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep']], required: true %>
+    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short']], required: true %>
     <br>
     <br>
     <%= form.submit "Select Track" %>
 <% end %> 
 
-<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' ||  @track == 'sof_mar_prep' %>
+<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' ||  @track == 'sof_mar_prep' || @track == 'operator_short' %>
     <% if @track == 'sof_land_cont' %>
         <h2>SOF Land Contract Assessments</h2>
     <% elsif @track == 'sof_mar_cont' %>
         <h2>SOF Maritime Contract Assessments</h2>
     <% elsif @track == 'sof_land_prep' %>
         <h2>SOF Land Prep Assessments</h2>
+    <% elsif @track == 'operator_short' %>
+        <h2>Operator(short) Assessments</h2>
     <% else %>
         <h2>SOF Maritime Prep Assessments</h2>
     <% end %>
@@ -39,15 +41,23 @@
             <%= form.label :seconds %>
             <%= form.number_field :two_thousand_swim_seconds, in: 0..59, required: true %>
         <% end %>
-        <% if @track == 'sof_mar_prep'  || @track == 'sof_land_prep' %>
-            <h3>4 Mile Ruck or 3 Mile Run:</h3>
+        <% if @track == 'sof_mar_prep' || @track == 'sof_land_prep' %>
+            <h3>4-Mile Ruck or 3-Mile Run:</h3>
             <%= form.select :prep_run_or_ruck, [["4 Mile Ruck",'4 Mile Ruck'],["3 Mile Run",'3 Mile Run']], required: true %>
             <%= form.label :hours %>
             <%= form.number_field :ruck_or_run_hours, in: 0..4, value: 0, required: true %>
             <%= form.label :minutes %>
             <%= form.number_field :ruck_or_run_minutes, in: 0..59, required: true %>
         <% end %>
-        <h3>1.5 Mile / 2.4 km Run:</h3>
+        <% if @track == 'operator_short' %>
+            <h3>4-Mile Ruck or 5-Mile Run:</h3>
+            <%= form.select :operator_run_or_ruck, [["4 Mile Ruck",'4 Mile Ruck'],["5 Mile Run",'5 Mile Run']], required: true %>
+            <%= form.label :hours %>
+            <%= form.number_field :operator_ruck_or_run_hours, in: 0..2, value: 0, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :operator_ruck_or_run_minutes, in: 0..59, required: true %>
+        <% end %>
+        <h3>1.5-Mile / 2.4-km Run:</h3>
         <%= form.label :minutes %>
         <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
         <%= form.label :seconds %>
@@ -83,6 +93,11 @@
         <h3>Current Bodyweight:</h3>
         <%= form.label :weight %>
         <%= form.number_field :body_weight, in: 0..999, required: true %>
+        <% if @track == 'operator_short' %>
+            <h3>TGU:</h3>
+            <%= form.label :weight %>
+            <%= form.number_field :tgu_weight, in: 0..99, required: true %>
+        <% end %>
         <h3>Squat:</h3>
         <%= form.select :squat, [["Back Squat",'Back Squat'],["Front Squat",'Front Squat']], required: true %>
         <%= form.label :weight %>

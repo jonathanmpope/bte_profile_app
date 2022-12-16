@@ -21,6 +21,8 @@ class ProfilesController < ApplicationController
             sof_maritime_contract_profile_calc_starter_method(profile)
         elsif params[:profile] == "sof_land_prep"
             sof_land_prep_profile_calc_starter_method(profile)
+        elsif params[:profile] == "operator_short"
+           operator_short_profile_calc_starter_method(profile)
         else 
             sof_maritime_prep_profile_calc_starter_method(profile)
         end 

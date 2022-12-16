@@ -371,13 +371,50 @@ RSpec.describe 'the landing page' do
         select("Bench Press", from: "press")
         fill_in("press_weight", with:201)
         fill_in("pullup_weight", with:201)
-        click_button("Submit Results")
-        
+        click_button("Submit Results") 
+
         expect(current_path).to eq("/results")
         expect(page).to have_content("SOF Land Contract Assessment Results")
         expect(page).to have_content("Overall Score: 19")
         expect(page).to have_content("Strength Score: 39")
         expect(page).to have_content("Conditioning Score: 17")
         expect(page).to have_content("Work Capacity Score: 2")
+    end 
+
+    it 'operator short track tests' do
+        select("Operator - Short", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("Operator(short) Assessments")
+
+        select("5 Mile Run", from: "operator_run_or_ruck")
+        fill_in("operator_ruck_or_run_hours", with:0)
+        fill_in("operator_ruck_or_run_minutes", with:36)
+        fill_in("one_and_half_mile_run_minutes", with:12)
+        fill_in("one_and_half_mile_run_seconds", with:03)
+        fill_in("four_hundred_run_minutes", with:1)
+        fill_in("four_hundred_run_seconds", with:30)
+        fill_in("pushup_reps", with:50)
+        fill_in("pullup_reps", with:9)
+        fill_in("hang_minutes", with:1)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        fill_in("tgu_weight", with:60)
+        select("Back Squat", from: "squat")
+        fill_in("squat_weight", with:292) 
+        select("Trap Bar", from: "deadlift")
+        fill_in("deadlift_weight", with:362)  
+        select("Bench Press", from: "press")
+        fill_in("press_weight", with:241)
+        fill_in("pullup_weight", with:261)
+        click_button("Submit Results") 
+
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("Operator(short) Assessment Results")
+        expect(page).to have_content("Overall Score: 80")
+        expect(page).to have_content("Strength Score: 86")
+        expect(page).to have_content("Conditioning Score: 67")
+        expect(page).to have_content("Work Capacity Score: 87")
     end 
 end 

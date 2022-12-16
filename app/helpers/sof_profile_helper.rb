@@ -81,6 +81,26 @@ module SofProfileHelper
         conditioning_calc_mar_prep(capacity, extended_power,  extended_power_swim, power)
     end 
 
+    def operator_short_profile_calc_starter_method(profile)
+        @profile = profile 
+        capacity = profile.exercises.create!(category: 'conditioning', name: params[:operator_run_or_ruck], value: "#{(params[:operator_ruck_or_run_hours].to_i * 60) + params[:operator_ruck_or_run_minutes].to_i}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        tgu = profile.exercises.create!(category: 'work capacity', name: "TGU", value: "#{params[:tgu_weight].to_i}")
+        strength_lower_calc_cont(squat_variation, deadlift_variation)
+        strength_upper_calc_cont(press_variation, weighted_pullup)
+        work_capacity_calc_operator(pushups, pullups, hang, tgu)
+        conditioning_calc_operator_short(capacity, extended_power, power)
+    end 
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
@@ -178,6 +198,28 @@ module SofProfileHelper
 
         @work_capacity_score = (pushup_score + pullup_score + hang_score) * 33.3
     end 
+
+    def work_capacity_calc_operator(pushups, pullups, hang, tgu)
+        pushup_score = (pushups.value / 50.0 - 0.5) * 2.0
+        pushup_score <= 0 ? pushup_score = 0 : pushup_score
+        pushup_score >= 1.0 ? pushup_score = 1 : pushup_score
+
+        pullup_score = (pullups.value / 8.0 - 0.5) * 2
+        pullup_score <= 0 ? pullup_score = 0 : pullup_score
+        pullup_score >= 1.0 ? pullup_score = 1 : pullup_score 
+
+        hang_score = (hang.value / 1.5 - 0.5) * 2
+        hang_score <= 0 ? hang_score = 0 : hang_score 
+        hang_score >= 1.0 ? hang_score = 1 : hang_score 
+
+        tgu_percent = tgu.value / 70
+        tgu_percent >= 1 ? tgu_percent = 1 : tgu_percent
+        tgu_score = (tgu_percent - 0.5) * 2
+        tgu_score <= 0 ? tgu_score = 0 : tgu_score
+
+        @work_capacity_score = (pushup_score + pullup_score + hang_score + tgu_score) * 25.0
+    end 
+
 
     def conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
         @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
@@ -282,6 +324,31 @@ module SofProfileHelper
         @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
 
         @power_score = (1.33 / power.value - 0.5) * 2.0
+        @power_score <= 0 ? @power_score = 0 : @power_score
+        @power_score >= 1.0 ? @power_score = 1 : @power_score
+
+        @conditioning_score = (@capacity_score + @extended_power_score + @power_score) * 33
+        profile_update
+    end
+
+    def conditioning_calc_operator_short(capacity, extended_power, power)
+        @extended_capacity_score = 0 
+
+        if capacity.name == '4 Mile Ruck'
+            @capacity_score = (56.0 / capacity.value - 0.5) * 2.0
+            @capacity_score <= 0 ? @capacity_score = 0 : @capacity_score
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        else capacity.name == '5 Mile Run'
+            @capacity_score = (40.0 / capacity.value - 0.5) * 2.0
+            @capacity_score <= 0 ? @capacity_score = 0 : @capacity_score
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        end 
+
+        @extended_power_score = (9.0 / extended_power.value - 0.5) * 2.0
+        @extended_power_score <= 0 ? @extended_power_score = 0 : @extended_power_score
+        @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+
+        @power_score = (1.16 / power.value - 0.5) * 2.0
         @power_score <= 0 ? @power_score = 0 : @power_score
         @power_score >= 1.0 ? @power_score = 1 : @power_score
 
