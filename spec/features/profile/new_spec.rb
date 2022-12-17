@@ -524,9 +524,9 @@ RSpec.describe 'the landing page' do
         
         expect(current_path).to eq("/results")
         expect(page).to have_content("LEO Assessment Results")
-        expect(page).to have_content("Overall Score: 89")
-        expect(page).to have_content("Strength Score: 86")
-        expect(page).to have_content("Conditioning Score: 86")
-        expect(page).to have_content("Work Capacity Score: 94")
+        expect(page).to have_content("Overall Score: 85")
+        expect(page).to have_content("Strength Score: 96")
+        expect(page).to have_content("Conditioning Score: 66")
+        expect(page).to have_content("Work Capacity Score: 92")
     end 
 end 
