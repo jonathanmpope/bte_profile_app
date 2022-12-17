@@ -3,13 +3,13 @@
 <% end %>
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>
-    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long']], required: true %>
+    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long'], ['HRT','hrt']], required: true %>
     <br>
     <br>
     <%= form.submit "Select Track" %>
 <% end %> 
 
-<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' ||  @track == 'sof_mar_prep' || @track == 'operator_short' || @track == 'operator_long' %>
+<% if @track != nil && @track == 'sof_land_cont' ||  @track == 'sof_mar_cont' || @track == 'sof_land_prep' ||  @track == 'sof_mar_prep' || @track == 'operator_short' || @track == 'operator_long' || @track == 'hrt' %>
     <% if @track == 'sof_land_cont' %>
         <h2>SOF Land Contract Assessments</h2>
     <% elsif @track == 'sof_mar_cont' %>
@@ -18,13 +18,15 @@
         <h2>SOF Land Prep Assessments</h2>
     <% elsif @track == 'operator_short' %>
         <h2>Operator(short) Assessments</h2>
-     <% elsif @track == 'operator_long' %>
+    <% elsif @track == 'operator_long' %>
         <h2>Operator(long) Assessments</h2>
+    <% elsif  @track == 'hrt' %>
+        <h2>HRT Assessments</h2>
     <% else %>
         <h2>SOF Maritime Prep Assessments</h2>
     <% end %>
     <%= form_with url: '/profile', method: :post, local: true do |form|%>
-        <% if @track == 'sof_mar_cont'  || @track == 'sof_land_cont' || @track == 'operator_long'  %>
+        <% if @track == 'sof_mar_cont'  || @track == 'sof_land_cont' || @track == 'operator_long' ||  @track == 'hrt' %>
             <h3>8 Mile / 12.9 km Ruck:</h3>
             <%= form.label :hours %>
             <%= form.number_field :ruck_hours, in: 0..4, required: true %>
@@ -59,11 +61,20 @@
             <%= form.label :minutes %>
             <%= form.number_field :operator_ruck_or_run_minutes, in: 0..59, required: true %>
         <% end %>
-        <h3>1.5-Mile / 2.4-km Run:</h3>
-        <%= form.label :minutes %>
-        <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
-        <%= form.label :seconds %>
-        <%= form.number_field :one_and_half_mile_run_seconds, in: 0..59, required: true %>
+        <% if @track != 'hrt' %>
+            <h3>1.5-Mile / 2.4-km Run:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :one_and_half_mile_run_seconds, in: 0..59, required: true %>
+        <% end %>
+        <% if @track == 'hrt' %>
+            <h3>2-Mile / 3.2-km Run:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :two_mile_run_minutes, in: 0..30, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :two_mile_run_seconds, in: 0..59, required: true %>
+        <% end %>
         <% if @track == 'sof_mar_cont' || @track == 'sof_mar_prep' %>
             <h3>500m Swim:</h3>
             <%= form.label :minutes %>
@@ -82,6 +93,11 @@
         <h3>Pull-ups:</h3>
         <%= form.label :reps %>
         <%= form.number_field :pullup_reps, in: 0..50, required: true %>
+        <% if @track == 'hrt' %>
+            <h3>Dips:</h3>
+            <%= form.label :reps %>
+            <%= form.number_field :dip_reps, in: 0..50, required: true %>
+        <% end %>
         <h3>Hang:</h3>
         <%= form.label :minutes %>
         <%= form.number_field :hang_minutes, in: 0..5, required: true %>

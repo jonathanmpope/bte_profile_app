@@ -122,6 +122,27 @@ module SofProfileHelper
         conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
     end
 
+    def hrt_profile_calc_starter_method(profile)
+        @profile = profile 
+        extended_capacity = profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
+        capacity = profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: "#{params[:five_mile_minutes].to_i + (params[:five_mile_seconds].to_f / 60)}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'2 mile run', value: "#{params[:two_mile_run_minutes].to_i + (params[:two_mile_run_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        dips = profile.exercises.create!(category: 'work capacity', name: "Dips", value: "#{params[:dip_reps].to_i}")
+        strength_lower_calc_cont(squat_variation, deadlift_variation)
+        strength_upper_calc_cont(press_variation, weighted_pullup)
+        work_capacity_calc_hrt(pushups, pullups, hang, dips)
+        conditioning_calc_hrt(extended_capacity, capacity, extended_power, power)
+    end
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
@@ -241,6 +262,26 @@ module SofProfileHelper
         @work_capacity_score = (pushup_score + pullup_score + hang_score + tgu_score) * 25.0
     end 
 
+    def work_capacity_calc_hrt(pushups, pullups, hang, dips)
+        pushup_score = (pushups.value / 50.0 - 0.5) * 2.0
+        pushup_score <= 0 ? pushup_score = 0 : pushup_score
+        pushup_score >= 1.0 ? pushup_score = 1 : pushup_score
+
+        pullup_score = (pullups.value / 8.0 - 0.5) * 2
+        pullup_score <= 0 ? pullup_score = 0 : pullup_score
+        pullup_score >= 1.0 ? pullup_score = 1 : pullup_score 
+
+        hang_score = (hang.value / 1.5 - 0.5) * 2
+        hang_score <= 0 ? hang_score = 0 : hang_score 
+        hang_score >= 1.0 ? hang_score = 1 : hang_score 
+
+        dips_score = (dips.value / 20.0 - 0.5) * 2
+        dips_score <= 0 ? dips_score = 0 : dips_score
+        dips_score >= 1.0 ? dips_score = 1 : dips_score
+
+        @work_capacity_score = (pushup_score + pullup_score + hang_score + dips_score) * 25.0
+    end 
+
 
     def conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
         @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
@@ -252,6 +293,27 @@ module SofProfileHelper
         @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
 
         @extended_power_score = (9.0 / extended_power.value - 0.5) * 2.0
+        @extended_power_score <= 0 ? @extended_power_score = 0 : @extended_power_score
+        @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+
+        @power_score = (1.16 / power.value - 0.5) * 2.0
+        @power_score <= 0 ? @power_score = 0 : @power_score
+        @power_score >= 1.0 ? @power_score = 1 : @power_score
+
+        @conditioning_score = (@extended_capacity_score + @capacity_score + @extended_power_score + @power_score) * 25
+        profile_update
+    end 
+
+    def conditioning_calc_hrt(extended_capacity, capacity, extended_power, power)
+        @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
+        @extended_capacity_score <= 0 ? @extended_capacity_score = 0 : @extended_capacity_score
+        @extended_capacity_score >= 1.0 ? @extended_capacity_score = 1 : @extended_capacity_score
+
+        @capacity_score = (40.0 / capacity.value - 0.5) * 2.0
+        @capacity_score <= 0 ? @capacity_score = 0 : @capacity_score
+        @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+
+        @extended_power_score = (14.0 / extended_power.value - 0.5) * 2.0
         @extended_power_score <= 0 ? @extended_power_score = 0 : @extended_power_score
         @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
 

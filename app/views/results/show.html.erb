@@ -10,6 +10,8 @@
     <h1>Operator(short) Assessment Results</h1>
 <% elsif @profile.track == 'operator_long'%>
     <h1>Operator(long) Assessment Results</h1>
+<% elsif @profile.track == 'hrt'%>
+    <h1>HRT Assessment Results</h1>
 <% else %>
     <h1>SOF Maritime Prep Assessment Results</h1>
 <% end %>
@@ -89,7 +91,7 @@
             <th>Lower Body: </th>
             <th>Upper Body: </th>
         </tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <tr>
                 <td>Back Squat: <%= (@profile.weight * 1.75).to_i %></td>
                 <td>Bench Press: <%= (@profile.weight * 1.25).to_i %></td>
@@ -131,7 +133,7 @@
             <th>Lower Body: </th>
             <th>Upper Body: </th>
         </tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' || @profile.track ==  'operator_long' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <tr>
                 <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.75).to_i %></td>
                 <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
@@ -170,7 +172,7 @@
 <% end %>
 <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
 <div class = "secondary_chart">
-    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' %>
+    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
         <% cond_long_series = [{ name: "Your Score", data: {"Extended Capacity" => @profile.conditioning_extended_capacity_score.to_i, "Capacity Score" => @profile.conditioning_capacity_score.to_i, "Extended Power" => @profile.conditioning_extended_power_score.to_i, "Power" => @profile.conditioning_power_score.to_i}}] %>
         <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
                         xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
@@ -195,7 +197,7 @@
 <h3 class="headline"> *Your Current Numbers* </h3>
 <table>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long'%>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
         <% end %>
         <th>Capacity Score: <%= "#{@profile.conditioning_capacity_score.round(0)}" %></th>
@@ -203,7 +205,7 @@
         <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
     </tr>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
         <% end %>
         <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
@@ -229,7 +231,7 @@
 <p>*Hit these to move to the next track*</p>
 <table>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt'%>
             <th>Extended Capacity</th>
         <% end %>
         <th>Capacity</th>
@@ -241,6 +243,11 @@
             <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
             <td><%= @capacity.name %>: 40 minutes 0 seconds</td>
             <td><%= @extended_power.name %>: 9 minutes 0 seconds </td>
+            <td><%= @power.name %>: 1 minutes 10 seconds</td>
+        <% elsif @profile.track ==  'hrt' %>
+            <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
+            <td><%= @capacity.name %>: 40 minutes 0 seconds</td>
+            <td><%= @extended_power.name %>: 14 minutes 0 seconds </td>
             <td><%= @power.name %>: 1 minutes 10 seconds</td>
         <% elsif @profile.track == 'sof_land_prep' %>
             <td>4 Mile Ruck: 60 minutes 0 seconds</td>
@@ -292,6 +299,16 @@
                         plotOptions: { bar: { distributed: true }}, 
                         legend: { show: false }} %>
         <%= column_chart(wc_series_2, options_2) %>
+    <% elsif @profile.track ==  'hrt' %>
+        <% wc_series_3 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i, "Dips" => (@dips_score * 100).to_i}}] %>
+        <% options_3 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
+                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
+                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
+                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
+                        plotOptions: { bar: { distributed: true }}, 
+                        legend: { show: false }} %>
+        <%= column_chart(wc_series_3, options_3) %>
     <% else %>
         <% wc_series = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i}}] %>
         <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
@@ -312,6 +329,13 @@
             <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
             <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
             <td>TGU: <%= @tgu.value.to_i %> </td>
+        </tr>
+    <% elsif @profile.track ==  'hrt'%>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+            <td>Dips: <%= @dips.value.to_i %> </td>
         </tr>
     <% else %>
         <tr>
@@ -334,6 +358,11 @@
             <td>Pull-ups: 8 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
             <td>TGU: 70# / 32KG </td>
+        <% elsif @profile.track ==  'hrt' %>
+            <td>Pushups: 50 reps</td>
+            <td>Pull-ups: 8 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+            <td>Dips: 20 reps </td>
         <% else %>
             <td>Pushups: 50 reps</td>
             <td>Pull-ups: 10 reps</td>

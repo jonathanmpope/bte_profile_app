@@ -455,4 +455,42 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Conditioning Score: 73")
         expect(page).to have_content("Work Capacity Score: 87")
     end 
+
+    it 'has HRT track tests' do
+        select("HRT", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("HRT Assessments")
+
+        fill_in("ruck_hours", with:1)
+        fill_in("ruck_minutes", with:55)
+        fill_in("five_mile_minutes", with:42)
+        fill_in("five_mile_seconds", with:15)
+        fill_in("two_mile_run_minutes", with:14)
+        fill_in("two_mile_run_seconds", with:03)
+        fill_in("four_hundred_run_minutes", with:1)
+        fill_in("four_hundred_run_seconds", with:30)
+        fill_in("pushup_reps", with:50)
+        fill_in("pullup_reps", with:9)
+        fill_in("hang_minutes", with:1)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        fill_in("dip_reps", with:20)
+        select("Back Squat", from: "squat")
+        fill_in("squat_weight", with:292) 
+        select("Trap Bar", from: "deadlift")
+        fill_in("deadlift_weight", with:362)  
+        select("Bench Press", from: "press")
+        fill_in("press_weight", with:241)
+        fill_in("pullup_weight", with:261)
+        click_button("Submit Results") 
+        save_and_open_page
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("HRT Assessment Results")
+        expect(page).to have_content("Overall Score: 89")
+        expect(page).to have_content("Strength Score: 86")
+        expect(page).to have_content("Conditioning Score: 86")
+        expect(page).to have_content("Work Capacity Score: 94")
+    end 
 end 

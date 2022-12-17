@@ -25,11 +25,19 @@ class ResultsController < ApplicationController
             @capacity = @profile.exercises.where(name: "5 mile run")[0]
             @tgu = @profile.exercises.where(name: "TGU")[0]
             work_capacity_scores_operator 
+        elsif @profile.track == 'hrt'
+            @extended_capacity = @profile.exercises.where(name: "8 mile ruck")[0] 
+            @capacity = @profile.exercises.where(name: "5 mile run")[0]
+            @extended_power = @profile.exercises.where(name: "2 mile run")[0]
+            @dips = @profile.exercises.where(name: "Dips")[0]
+            work_capacity_scores_hrt 
         else 
             @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "3 Mile Run"))[0]
             work_capacity_scores_prep  
         end 
-        @extended_power = @profile.exercises.where(name: "1.5 mile run")[0] 
+        if @profile.track != 'hrt'
+            @extended_power = @profile.exercises.where(name: "1.5 mile run")[0] 
+        end 
         if @profile.track == 'sof_mar_cont'
             @capacity_swim = @profile.exercises.where(name: "2000m swim")[0]
             @extended_power_swim = @profile.exercises.where(name: "500m swim")[0]
@@ -83,6 +91,24 @@ class ResultsController < ApplicationController
         tgu_percent >= 1 ? tgu_percent = 1 : tgu_percent
         @tgu_score = (tgu_percent - 0.5) * 200
         @tgu_score <= 0 ? @tgu_score = 0 : @tgu_score
+    end
+
+     def work_capacity_scores_hrt 
+        @pushup_score = (@pushups.value / 50.0 - 0.5) * 2.0
+        @pushup_score <= 0 ? @pushup_score = 0 : @pushup_score
+        @pushup_score >= 1.0 ? @pushup_score = 1 : @pushup_score
+
+        @pullup_score = (@pullups.value / 8.0 - 0.5) * 2
+        @pullup_score <= 0 ? @pullup_score = 0 : @pullup_score 
+        @pullup_score >= 1.0 ? @pullup_score = 1 : @pullup_score 
+
+        @hang_score = (@hang.value / 1.5 - 0.5) * 2
+        @hang_score <= 0 ? @hang_score = 0 : @hang_score 
+        @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
+
+        @dips_score = (@dips.value / 20.0 - 0.5) * 2
+        @dips_score <= 0 ? @dips_score = 0 : @dips_score 
+        @dips_score >= 1.0 ? @dips_score = 1 : @dips_score
     end
 
     def profile_bias_calc
