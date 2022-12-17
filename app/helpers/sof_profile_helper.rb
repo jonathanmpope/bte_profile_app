@@ -143,6 +143,25 @@ module SofProfileHelper
         conditioning_calc_hrt(extended_capacity, capacity, extended_power, power)
     end
 
+    def leo_profile_calc_starter_method(profile)
+        @profile = profile 
+        capacity = profile.exercises.create!(category: 'conditioning', name: params[:prep_run_or_ruck], value: "#{(params[:ruck_or_run_hours].to_i * 60) + params[:ruck_or_run_minutes].to_i}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        strength_lower_calc_leo(squat_variation, deadlift_variation)
+        strength_upper_calc_prep(press_variation, weighted_pullup)
+        work_capacity_calc_leo(pushups, pullups, hang)
+        conditioning_calc_land_prep(capacity, extended_power, power)
+    end 
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
@@ -181,7 +200,19 @@ module SofProfileHelper
         end 
     end
 
-     def strength_upper_calc_cont(press_variation, weighted_pullup)
+    def strength_lower_calc_leo(squat_variation, deadlift_variation)
+        if squat_variation.name == 'Back Squat' && deadlift_variation.name == 'Trap Bar'
+            back_squat_trap_bar_calc_leo(squat_variation, deadlift_variation)
+        elsif squat_variation.name == 'Back Squat' && deadlift_variation.name == 'Straight Bar'
+            back_squat_straight_bar_calc_leo(squat_variation, deadlift_variation)
+        elsif squat_variation.name == 'Front Squat' && deadlift_variation.name == 'Trap Bar'
+            front_squat_trap_bar_calc_leo(squat_variation, deadlift_variation)
+        else 
+            front_squat_straight_bar_calc_leo(squat_variation, deadlift_variation)
+        end 
+    end
+
+    def strength_upper_calc_cont(press_variation, weighted_pullup)
         if press_variation.name == 'Bench Press' 
             bench_press_pullup_calc_cont(press_variation, weighted_pullup)
         else 
@@ -189,7 +220,7 @@ module SofProfileHelper
         end 
     end
 
-     def strength_upper_calc_prep(press_variation, weighted_pullup)
+    def strength_upper_calc_prep(press_variation, weighted_pullup)
         if press_variation.name == 'Bench Press' 
             bench_press_pullup_calc_prep(press_variation, weighted_pullup)
         else 
@@ -280,8 +311,23 @@ module SofProfileHelper
         dips_score >= 1.0 ? dips_score = 1 : dips_score
 
         @work_capacity_score = (pushup_score + pullup_score + hang_score + dips_score) * 25.0
-    end 
+    end
+    
+    def work_capacity_calc_leo(pushups, pullups, hang)
+        pushup_score = (pushups.value / 40.0 - 0.5) * 2.0
+        pushup_score <= 0 ? pushup_score = 0 : pushup_score
+        pushup_score >= 1.0 ? pushup_score = 1 : pushup_score
 
+        pullup_score = (pullups.value / 6.0 - 0.5) * 2
+        pullup_score <= 0 ? pullup_score = 0 : pullup_score
+        pullup_score >= 1.0 ? pullup_score = 1 : pullup_score 
+
+        hang_score = (hang.value / 1.5 - 0.5) * 2
+        hang_score <= 0 ? hang_score = 0 : hang_score 
+        hang_score >= 1.0 ? hang_score = 1 : hang_score 
+
+        @work_capacity_score = (pushup_score + pullup_score + hang_score) * 33.3
+    end 
 
     def conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
         @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
@@ -471,6 +517,22 @@ module SofProfileHelper
         @strength_lower_score = (squat_score + deadlift_score) / 2
     end 
 
+    def back_squat_trap_bar_calc_leo(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 1.25)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.5)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end
+
     def back_squat_straight_bar_calc_cont(squat_variation, deadlift_variation)
         relative_squat_percent = squat_variation.value / (@profile.weight * 1.75)
         relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
@@ -495,6 +557,22 @@ module SofProfileHelper
         squat_score <= 0 ? squat_score = 0 : squat_score
 
         relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.5)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end
+
+    def back_squat_straight_bar_calc_leo(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 1.25)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.25)
         relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
         relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
         deadlift_score = (relative_deadlift_percent - 0.5) * 200
@@ -534,6 +612,22 @@ module SofProfileHelper
         
         @strength_lower_score = (squat_score + deadlift_score) / 2
     end
+
+    def front_squat_trap_bar_calc_leo(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 1.0)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.5)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end
     
      def front_squat_straight_bar_calc_cont(squat_variation, deadlift_variation)
         relative_squat_percent = squat_variation.value / (@profile.weight * 1.5)
@@ -559,6 +653,22 @@ module SofProfileHelper
         squat_score <= 0 ? squat_score = 0 : squat_score
 
         relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.5)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score 
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end
+
+    def front_squat_straight_bar_calc_leo(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 1.0)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.25)
         relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
         relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
         deadlift_score = (relative_deadlift_percent - 0.5) * 200

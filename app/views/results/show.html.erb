@@ -8,10 +8,12 @@
     <h1>SOF Land Prep Assessment Results</h1>
 <% elsif @profile.track == 'operator_short' %>
     <h1>Operator(short) Assessment Results</h1>
-<% elsif @profile.track == 'operator_long'%>
+<% elsif @profile.track == 'operator_long' %>
     <h1>Operator(long) Assessment Results</h1>
-<% elsif @profile.track == 'hrt'%>
+<% elsif @profile.track == 'hrt' %>
     <h1>HRT Assessment Results</h1>
+<% elsif @profile.track == 'leo' %>
+    <h1>LEO Assessment Results</h1>
 <% else %>
     <h1>SOF Maritime Prep Assessment Results</h1>
 <% end %>
@@ -125,6 +127,23 @@
                 <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
                 <td> </td>
             </tr>
+        <% elsif @profile.track == 'leo' %>
+            <tr>
+                <td>Back Squat: <%= (@profile.weight * 1.25).to_i %></td>
+                <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= (@profile.weight * 1.0).to_i %></td>
+                <td>Overhead Press (1-arm): <%= (@profile.weight * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
+                <td>Weighted Pull-up: <%= (@profile.weight * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= (@profile.weight * 1.25).to_i %></td>
+                <td> </td>
+            </tr>
         <% end %>
     </table>
 <% else %>
@@ -165,6 +184,23 @@
             </tr>
             <tr>
                 <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td> </td>
+            </tr>
+        <% elsif @profile.track == 'leo' %>
+            <tr>
+                <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+                <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
+                <td>Overhead Press (1-arm): <%= ((@profile.weight / 2.20462) * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td>Weighted Pull-up: <%= ((@profile.weight / 2.20462) * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
                 <td> </td>
             </tr>
         <% end %>
@@ -266,7 +302,7 @@
             <td><%= @extended_power_swim.name %>: 9 minutes 0 seconds </td>
             <td> </td>
         </tr>
-    <% elsif @profile.track == 'sof_land_prep' %>
+    <% elsif @profile.track == 'sof_land_prep' || @profile.track == 'leo' %>
         <tr>
             <td>3 Mile Run: 24 minutes 0 seconds</td>
             <td></td>
@@ -363,6 +399,10 @@
             <td>Pull-ups: 8 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
             <td>Dips: 20 reps </td>
+        <% elsif @profile.track ==  'leo' %>
+            <td>Pushups: 40 reps</td>
+            <td>Pull-ups: 6 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
         <% else %>
             <td>Pushups: 50 reps</td>
             <td>Pull-ups: 10 reps</td>

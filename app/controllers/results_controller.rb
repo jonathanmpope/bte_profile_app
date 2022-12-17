@@ -31,6 +31,9 @@ class ResultsController < ApplicationController
             @extended_power = @profile.exercises.where(name: "2 mile run")[0]
             @dips = @profile.exercises.where(name: "Dips")[0]
             work_capacity_scores_hrt 
+        elsif @profile.track == 'leo'
+            @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "3 Mile Run"))[0]
+            work_capacity_scores_leo  
         else 
             @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "3 Mile Run"))[0]
             work_capacity_scores_prep  
@@ -109,6 +112,20 @@ class ResultsController < ApplicationController
         @dips_score = (@dips.value / 20.0 - 0.5) * 2
         @dips_score <= 0 ? @dips_score = 0 : @dips_score 
         @dips_score >= 1.0 ? @dips_score = 1 : @dips_score
+    end
+
+    def work_capacity_scores_leo 
+        @pushup_score = (@pushups.value / 40.0 - 0.5) * 2.0
+        @pushup_score <= 0 ? @pushup_score = 0 : @pushup_score
+        @pushup_score >= 1.0 ? @pushup_score = 1 : @pushup_score
+
+        @pullup_score = (@pullups.value / 6.0 - 0.5) * 2
+        @pullup_score <= 0 ? @pullup_score = 0 : @pullup_score 
+        @pullup_score >= 1.0 ? @pullup_score = 1 : @pullup_score 
+
+        @hang_score = (@hang.value / 1.5 - 0.5) * 2
+        @hang_score <= 0 ? @hang_score = 0 : @hang_score 
+        @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
     end
 
     def profile_bias_calc
