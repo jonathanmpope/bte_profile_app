@@ -16,6 +16,8 @@
     <h1>LEO Assessment Results</h1>
 <% elsif @profile.track == 'fire_urban' %>
     <h1>Fire - Urban Assessment Results</h1>
+<% elsif @profile.track == 'fire_wildland' %>
+    <h1>Fire - Wildland Assessment Results</h1>
 <% else %>
     <h1>SOF Maritime Prep Assessment Results</h1>
 <% end %>
@@ -129,7 +131,7 @@
                 <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
                 <td> </td>
             </tr>
-        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' %>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' ||  @profile.track == 'fire_wildland' %>
             <tr>
                 <td>Back Squat: <%= (@profile.weight * 1.25).to_i %></td>
                 <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
@@ -188,7 +190,7 @@
                 <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
                 <td> </td>
             </tr>
-        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' %>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' || @profile.track == 'fire_wildland' %>
             <tr>
                 <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
                 <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
@@ -210,7 +212,7 @@
 <% end %>
 <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
 <div class = "secondary_chart">
-    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
+    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' || @profile.track == 'fire_wildland' %>
         <% cond_long_series = [{ name: "Your Score", data: {"Extended Capacity" => @profile.conditioning_extended_capacity_score.to_i, "Capacity Score" => @profile.conditioning_capacity_score.to_i, "Extended Power" => @profile.conditioning_extended_power_score.to_i, "Power" => @profile.conditioning_power_score.to_i}}] %>
         <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
                         xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
@@ -243,7 +245,7 @@
         <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
     </tr>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' || @profile.track == 'fire_wildland' %>
             <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
         <% end %>
         <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
@@ -287,6 +289,11 @@
             <td><%= @capacity.name %>: 40 minutes 0 seconds</td>
             <td><%= @extended_power.name %>: 14 minutes 0 seconds </td>
             <td><%= @power.name %>: 1 minutes 10 seconds</td>
+        <% elsif @profile.track ==  'fire_wildland' %>
+            <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
+            <td><%= @capacity.name %>: 58 minutes 0 seconds</td>
+            <td><%= @extended_power.name %>: 10 minutes 30 seconds </td>
+            <td><%= @power.name %>: 1 minutes 20 seconds</td>
         <% elsif @profile.track == 'sof_land_prep' %>
             <td>4 Mile Ruck: 60 minutes 0 seconds</td>
             <td><%= @extended_power.name %>: 10 minutes 30 seconds </td>
@@ -404,6 +411,10 @@
         <% elsif @profile.track ==  'leo' || @profile.track == 'fire_urban' %>
             <td>Pushups: 40 reps</td>
             <td>Pull-ups: 6 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+        <% elsif @profile.track ==  'fire_wildland' %>
+            <td>Pushups: 50 reps</td>
+            <td>Pull-ups: 8 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
         <% else %>
             <td>Pushups: 50 reps</td>
