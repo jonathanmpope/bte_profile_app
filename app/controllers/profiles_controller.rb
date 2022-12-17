@@ -23,6 +23,8 @@ class ProfilesController < ApplicationController
             sof_land_prep_profile_calc_starter_method(profile)
         elsif params[:profile] == "operator_short"
            operator_short_profile_calc_starter_method(profile)
+        elsif params[:profile] == "operator_long"
+           operator_long_profile_calc_starter_method(profile)
         else 
             sof_maritime_prep_profile_calc_starter_method(profile)
         end 

@@ -101,6 +101,27 @@ module SofProfileHelper
         conditioning_calc_operator_short(capacity, extended_power, power)
     end 
 
+    def operator_long_profile_calc_starter_method(profile)
+        @profile = profile 
+        extended_capacity = profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
+        capacity = profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: "#{params[:five_mile_minutes].to_i + (params[:five_mile_seconds].to_f / 60)}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        tgu = profile.exercises.create!(category: 'work capacity', name: "TGU", value: "#{params[:tgu_weight].to_i}")
+        strength_lower_calc_cont(squat_variation, deadlift_variation)
+        strength_upper_calc_cont(press_variation, weighted_pullup)
+        work_capacity_calc_operator(pushups, pullups, hang, tgu)
+        conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
+    end
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
@@ -354,7 +375,7 @@ module SofProfileHelper
 
         @conditioning_score = (@capacity_score + @extended_power_score + @power_score) * 33
         profile_update
-    end
+    end 
     
     def back_squat_trap_bar_calc_cont(squat_variation, deadlift_variation)
         relative_squat_percent = squat_variation.value / (@profile.weight * 1.75)
