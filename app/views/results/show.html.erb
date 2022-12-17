@@ -14,6 +14,8 @@
     <h1>HRT Assessment Results</h1>
 <% elsif @profile.track == 'leo' %>
     <h1>LEO Assessment Results</h1>
+<% elsif @profile.track == 'fire_urban' %>
+    <h1>Fire - Urban Assessment Results</h1>
 <% else %>
     <h1>SOF Maritime Prep Assessment Results</h1>
 <% end %>
@@ -127,7 +129,7 @@
                 <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
                 <td> </td>
             </tr>
-        <% elsif @profile.track == 'leo' %>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' %>
             <tr>
                 <td>Back Squat: <%= (@profile.weight * 1.25).to_i %></td>
                 <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
@@ -186,7 +188,7 @@
                 <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
                 <td> </td>
             </tr>
-        <% elsif @profile.track == 'leo' %>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' %>
             <tr>
                 <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
                 <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
@@ -302,7 +304,7 @@
             <td><%= @extended_power_swim.name %>: 9 minutes 0 seconds </td>
             <td> </td>
         </tr>
-    <% elsif @profile.track == 'sof_land_prep' || @profile.track == 'leo' %>
+    <% elsif @profile.track == 'sof_land_prep' || @profile.track == 'leo' || @profile.track == 'fire_urban' %>
         <tr>
             <td>3 Mile Run: 24 minutes 0 seconds</td>
             <td></td>
@@ -399,7 +401,7 @@
             <td>Pull-ups: 8 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
             <td>Dips: 20 reps </td>
-        <% elsif @profile.track ==  'leo' %>
+        <% elsif @profile.track ==  'leo' || @profile.track == 'fire_urban' %>
             <td>Pushups: 40 reps</td>
             <td>Pull-ups: 6 reps</td>
             <td>Hang: 1 minute 30 seconds </td>

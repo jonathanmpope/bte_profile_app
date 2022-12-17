@@ -29,6 +29,8 @@ class ProfilesController < ApplicationController
            hrt_profile_calc_starter_method(profile)
         elsif params[:profile] == "leo"
            leo_profile_calc_starter_method(profile)
+        elsif params[:profile] == "fire_urban"
+           leo_profile_calc_starter_method(profile)
         else 
             sof_maritime_prep_profile_calc_starter_method(profile)
         end 

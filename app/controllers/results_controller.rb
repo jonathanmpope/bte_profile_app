@@ -31,7 +31,7 @@ class ResultsController < ApplicationController
             @extended_power = @profile.exercises.where(name: "2 mile run")[0]
             @dips = @profile.exercises.where(name: "Dips")[0]
             work_capacity_scores_hrt 
-        elsif @profile.track == 'leo'
+        elsif @profile.track == 'leo' || @profile.track == 'fire_urban'
             @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "3 Mile Run"))[0]
             work_capacity_scores_leo  
         else 
