@@ -3,7 +3,7 @@
 <% end %>
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>
-    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long'], ['HRT','hrt'], ['LEO','leo'], ['Fire Urban','fire_urban'], ['Fire Wildland','fire_wildland']], required: true %>
+    <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long'], ['HRT','hrt'], ['LEO','leo'], ['Fire Urban','fire_urban'], ['Fire Wildland','fire_wildland'], ['Civilian','civilian']], required: true %>
     <br>
     <br>
     <%= form.submit "Select Track" %>
@@ -28,6 +28,8 @@
         <h2>Fire - Urban Assessments</h2>
     <% elsif @track == 'fire_wildland' %>
         <h2>Fire - Wildland Assessments</h2>
+    <% elsif @track == 'civilian' %>
+        <h2>Civilian Assessments</h2>
     <% else %>
         <h2>SOF Maritime Prep Assessments</h2>
     <% end %>
@@ -59,6 +61,14 @@
             <%= form.label :minutes %>
             <%= form.number_field :ruck_or_run_minutes, in: 0..59, required: true %>
         <% end %>
+        <% if @track == 'civilian' %>
+            <h3>4-Mile Ruck or 10k Row:</h3>
+            <%= form.select :capacity, [["4 Mile Ruck",'4 Mile Ruck'],["10k Row",'10k Row']], required: true %>
+            <%= form.label :hours %>
+            <%= form.number_field :capacity_hours, in: 0..2, value: 0, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :capacity_minutes, in: 0..59, required: true %>
+        <% end %>
         <% if @track == 'operator_short' %>
             <h3>4-Mile Ruck or 5-Mile Run:</h3>
             <%= form.select :operator_run_or_ruck, [["4 Mile Ruck",'4 Mile Ruck'],["5 Mile Run",'5 Mile Run']], required: true %>
@@ -74,7 +84,7 @@
             <%= form.label :minutes %>
             <%= form.number_field :four_mile_ruck_minutes, in: 0..59, required: true %>
         <% end %>
-        <% if @track != 'hrt' %>
+        <% if @track != 'hrt' && @track != 'civilian' %>
             <h3>1.5-Mile / 2.4-km Run:</h3>
             <%= form.label :minutes %>
             <%= form.number_field :one_and_half_mile_run_minutes, in: 0..30, required: true %>
@@ -95,17 +105,37 @@
             <%= form.label :seconds %>
             <%= form.number_field :five_hundred_swim_seconds, in: 0..59, required: true %>
         <% end %>
-        <h3>400m Run:</h3>
-        <%= form.label :minutes %>
-        <%= form.number_field :four_hundred_run_minutes, in: 0..5, required: true %>
-        <%= form.label :seconds %>
-        <%= form.number_field :four_hundred_run_seconds, in: 0..59, required: true %>
+        <% if @track == 'civilian' %>
+            <h3>2000m Row or 1.5 Mile Run:</h3>
+            <%= form.select :extended_power, [["2000m Row",'2000m Row'],["1.5 Mile Run",'1.5 Mile Run']], required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :extended_power_minutes, in: 0..30, value: 0, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :extended_power_seconds, in: 0..59, required: true %>
+        <% end %>
+        <% if @track != 'civilian' %>
+            <h3>400m Run:</h3>
+            <%= form.label :minutes %>
+            <%= form.number_field :four_hundred_run_minutes, in: 0..5, required: true %>
+            <%= form.label :seconds %>
+            <%= form.number_field :four_hundred_run_seconds, in: 0..59, required: true %>
+        <% end %>
+        <% if @track == 'civilian' %>
+            <h3>500m Row or 400m Run:</h3>
+            <%= form.select :power, [["500m Row",'500m Row'],["400m Run",'400m Run']], required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :power_minutes, in: 0..10, value: 0, required: true %>
+            <%= form.label :minutes %>
+            <%= form.number_field :power_seconds, in: 0..59, required: true %>
+        <% end %>
         <h3>Pushups:</h3>
         <%= form.label :reps %>
         <%= form.number_field :pushup_reps, in: 0..150, required: true %>
-        <h3>Pull-ups:</h3>
-        <%= form.label :reps %>
-        <%= form.number_field :pullup_reps, in: 0..50, required: true %>
+        <% if @track != 'civilian' %>
+            <h3>Pull-ups:</h3>
+            <%= form.label :reps %>
+            <%= form.number_field :pullup_reps, in: 0..50, required: true %>
+        <% end %>
         <% if @track == 'hrt' %>
             <h3>Dips:</h3>
             <%= form.label :reps %>
@@ -124,26 +154,43 @@
         <h3>Current Bodyweight:</h3>
         <%= form.label :weight %>
         <%= form.number_field :body_weight, in: 0..999, required: true %>
-        <% if @track == 'operator_short' || @track == 'operator_long'  %>
+        <% if @track == 'operator_short' || @track == 'operator_long' %>
             <h3>TGU:</h3>
             <%= form.label :weight %>
             <%= form.number_field :tgu_weight, in: 0..99, required: true %>
         <% end %>
-        <h3>Squat:</h3>
-        <%= form.select :squat, [["Back Squat",'Back Squat'],["Front Squat",'Front Squat']], required: true %>
-        <%= form.label :weight %>
-        <%= form.number_field :squat_weight, in: 0..999, required: true %>
-        <h3>Deadlift:</h3>
-        <%= form.select :deadlift, [["Trap Bar",'Trap Bar'],["Straight Bar",'Straight Bar']], required: true %>
-        <%= form.label :weight %>
-        <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
-        <h3>Press:</h3>
-        <%= form.select :press, [["Bench Press",'Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
-        <%= form.label :weight %>
-        <%= form.number_field :press_weight, in: 0..999, required: true %>
-        <h3>Weighted Pull-up:</h3>
-        <%= form.label :weight %>
-        <%= form.number_field :pullup_weight, in: 0..999, required: true %>
+        <% if @track != 'civilian' %>
+            <h3>Squat:</h3>
+            <%= form.select :squat, [["Back Squat",'Back Squat'],["Front Squat",'Front Squat']], required: true %>
+            <%= form.label :weight %>
+            <%= form.number_field :squat_weight, in: 0..999, required: true %>
+            <h3>Deadlift:</h3>
+            <%= form.select :deadlift, [["Trap Bar",'Trap Bar'],["Straight Bar",'Straight Bar']], required: true %>
+            <%= form.label :weight %>
+            <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
+            <h3>Press:</h3>
+            <%= form.select :press, [["Bench Press",'Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
+            <%= form.label :weight %>
+            <%= form.number_field :press_weight, in: 0..999, required: true %>
+            <h3>Weighted Pull-up:</h3>
+            <%= form.label :weight %>
+            <%= form.number_field :pullup_weight, in: 0..999, required: true %>
+        <% else %>
+            <h3>Squat:</h3>
+            <%= form.select :squat, [["Goblet Squat",'Goblet Squat'],["Front Squat",'Front Squat']], required: true %>
+            <%= form.label :weight %>
+            <%= form.number_field :squat_weight, in: 0..999, required: true %>
+            <h3>Trap Bar Deadlift:</h3>
+            <%= form.label :weight %>
+            <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
+            <h3>Press:</h3>
+            <%= form.select :press, [["DB Bench Press",'DB Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
+            <%= form.label :weight %>
+            <%= form.number_field :press_weight, in: 0..999, required: true %>
+            <h3>3 Point Row:</h3>
+            <%= form.label :weight %>
+            <%= form.number_field :row_weight, in: 0..999, required: true %>
+        <% end %>
         <br>
         <br>
         <%= form.hidden_field :profile, :value => @track %>

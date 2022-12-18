@@ -31,6 +31,8 @@ class ProfilesController < ApplicationController
            leo_profile_calc_starter_method(profile)
         elsif params[:profile] == "fire_wildland"
            fire_wildland_profile_calc_starter_method(profile)
+        elsif params[:profile] == "civilian"
+           civilian_profile_calc_starter_method(profile)
         else 
             sof_maritime_prep_profile_calc_starter_method(profile)
         end 

@@ -182,12 +182,34 @@ module SofProfileHelper
         conditioning_calc_fire_wildland(extended_capacity, capacity, extended_power, power)
     end 
 
+    def civilian_profile_calc_starter_method(profile)
+        @profile = profile 
+        capacity = profile.exercises.create!(category: 'conditioning', name: params[:capacity], value: "#{(params[:capacity_hours].to_i * 60) + params[:capacity_minutes].to_i}")
+        extended_power = profile.exercises.create!(category: 'conditioning', name: params[:extended_power], value: "#{params[:extended_power_minutes].to_i + (params[:extended_power_seconds].to_f / 60)}")
+        power = profile.exercises.create!(category: 'conditioning', name: params[:power], value: "#{params[:power_minutes].to_i + (params[:power_seconds].to_f / 60)}")
+        unit_conversion
+        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        deadlift_variation = profile.exercises.create!(category: 'strength', name: "Trap Bar", value: @deadlift_weight)
+        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        row = profile.exercises.create!(category: 'strength', name: "3 Point Row", value: @row_weight)
+        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        strength_lower_calc_civilian(squat_variation, deadlift_variation)
+        strength_upper_calc_civilian(press_variation, row)
+        work_capacity_calc_civilian(pushups, hang)
+        conditioning_calc_civilian(capacity, extended_power, power)
+    end 
+
     def unit_conversion
         if params[:units] == 'imperial'
             @squat_weight = params[:squat_weight].to_f
             @deadlift_weight = params[:deadlift_weight].to_f
             @press_weight = params[:press_weight].to_f
-            @pullup_weight = params[:pullup_weight].to_f
+            if @profile.track != 'civilian'
+                @pullup_weight = params[:pullup_weight].to_f
+            else  
+                @row_weight = params[:row_weight]
+            end
         else 
             @squat_weight = params[:squat_weight].to_f * 2.20462
             @deadlift_weight = params[:deadlift_weight].to_f * 2.20462
@@ -232,6 +254,14 @@ module SofProfileHelper
         end 
     end
 
+    def strength_lower_calc_civilian(squat_variation, deadlift_variation)
+        if squat_variation.name == 'Goblet Squat' 
+            goblet_squat_trap_bar_calc_civilian(squat_variation, deadlift_variation)
+        else 
+            front_squat_trap_bar_calc_civilian(squat_variation, deadlift_variation)
+        end 
+    end
+
     def strength_upper_calc_cont(press_variation, weighted_pullup)
         if press_variation.name == 'Bench Press' 
             bench_press_pullup_calc_cont(press_variation, weighted_pullup)
@@ -247,6 +277,14 @@ module SofProfileHelper
             overhead_press_pullup_calc_prep(press_variation, weighted_pullup)
         end 
     end
+
+    def strength_upper_calc_civilian(press_variation, row)
+        if press_variation.name == 'DB Bench Press' 
+            db_bench_press_row_calc_civilian(press_variation, row)
+        else 
+            overhead_press_row_calc_civilian(press_variation, row)
+        end 
+    end 
 
     # def power_calc(broad_jump)
     #     relative_power_percent = broad_jump.value / 8
@@ -364,6 +402,18 @@ module SofProfileHelper
 
         @work_capacity_score = (pushup_score + pullup_score + hang_score) * 33.3
     end
+
+    def work_capacity_calc_civilian(pushups, hang)
+        pushup_score = (pushups.value / 50.0 - 0.5) * 2.0
+        pushup_score <= 0 ? pushup_score = 0 : pushup_score
+        pushup_score >= 1.0 ? pushup_score = 1 : pushup_score
+
+        hang_score = (hang.value / 1.5 - 0.5) * 2
+        hang_score <= 0 ? hang_score = 0 : hang_score 
+        hang_score >= 1.0 ? hang_score = 1 : hang_score 
+
+        @work_capacity_score = (pushup_score + hang_score) * 50.0
+    end 
 
     def conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
         @extended_capacity_score = (120.0 / extended_capacity.value - 0.5) * 2.0
@@ -539,6 +589,43 @@ module SofProfileHelper
         @power_score >= 1.0 ? @power_score = 1 : @power_score
 
         @conditioning_score = (@extended_capacity_score + @capacity_score + @extended_power_score + @power_score) * 25
+        profile_update
+    end 
+
+    def conditioning_calc_civilian(capacity, extended_power, power)
+        @extended_capacity_score = 0 
+
+        if capacity.name == '4 Mile Ruck'
+            @capacity_score = (68.0 / capacity.value - 0.5) * 2.0
+            @capacity_score <= 0 ? @capacity_score = 0 : @capacity_score
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        else 
+            @capacity_score = (50.0 / capacity.value - 0.5) * 2.0
+            @capacity_score <= 0 ? @capacity_score = 0 : @capacity_score
+            @capacity_score >= 1.0 ? @capacity_score = 1 : @capacity_score
+        end 
+
+        if extended_power.name == '2000m Row'
+            @extended_power_score = (8.5 / extended_power.value - 0.5) * 2.0
+            @extended_power_score <= 0 ? @extended_power_score = 0 : @extended_power_score
+            @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+        else 
+            @extended_power_score = (12.0 / extended_power.value - 0.5) * 2.0
+            @extended_power_score <= 0 ? @extended_power_score = 0 : @extended_power_score
+            @extended_power_score >= 1.0 ? @extended_power_score = 1 : @extended_power_score
+        end 
+
+        if power.name == '500m Row'
+            @power_score = (1.85 / power.value - 0.5) * 2.0
+            @power_score <= 0 ? @power_score = 0 : @power_score
+            @power_score >= 1.0 ? @power_score = 1 : @power_score
+        else 
+            @power_score = (1.5 / power.value - 0.5) * 2.0
+            @power_score <= 0 ? @power_score = 0 : @power_score
+            @power_score >= 1.0 ? @power_score = 1 : @power_score
+        end 
+
+        @conditioning_score = (@capacity_score + @extended_power_score + @power_score) * 33
         profile_update
     end 
     
@@ -734,6 +821,38 @@ module SofProfileHelper
         @strength_lower_score = (squat_score + deadlift_score) / 2
     end
 
+    def goblet_squat_trap_bar_calc_civilian(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 0.6)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.25)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score 
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end 
+
+    def front_squat_trap_bar_calc_civilian(squat_variation, deadlift_variation)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 0.75)
+        relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
+        relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
+        squat_score = (relative_squat_percent - 0.5) * 200
+        squat_score <= 0 ? squat_score = 0 : squat_score
+
+        relative_deadlift_percent = deadlift_variation.value / (@profile.weight * 1.25)
+        relative_deadlift_percent <= 0 ? relative_deadlift_percent = 0 : relative_deadlift_percent
+        relative_deadlift_percent >= 1 ? relative_deadlift_percent = 1 : relative_deadlift_percent
+        deadlift_score = (relative_deadlift_percent - 0.5) * 200
+        deadlift_score <= 0 ? deadlift_score = 0 : deadlift_score 
+        
+        @strength_lower_score = (squat_score + deadlift_score) / 2
+    end 
+
     def bench_press_pullup_calc_cont(press_variation, pullup)
         relative_press_percent = press_variation.value / (@profile.weight * 1.25)
         relative_press_percent <= 0 ? relative_press_percent = 0 : relative_press_percent 
@@ -799,6 +918,40 @@ module SofProfileHelper
         pullup_score <= 0 ? pullup_score = 0 : pullup_score   
         
         @strength_upper_score = (press_score + pullup_score) / 2
+        strength_calc
+    end
+
+    def db_bench_press_row_calc_civilian(press_variation, row)
+        relative_press_percent = press_variation.value / (@profile.weight * 0.35)
+        relative_press_percent <= 0 ? relative_press_percent = 0 : relative_press_percent 
+        relative_press_percent >= 1.0 ? relative_press_percent = 1 : relative_press_percent 
+        press_score = (relative_press_percent - 0.5) * 200
+        press_score <= 0 ? press_score = 0 : press_score 
+
+        relative_row_percent = row.value / (@profile.weight * 0.45)
+        relative_row_percent <= 0 ? relative_row_percent = 0 : relative_row_percent 
+        relative_row_percent >= 1.0 ? relative_row_percent = 1 : relative_row_percent 
+        row_score = (relative_row_percent - 0.5) * 200
+        row_score <= 0 ? row_score = 0 : row_score   
+        
+        @strength_upper_score = (press_score + row_score) / 2
+        strength_calc
+    end 
+
+    def overhead_press_row_calc_civilian(press_variation, row)
+        relative_press_percent = press_variation.value / (@profile.weight * 0.25)
+        relative_press_percent <= 0 ? relative_press_percent = 0 : relative_press_percent 
+        relative_press_percent >= 1.0 ? relative_press_percent = 1 : relative_press_percent 
+        press_score = (relative_press_percent - 0.5) * 200
+        press_score <= 0 ? press_score = 0 : press_score 
+
+        relative_row_percent = row.value / (@profile.weight * 0.45)
+        relative_row_percent <= 0 ? relative_row_percent = 0 : relative_row_percent 
+        relative_row_percent >= 1.0 ? relative_row_percent = 1 : relative_row_percent 
+        row_score = (relative_row_percent - 0.5) * 200
+        row_score <= 0 ? row_score = 0 : row_score   
+        
+        @strength_upper_score = (press_score + row_score) / 2
         strength_calc
     end
 

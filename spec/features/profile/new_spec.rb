@@ -602,4 +602,41 @@ RSpec.describe 'the landing page' do
         expect(page).to have_content("Conditioning Score: 78")
         expect(page).to have_content("Work Capacity Score: 92")
     end 
+
+    it 'has civilian track tests' do
+        select("Civilian", from: "track")  
+        click_button("Select Track")
+        
+        expect(page).to have_content("Civilian Assessments")
+
+        select("4 Mile Ruck", from: "capacity")
+        fill_in("capacity_hours", with:1)
+        fill_in("capacity_minutes", with:8)
+        select("2000m Row", from: "extended_power")
+        fill_in("extended_power_minutes", with:10)
+        fill_in("extended_power_seconds", with:50)
+        select("500m Row", from: "power")
+        fill_in("power_minutes", with:1)
+        fill_in("power_seconds", with:48)
+        fill_in("pushup_reps", with:50)
+        fill_in("hang_minutes", with:1)
+        fill_in("hang_seconds", with:19)
+        choose(id="units_imperial")
+        fill_in("body_weight", with:195)
+        # fill_in("tgu_weight", with:60)
+        select("Goblet Squat", from: "squat")
+        fill_in("squat_weight", with:86) 
+        fill_in("deadlift_weight", with:203)  
+        select("DB Bench Press", from: "press")
+        fill_in("press_weight", with:44)
+        fill_in("row_weight", with:55)
+        click_button("Submit Results")
+       
+        expect(current_path).to eq("/results")
+        expect(page).to have_content("Civilian Assessment Results")
+        expect(page).to have_content("Overall Score: 72")
+        expect(page).to have_content("Strength Score: 42")
+        expect(page).to have_content("Conditioning Score: 85")
+        expect(page).to have_content("Work Capacity Score: 88")
+    end 
 end 
