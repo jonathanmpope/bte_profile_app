@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
     before_action :require_logged_in
-    include SofProfileHelper
+    include ProfileHelper
 
     def new 
         if params[:commit] != nil  
