@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
     validates :email, uniqueness: true, presence: true
     validates_presence_of :password, confirmation: true 
-    validates :password, length: { in: 6..20 }
+    validates :password, length: { in: 6..10 }
     # validates :password, format: { with: password_requirements, message: "Your password does not meet password requirements" }
     validates :password_confirmation, presence: true
 

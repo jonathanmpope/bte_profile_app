@@ -12,9 +12,9 @@ RSpec.describe 'the landing page' do
     it 'will let you login' do
         visit '/'
 
-        user = User.create!(email: 'test@test.com', password: "test", password_confirmation: "test")
+        user = User.create!(email: 'test@test.com', password: "test123", password_confirmation: "test123")
 
-        password = "test"
+        password = "test123"
         email = 'test@test.com'
 
         fill_in :email, with: email
@@ -29,7 +29,7 @@ RSpec.describe 'the landing page' do
     it 'will not let you login without valid credentials' do
         visit '/'
 
-        user = User.create!(email: 'test@test.com', password: "test", password_confirmation: "test")
+        user = User.create!(email: 'test@test.com', password: "test123", password_confirmation: "test123")
 
         password = "test1"
         email = 'test@test.com'
@@ -46,9 +46,9 @@ RSpec.describe 'the landing page' do
      it 'will let you logout' do
         visit '/'
 
-        user = User.create!(email: 'test@test.com', password: "test", password_confirmation: "test")
+        user = User.create!(email: 'test@test.com', password: "test123", password_confirmation: "test123")
 
-        password = "test"
+        password = "test123"
         email = 'test@test.com'
 
         fill_in :email, with: email

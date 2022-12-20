@@ -8,6 +8,7 @@
 <% end %>
 
 <h1> Create an Account</h1>
+<p>Passwords must be between 6-10 characters in length</p>
 <%= form_with url: '/users', method: :post, local: true do |form| %>
     <%= form.label :email %>
     <%= form.text_field :email, required: true %>
