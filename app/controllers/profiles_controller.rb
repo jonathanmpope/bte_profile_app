@@ -21,6 +21,18 @@ class ProfilesController < ApplicationController
             sof_maritime_contract_profile_calc_starter_method(profile)
         elsif params[:profile] == "sof_land_prep"
             sof_land_prep_profile_calc_starter_method(profile)
+        elsif params[:profile] == "operator_short"
+           operator_short_profile_calc_starter_method(profile)
+        elsif params[:profile] == "operator_long"
+           operator_long_profile_calc_starter_method(profile)
+        elsif params[:profile] == "hrt"
+           hrt_profile_calc_starter_method(profile)
+        elsif params[:profile] == "leo" || params[:profile] == "fire_urban"
+           leo_profile_calc_starter_method(profile)
+        elsif params[:profile] == "fire_wildland"
+           fire_wildland_profile_calc_starter_method(profile)
+        elsif params[:profile] == "civilian"
+           civilian_profile_calc_starter_method(profile)
         else 
             sof_maritime_prep_profile_calc_starter_method(profile)
         end 

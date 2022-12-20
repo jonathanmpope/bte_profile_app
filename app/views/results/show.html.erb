@@ -6,6 +6,20 @@
     <h1>SOF Maritime Contract Assessment Results</h1>
 <% elsif @profile.track == 'sof_land_prep' %>
     <h1>SOF Land Prep Assessment Results</h1>
+<% elsif @profile.track == 'operator_short' %>
+    <h1>Operator(short) Assessment Results</h1>
+<% elsif @profile.track == 'operator_long' %>
+    <h1>Operator(long) Assessment Results</h1>
+<% elsif @profile.track == 'hrt' %>
+    <h1>HRT Assessment Results</h1>
+<% elsif @profile.track == 'leo' %>
+    <h1>LEO Assessment Results</h1>
+<% elsif @profile.track == 'fire_urban' %>
+    <h1>Fire - Urban Assessment Results</h1>
+<% elsif @profile.track == 'fire_wildland' %>
+    <h1>Fire - Wildland Assessment Results</h1>
+<% elsif @profile.track == 'civilian' %>
+    <h1>Civilian Assessment Results</h1>
 <% else %>
     <h1>SOF Maritime Prep Assessment Results</h1>
 <% end %>
@@ -46,7 +60,7 @@
     <%= column_chart(strength_series, options_2) %>
 </div>
 <h3 class="headline"> *Your Current Numbers* </h3>
-<% if @profile.unit_type == 'imperial' %>
+<% if @profile.unit_type == 'imperial' && @profile.track != 'civilian' %>
     <table>
         <tr>
             <th>Lower Body Score: <%= "#{@profile.strength_lower_score.round(0)}" %></th>
@@ -61,7 +75,22 @@
             <td><%= @weighted_pullup.name %>: <%= @weighted_pullup.value.round(0) %></td>
         </tr>
     </table>
-<% else %>
+<% elsif @profile.unit_type == 'imperial' && @profile.track == 'civilian' %>
+    <table>
+        <tr>
+            <th>Lower Body Score: <%= "#{@profile.strength_lower_score.round(0)}" %></th>
+            <th>Upper Body Score: <%= "#{@profile.strength_upper_score.round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= @squat.value.round(0) %></td>
+            <td><%= @press.name %>: <%= @press.value.round(0) %></td>
+        </tr>
+        <tr>
+            <td><%= @deadlift.name %>: <%= @deadlift.value.round(0) %></td>
+            <td><%= @row.name %>: <%= @row.value.round(0) %></td>
+        </tr>
+    </table>
+<% elsif @profile.unit_type != 'imperial' && @profile.track != 'civilian' %>
     <table>
         <tr>
             <th>Lower Body Score: <%= "#{(@profile.strength_lower_score / 2.20462).round(0)}" %></th>
@@ -76,6 +105,21 @@
             <td><%= @weighted_pullup.name %>: <%= (@weighted_pullup.value / 2.20462).round(0) %></td>
         </tr>
     </table>
+<% else %>
+    <table>
+        <tr>
+            <th>Lower Body Score: <%= "#{(@profile.strength_lower_score / 2.20462).round(0)}" %></th>
+            <th>Upper Body Score: <%= "#{(@profile.strength_upper_score / 2.20462).round(0)}" %></th>
+        </tr>
+        <tr>
+            <td><%= @squat.name %>: <%= (@squat.value / 2.20462).round(0) %></td>
+            <td><%= @press.name %>: <%= (@press.value / 2.20462).round(0) %></td>
+        </tr>
+        <tr>
+            <td><%= @deadlift.name %>: <%= (@deadlift.value / 2.20462).round(0) %></td>
+            <td><%= @row.name %>: <%= (@row.value / 2.20462).round(0) %></td>
+        </tr>
+    </table>
 <% end %>
 <h3 class="headline"> Strength standards for this track at your current bodyweight </h3>
 <p>*Hit these to move to the next track*</p>
@@ -85,7 +129,7 @@
             <th>Lower Body: </th>
             <th>Upper Body: </th>
         </tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <tr>
                 <td>Back Squat: <%= (@profile.weight * 1.75).to_i %></td>
                 <td>Bench Press: <%= (@profile.weight * 1.25).to_i %></td>
@@ -119,6 +163,36 @@
                 <td>Straight Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
                 <td> </td>
             </tr>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' ||  @profile.track == 'fire_wildland' %>
+            <tr>
+                <td>Back Squat: <%= (@profile.weight * 1.25).to_i %></td>
+                <td>Bench Press: <%= (@profile.weight * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= (@profile.weight * 1.0).to_i %></td>
+                <td>Overhead Press (1-arm): <%= (@profile.weight * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= (@profile.weight * 1.5).to_i %></td>
+                <td>Weighted Pull-up: <%= (@profile.weight * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= (@profile.weight * 1.25).to_i %></td>
+                <td> </td>
+            </tr>
+        <% else %>
+            <tr>
+                <td>Goblet Squat: <%= (@profile.weight * 0.6).to_i %></td>
+                <td>DB Bench Press (weight in each hand): <%= (@profile.weight * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= (@profile.weight * 0.75).to_i %></td>
+                <td>Overhead Press (1-arm): <%= (@profile.weight * 0.25).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= (@profile.weight * 1.25).to_i %></td>
+                <td>Row(1-arm): <%= (@profile.weight * 0.45).to_i %></td>
+            </tr>
         <% end %>
     </table>
 <% else %>
@@ -127,7 +201,7 @@
             <th>Lower Body: </th>
             <th>Upper Body: </th>
         </tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_short' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <tr>
                 <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.75).to_i %></td>
                 <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
@@ -161,12 +235,42 @@
                 <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
                 <td> </td>
             </tr>
+        <% elsif @profile.track == 'leo' || @profile.track == 'fire_urban' || @profile.track == 'fire_wildland' %>
+            <tr>
+                <td>Back Squat: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+                <td>Bench Press: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= ((@profile.weight / 2.20462) * 1.0).to_i %></td>
+                <td>Overhead Press (1-arm): <%= ((@profile.weight / 2.20462) * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= ((@profile.weight / 2.20462) * 1.5).to_i %></td>
+                <td>Weighted Pull-up: <%= ((@profile.weight / 2.20462) * 1.2).to_i %></td>
+            </tr>
+            <tr>
+                <td>Straight Bar DL: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+                <td> </td>
+            </tr>
+        <% else %>
+            <tr>
+                <td>Goblet Squat: <%= ((@profile.weight / 2.20462) * 0.6).to_i %></td>
+                <td>DB Bench Press (weight in each hand): <%= ((@profile.weight / 2.20462) * 0.35).to_i %></td>
+            </tr>
+            <tr>
+                <td>Front Squat: <%= ((@profile.weight / 2.20462) * 0.75).to_i %></td>
+                <td>Overhead Press (1-arm): <%= ((@profile.weight / 2.20462) * 0.25).to_i %></td>
+            </tr>
+            <tr>
+                <td>Trap Bar DL: <%= ((@profile.weight / 2.20462) * 1.25).to_i %></td>
+                <td>Row(1-arm): <%= ((@profile.weight / 2.20462) * 0.45).to_i %></td>
+            </tr>
         <% end %>
     </table>
 <% end %>
 <h2>Conditioning Score: <%= "#{@profile.conditioning_score.round(0)}" %></h2>
 <div class = "secondary_chart">
-    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+    <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' || @profile.track == 'fire_wildland' %>
         <% cond_long_series = [{ name: "Your Score", data: {"Extended Capacity" => @profile.conditioning_extended_capacity_score.to_i, "Capacity Score" => @profile.conditioning_capacity_score.to_i, "Extended Power" => @profile.conditioning_extended_power_score.to_i, "Power" => @profile.conditioning_power_score.to_i}}] %>
         <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
                         xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
@@ -191,7 +295,7 @@
 <h3 class="headline"> *Your Current Numbers* </h3>
 <table>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' %>
             <th>Extended Capacity Score: <%= "#{@profile.conditioning_extended_capacity_score.round(0)}" %></th>
         <% end %>
         <th>Capacity Score: <%= "#{@profile.conditioning_capacity_score.round(0)}" %></th>
@@ -199,7 +303,7 @@
         <th>Power Score: <%= "#{@profile.conditioning_power_score.round(0)}" %></th>
     </tr>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt' || @profile.track == 'fire_wildland' %>
             <td><%= @extended_capacity.name %>: <%= (@extended_capacity.value / 60).to_i %> hours <%= (@extended_capacity.value % 60).to_i %> minutes</td>
         <% end %>
         <td><%= @capacity.name %>: <%= @capacity.value.to_i %> minutes <%= ((@capacity.value - @capacity.value.to_i) * 60).round(0) %> seconds</td>
@@ -225,7 +329,7 @@
 <p>*Hit these to move to the next track*</p>
 <table>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long' || @profile.track ==  'hrt'%>
             <th>Extended Capacity</th>
         <% end %>
         <th>Capacity</th>
@@ -233,15 +337,45 @@
         <th>Power</th>
     </tr>
     <tr>
-        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
+        <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' || @profile.track ==  'operator_long'%>
             <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
             <td><%= @capacity.name %>: 40 minutes 0 seconds</td>
             <td><%= @extended_power.name %>: 9 minutes 0 seconds </td>
             <td><%= @power.name %>: 1 minutes 10 seconds</td>
-        <% else %>
+        <% elsif @profile.track ==  'hrt' %>
+            <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
+            <td><%= @capacity.name %>: 40 minutes 0 seconds</td>
+            <td><%= @extended_power.name %>: 14 minutes 0 seconds </td>
+            <td><%= @power.name %>: 1 minutes 10 seconds</td>
+        <% elsif @profile.track ==  'fire_wildland' %>
+            <td><%= @extended_capacity.name %>: 2 hours 0 minutes</td>
+            <td><%= @capacity.name %>: 58 minutes 0 seconds</td>
+            <td><%= @extended_power.name %>: 10 minutes 30 seconds </td>
+            <td><%= @power.name %>: 1 minutes 20 seconds</td>
+        <% elsif @profile.track == 'sof_land_prep' %>
             <td>4 Mile Ruck: 60 minutes 0 seconds</td>
             <td><%= @extended_power.name %>: 10 minutes 30 seconds </td>
             <td><%= @power.name %>: 1 minutes 20 seconds</td>
+        <% elsif @profile.track == 'civilian' %>
+            <% if @capacity.name == '4 Mile Ruck' %>
+                <td><%= @capacity.name %>: 68 minutes 0 seconds</td>
+            <% else %>
+                <td><%= @capacity.name %>: 50 minutes 0 seconds</td>
+            <% end %>
+            <% if @extended_power.name == '2000m row' %>
+                <td><%= @extended_power.name %>: 8 minutes 30 seconds </td>
+            <% else %>
+                <td><%= @extended_power.name %>: 12 minutes 0 seconds </td>
+            <% end %>
+            <% if @power.name == '500m Row' %>
+                <td><%= @power.name %>: 1 minutes 30 seconds</td>
+            <% else %>
+                <td><%= @power.name %>: 1 minutes 50 seconds</td>
+            <% end %>
+        <% else %>
+            <td>4 Mile Ruck: 56 minutes 0 seconds</td>
+            <td><%= @extended_power.name %>: 9 minutes 0 seconds </td>
+            <td><%= @power.name %>: 1 minutes 10 seconds</td>
         <% end %>
     </tr>
     <% if @profile.track == 'sof_mar_cont' %>
@@ -251,7 +385,7 @@
             <td><%= @extended_power_swim.name %>: 9 minutes 0 seconds </td>
             <td> </td>
         </tr>
-    <% elsif @profile.track == 'sof_land_prep' %>
+    <% elsif @profile.track == 'sof_land_prep' || @profile.track == 'leo' || @profile.track == 'fire_urban' %>
         <tr>
             <td>3 Mile Run: 24 minutes 0 seconds</td>
             <td></td>
@@ -263,28 +397,87 @@
             <td><%= @extended_power_swim.name %>: 10 minutes 30 seconds </td>
             <td></td>
         </tr>
+    <% elsif @profile.track == 'operator_short' %>
+        <tr>
+            <td>5 Mile Run: 40 minutes 0 seconds</td>
+            <td></td>
+            <td></td>
+        </tr>
     <% end %>
 </table>
 
 <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
 <div class = "secondary_chart">
-    <% wc_series = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i}}] %>
-    <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
-                    xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
-                    yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
-                    dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
-                    tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
-                    plotOptions: { bar: { distributed: true }}, 
-                    legend: { show: false }} %>
-    <%= column_chart(wc_series, options) %>
+    <% if @profile.track ==  'operator_short' || @profile.track ==  'operator_long' %>
+        <% wc_series_2 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i, "TGU" => (@tgu_score).to_i}}] %>
+        <% options_2 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
+                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
+                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
+                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
+                        plotOptions: { bar: { distributed: true }}, 
+                        legend: { show: false }} %>
+        <%= column_chart(wc_series_2, options_2) %>
+    <% elsif @profile.track ==  'hrt' %>
+        <% wc_series_3 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i, "Dips" => (@dips_score * 100).to_i}}] %>
+        <% options_3 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
+                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
+                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
+                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
+                        plotOptions: { bar: { distributed: true }}, 
+                        legend: { show: false }} %>
+        <%= column_chart(wc_series_3, options_3) %>
+    <% elsif @profile.track ==  'civilian' %>
+        <% wc_series_4 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i}}] %>
+        <% options_4 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
+                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
+                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
+                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
+                        plotOptions: { bar: { distributed: true }}, 
+                        legend: { show: false }} %>
+        <%= column_chart(wc_series_4, options_4) %>
+    <% else %>
+        <% wc_series = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i}}] %>
+        <% options = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
+                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
+                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
+                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
+                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
+                        plotOptions: { bar: { distributed: true }}, 
+                        legend: { show: false }} %>
+        <%= column_chart(wc_series, options) %>
+    <% end %>
 </div>
 <h3 class="headline"> *Your Current Numbers* </h3>
 <table>
-    <tr>
-        <td>Pushups: <%= @pushups.value.to_i %> reps</td>
-        <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
-        <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
-    </tr>
+    <% if @profile.track ==  'operator_short' || @profile.track ==  'operator_long'%>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+            <td>TGU: <%= @tgu.value.to_i %> </td>
+        </tr>
+    <% elsif @profile.track ==  'hrt' %>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+            <td>Dips: <%= @dips.value.to_i %> </td>
+        </tr>
+    <% elsif @profile.track ==  'civilian' %>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+        </tr>
+    <% else %>
+        <tr>
+            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
+            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
+            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
+        </tr>
+    <% end %>
 </table>
 <h3 class="headline"> Work capacity standards for this track </h3>
 <p>*Hit these to move to the next track*</p>
@@ -293,6 +486,27 @@
         <% if @profile.track ==  'sof_land_cont' || @profile.track ==  'sof_mar_cont' %>
             <td>Pushups: 80 reps</td>
             <td>Pull-ups: 15 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+        <% elsif @profile.track ==  'operator_short' || @profile.track ==  'operator_long' %>
+            <td>Pushups: 50 reps</td>
+            <td>Pull-ups: 8 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+            <td>TGU: 70# / 32KG </td>
+        <% elsif @profile.track ==  'hrt' %>
+            <td>Pushups: 50 reps</td>
+            <td>Pull-ups: 8 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+            <td>Dips: 20 reps </td>
+        <% elsif @profile.track ==  'leo' || @profile.track == 'fire_urban' %>
+            <td>Pushups: 40 reps</td>
+            <td>Pull-ups: 6 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+        <% elsif @profile.track ==  'fire_wildland' %>
+            <td>Pushups: 50 reps</td>
+            <td>Pull-ups: 8 reps</td>
+            <td>Hang: 1 minute 30 seconds </td>
+        <% elsif @profile.track ==  'civilian' %>
+            <td>Pushups: 20 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
         <% else %>
             <td>Pushups: 50 reps</td>
