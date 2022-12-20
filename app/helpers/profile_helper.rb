@@ -1,23 +1,63 @@
 module ProfileHelper
+
+    def profile_creation 
+        if params[:units] == 'metric'
+            bodyweight = params[:body_weight].to_f * 2.20462
+        else  
+            bodyweight = params[:body_weight].to_f
+        end  
+        @profile = @user.profiles.create!(weight: bodyweight, track: params[:profile], strength_lower_score: 0, strength_upper_score: 0, strength_score: 0, conditioning_extended_capacity_score: 0, conditioning_capacity_score: 0, conditioning_extended_power_score: 0, conditioning_power_score: 0, conditioning_score: 0, work_capacity_score: 0, unit_type: params[:units])
+    end
     
-    def sof_land_contract_profile_calc_starter_method(profile)
-        @profile = profile
-        extended_capacity = profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
-        capacity = profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: "#{params[:five_mile_minutes].to_i + (params[:five_mile_seconds].to_f / 60)}")
-        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
-        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    def profile_starter_methods 
+        if params[:profile] == "sof_land_cont"
+            sof_land_contract_profile_calc_starter_method
+        elsif params[:profile] == "sof_mar_cont"
+            sof_maritime_contract_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "sof_land_prep"
+            sof_land_prep_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "operator_short"
+           operator_short_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "operator_long"
+           operator_long_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "hrt"
+           hrt_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "leo" || params[:profile] == "fire_urban"
+           leo_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "fire_wildland"
+           fire_wildland_profile_calc_starter_method(@profile)
+        elsif params[:profile] == "civilian"
+           civilian_profile_calc_starter_method(@profile)
+        else 
+            sof_maritime_prep_profile_calc_starter_method(@profile)
+        end 
+    end 
+    
+    def sof_land_contract_profile_calc_starter_method
+        sof_land_contract_profile_conditioning_exercise_creator
         unit_conversion
-        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
-        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
-        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
-        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
-        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
-        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
-        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
-        strength_lower_calc_cont(squat_variation, deadlift_variation)
-        strength_upper_calc_cont(press_variation, weighted_pullup)
-        work_capacity_calc_cont(pushups, pullups, hang)
-        conditioning_calc_land_cont(extended_capacity, capacity, extended_power, power)
+        sof_land_contract_profile_strength_wc_exercise_creator
+        strength_lower_calc_cont(@squat_variation, @deadlift_variation)
+        strength_upper_calc_cont(@press_variation, @weighted_pullup)
+        work_capacity_calc_cont(@pushups, @pullups, @hang)
+        conditioning_calc_land_cont(@extended_capacity, @capacity, @extended_power, @power)
+    end 
+
+    def sof_land_contract_profile_conditioning_exercise_creator 
+        @extended_capacity = @profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
+        @capacity = @profile.exercises.create!(category: 'conditioning', name:'5 mile run', value: "#{params[:five_mile_minutes].to_i + (params[:five_mile_seconds].to_f / 60)}")
+        @extended_power = @profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        @power = @profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    end 
+
+    def sof_land_contract_profile_strength_wc_exercise_creator
+        @squat_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        @deadlift_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        @press_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        @weighted_pullup = @profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        @pushups = @profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        @pullups = @profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
     end 
 
     def sof_maritime_contract_profile_calc_starter_method(profile)
@@ -955,7 +995,7 @@ module ProfileHelper
         strength_calc
     end
 
-    def profile_update 
+    def profile_update  
         @profile.update(weight: @profile.weight, track: @profile.track, strength_lower_score: @strength_lower_score, strength_upper_score: @strength_upper_score, strength_score: @strength_score, conditioning_extended_capacity_score: (@extended_capacity_score * 100), conditioning_capacity_score: (@capacity_score * 100), conditioning_extended_power_score: (@extended_power_score * 100), conditioning_power_score: (@power_score * 100), conditioning_score: @conditioning_score, work_capacity_score: @work_capacity_score)
     end 
 end 
