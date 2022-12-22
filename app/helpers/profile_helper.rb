@@ -25,9 +25,9 @@ module ProfileHelper
         elsif params[:profile] == "leo" || params[:profile] == "fire_urban"
            leo_profile_calc_starter_method
         elsif params[:profile] == "fire_wildland"
-           fire_wildland_profile_calc_starter_method(@profile)
+           fire_wildland_profile_calc_starter_method
         elsif params[:profile] == "civilian"
-           civilian_profile_calc_starter_method(@profile)
+           civilian_profile_calc_starter_method
         else 
             sof_maritime_prep_profile_calc_starter_method
         end 
@@ -251,42 +251,56 @@ module ProfileHelper
         @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
     end 
 
-    def fire_wildland_profile_calc_starter_method(profile)
-        @profile = profile 
-        extended_capacity = profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
-        capacity = profile.exercises.create!(category: 'conditioning', name:'4 mile ruck', value: "#{(params[:four_mile_ruck_hours].to_i * 60) + params[:four_mile_ruck_minutes].to_i}")
-        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
-        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    def fire_wildland_profile_calc_starter_method
+        fire_wildland_profile_conditioning_exercise_creator
         unit_conversion
-        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
-        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
-        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
-        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
-        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
-        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
-        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
-        strength_lower_calc_leo(squat_variation, deadlift_variation)
-        strength_upper_calc_prep(press_variation, weighted_pullup)
-        work_capacity_calc_fire_wildland(pushups, pullups, hang)
-        conditioning_calc_fire_wildland(extended_capacity, capacity, extended_power, power)
+        fire_wildland_profile_strength_wc_exercise_creator
+        strength_lower_calc_leo(@squat_variation, @deadlift_variation)
+        strength_upper_calc_prep(@press_variation, @weighted_pullup)
+        work_capacity_calc_fire_wildland(@pushups, @pullups, @hang)
+        conditioning_calc_fire_wildland(@extended_capacity, @capacity, @extended_power, @power)
     end 
 
-    def civilian_profile_calc_starter_method(profile)
-        @profile = profile 
-        capacity = profile.exercises.create!(category: 'conditioning', name: params[:capacity], value: "#{(params[:capacity_hours].to_i * 60) + params[:capacity_minutes].to_i}")
-        extended_power = profile.exercises.create!(category: 'conditioning', name: params[:extended_power], value: "#{params[:extended_power_minutes].to_i + (params[:extended_power_seconds].to_f / 60)}")
-        power = profile.exercises.create!(category: 'conditioning', name: params[:power], value: "#{params[:power_minutes].to_i + (params[:power_seconds].to_f / 60)}")
+    def fire_wildland_profile_conditioning_exercise_creator
+        @extended_capacity = @profile.exercises.create!(category: 'conditioning', name:'8 mile ruck', value: "#{(params[:ruck_hours].to_i * 60) + params[:ruck_minutes].to_i}")
+        @capacity = @profile.exercises.create!(category: 'conditioning', name:'4 mile ruck', value: "#{(params[:four_mile_ruck_hours].to_i * 60) + params[:four_mile_ruck_minutes].to_i}")
+        @extended_power = @profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        @power = @profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    end 
+
+    def fire_wildland_profile_strength_wc_exercise_creator
+        @squat_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        @deadlift_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        @press_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        @weighted_pullup = @profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        @pushups = @profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        @pullups = @profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+    end 
+
+    def civilian_profile_calc_starter_method
+        civilian_profile_conditioning_exercise_creator
         unit_conversion
-        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
-        deadlift_variation = profile.exercises.create!(category: 'strength', name: "Trap Bar", value: @deadlift_weight)
-        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
-        row = profile.exercises.create!(category: 'strength', name: "3 Point Row", value: @row_weight)
-        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
-        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
-        strength_lower_calc_civilian(squat_variation, deadlift_variation)
-        strength_upper_calc_civilian(press_variation, row)
-        work_capacity_calc_civilian(pushups, hang)
-        conditioning_calc_civilian(capacity, extended_power, power)
+        civilian_profile_strength_wc_exercise_creator
+        strength_lower_calc_civilian(@squat_variation, @deadlift_variation)
+        strength_upper_calc_civilian(@press_variation, @row)
+        work_capacity_calc_civilian(@pushups, @hang)
+        conditioning_calc_civilian(@capacity, @extended_power, @power)
+    end 
+
+    def civilian_profile_conditioning_exercise_creator
+        @capacity = @profile.exercises.create!(category: 'conditioning', name: params[:capacity], value: "#{(params[:capacity_hours].to_i * 60) + params[:capacity_minutes].to_i}")
+        @extended_power = @profile.exercises.create!(category: 'conditioning', name: params[:extended_power], value: "#{params[:extended_power_minutes].to_i + (params[:extended_power_seconds].to_f / 60)}")
+        @power = @profile.exercises.create!(category: 'conditioning', name: params[:power], value: "#{params[:power_minutes].to_i + (params[:power_seconds].to_f / 60)}")
+    end 
+
+    def civilian_profile_strength_wc_exercise_creator
+        @squat_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        @deadlift_variation = @profile.exercises.create!(category: 'strength', name: "Trap Bar", value: @deadlift_weight)
+        @press_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        @row = @profile.exercises.create!(category: 'strength', name: "3 Point Row", value: @row_weight)
+        @pushups = @profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
     end 
 
     def unit_conversion
@@ -493,7 +507,7 @@ module ProfileHelper
     end
 
     def work_capacity_calc_civilian(pushups, hang)
-        pushup_score = (pushups.value / 50.0 - 0.5) * 2.0
+        pushup_score = (pushups.value / 20.0 - 0.5) * 2.0
         pushup_score <= 0 ? pushup_score = 0 : pushup_score
         pushup_score >= 1.0 ? pushup_score = 1 : pushup_score
 
@@ -911,7 +925,7 @@ module ProfileHelper
     end
 
     def goblet_squat_trap_bar_calc_civilian(squat_variation, deadlift_variation)
-        relative_squat_percent = squat_variation.value / (@profile.weight * 0.6)
+        relative_squat_percent = squat_variation.value / (@profile.weight * 0.5)
         relative_squat_percent <= 0 ? relative_squat_percent = 0 : relative_squat_percent 
         relative_squat_percent >= 1.0 ? relative_squat_percent = 1 : relative_squat_percent 
         squat_score = (relative_squat_percent - 0.5) * 200
@@ -1011,13 +1025,13 @@ module ProfileHelper
     end
 
     def db_bench_press_row_calc_civilian(press_variation, row)
-        relative_press_percent = press_variation.value / (@profile.weight * 0.35)
+        relative_press_percent = press_variation.value / (@profile.weight * 0.30)
         relative_press_percent <= 0 ? relative_press_percent = 0 : relative_press_percent 
         relative_press_percent >= 1.0 ? relative_press_percent = 1 : relative_press_percent 
         press_score = (relative_press_percent - 0.5) * 200
         press_score <= 0 ? press_score = 0 : press_score 
 
-        relative_row_percent = row.value / (@profile.weight * 0.45)
+        relative_row_percent = row.value / (@profile.weight * 0.40)
         relative_row_percent <= 0 ? relative_row_percent = 0 : relative_row_percent 
         relative_row_percent >= 1.0 ? relative_row_percent = 1 : relative_row_percent 
         row_score = (relative_row_percent - 0.5) * 200
@@ -1034,7 +1048,7 @@ module ProfileHelper
         press_score = (relative_press_percent - 0.5) * 200
         press_score <= 0 ? press_score = 0 : press_score 
 
-        relative_row_percent = row.value / (@profile.weight * 0.45)
+        relative_row_percent = row.value / (@profile.weight * 0.40)
         relative_row_percent <= 0 ? relative_row_percent = 0 : relative_row_percent 
         relative_row_percent >= 1.0 ? relative_row_percent = 1 : relative_row_percent 
         row_score = (relative_row_percent - 0.5) * 200
