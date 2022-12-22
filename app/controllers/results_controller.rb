@@ -34,7 +34,7 @@ class ResultsController < ApplicationController
                 work_capacity_scores_fire_wildland
             elsif @profile.track == 'operator_short'
                 @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "5 Mile Run"))[0]
-                @tgu = @profile.exercises.where(name: "TGU")[0]
+                # @tgu = @profile.exercises.where(name: "TGU")[0]
                 work_capacity_scores_operator 
             elsif @profile.track == 'operator_long'
                 @extended_capacity = @profile.exercises.where(name: "8 mile ruck")[0] 
@@ -106,11 +106,6 @@ class ResultsController < ApplicationController
         @hang_score = (@hang.value / 1.5 - 0.5) * 2
         @hang_score <= 0 ? @hang_score = 0 : @hang_score 
         @hang_score >= 1.0 ? @hang_score = 1 : @hang_score 
-
-        tgu_percent = @tgu.value / 70
-        tgu_percent >= 1 ? tgu_percent = 1 : tgu_percent
-        @tgu_score = (tgu_percent - 0.5) * 200
-        @tgu_score <= 0 ? @tgu_score = 0 : @tgu_score
     end
 
      def work_capacity_scores_hrt 
