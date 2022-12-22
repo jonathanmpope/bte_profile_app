@@ -17,7 +17,7 @@ module ProfileHelper
         elsif params[:profile] == "sof_land_prep"
             sof_land_prep_profile_calc_starter_method
         elsif params[:profile] == "operator_short"
-           operator_short_profile_calc_starter_method(@profile)
+           operator_short_profile_calc_starter_method
         elsif params[:profile] == "operator_long"
            operator_long_profile_calc_starter_method(@profile)
         elsif params[:profile] == "hrt"
@@ -142,24 +142,31 @@ module ProfileHelper
         @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
     end 
 
-    def operator_short_profile_calc_starter_method(profile)
-        @profile = profile 
-        capacity = profile.exercises.create!(category: 'conditioning', name: params[:operator_run_or_ruck], value: "#{(params[:operator_ruck_or_run_hours].to_i * 60) + params[:operator_ruck_or_run_minutes].to_i}")
-        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
-        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    def operator_short_profile_calc_starter_method
+        operator_short_profile_conditioning_exercise_creator
         unit_conversion
-        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
-        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
-        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
-        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
-        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
-        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
-        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
-        tgu = profile.exercises.create!(category: 'work capacity', name: "TGU", value: "#{params[:tgu_weight].to_i}")
-        strength_lower_calc_cont(squat_variation, deadlift_variation)
-        strength_upper_calc_cont(press_variation, weighted_pullup)
-        work_capacity_calc_operator(pushups, pullups, hang, tgu)
-        conditioning_calc_operator_short(capacity, extended_power, power)
+        operator_short_profile_strength_wc_exercise_creator
+        strength_lower_calc_cont(@squat_variation, @deadlift_variation)
+        strength_upper_calc_cont(@press_variation, @weighted_pullup)
+        work_capacity_calc_operator(@pushups, @pullups, @hang, @tgu)
+        conditioning_calc_operator_short(@capacity, @extended_power, @power)
+    end 
+
+    def operator_short_profile_conditioning_exercise_creator
+        @capacity = @profile.exercises.create!(category: 'conditioning', name: params[:operator_run_or_ruck], value: "#{(params[:operator_ruck_or_run_hours].to_i * 60) + params[:operator_ruck_or_run_minutes].to_i}")
+        @extended_power = @profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        @power = @profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    end
+    
+    def operator_short_profile_strength_wc_exercise_creator
+        @squat_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        @deadlift_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        @press_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        @weighted_pullup = @profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        @pushups = @profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        @pullups = @profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
+        @tgu = @profile.exercises.create!(category: 'work capacity', name: "TGU", value: "#{params[:tgu_weight].to_i}")
     end 
 
     def operator_long_profile_calc_starter_method(profile)
