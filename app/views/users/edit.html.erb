@@ -1,0 +1,7 @@
+<%= form_with url: '/password_reset', method: :patch, local: true do |form|%>
+    <%= form.label :email %>
+    <%= form.text_field :email, required: true %>
+    <br>
+    <br>
+    <%= form.submit "Reset Password" %> 
+<% end %>
