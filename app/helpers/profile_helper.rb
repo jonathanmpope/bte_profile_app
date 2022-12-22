@@ -23,7 +23,7 @@ module ProfileHelper
         elsif params[:profile] == "hrt"
            hrt_profile_calc_starter_method
         elsif params[:profile] == "leo" || params[:profile] == "fire_urban"
-           leo_profile_calc_starter_method(@profile)
+           leo_profile_calc_starter_method
         elsif params[:profile] == "fire_wildland"
            fire_wildland_profile_calc_starter_method(@profile)
         elsif params[:profile] == "civilian"
@@ -225,25 +225,30 @@ module ProfileHelper
         @dips = @profile.exercises.create!(category: 'work capacity', name: "Dips", value: "#{params[:dip_reps].to_i}")
     end 
 
-    def leo_profile_calc_starter_method(profile)
+    def leo_profile_calc_starter_method
+        leo_profile_conditioning_exercise_creator
         unit_conversion
         leo_profile_strength_wc_exercise_creator
-        # @profile = profile 
-        capacity = profile.exercises.create!(category: 'conditioning', name: params[:prep_run_or_ruck], value: "#{(params[:ruck_or_run_hours].to_i * 60) + params[:ruck_or_run_minutes].to_i}")
-        extended_power = profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
-        power = profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
-        # unit_conversion
-        squat_variation = profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
-        deadlift_variation = profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
-        press_variation = profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
-        weighted_pullup = profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
-        pushups = profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
-        pullups = profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
-        hang = profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
-        strength_lower_calc_leo(squat_variation, deadlift_variation)
-        strength_upper_calc_prep(press_variation, weighted_pullup)
-        work_capacity_calc_leo(pushups, pullups, hang)
-        conditioning_calc_land_prep(capacity, extended_power, power)
+        strength_lower_calc_leo(@squat_variation, @deadlift_variation)
+        strength_upper_calc_prep(@press_variation, @weighted_pullup)
+        work_capacity_calc_leo(@pushups, @pullups, @hang)
+        conditioning_calc_land_prep(@capacity, @extended_power, @power)
+    end 
+
+    def leo_profile_conditioning_exercise_creator
+        @capacity = @profile.exercises.create!(category: 'conditioning', name: params[:prep_run_or_ruck], value: "#{(params[:ruck_or_run_hours].to_i * 60) + params[:ruck_or_run_minutes].to_i}")
+        @extended_power = @profile.exercises.create!(category: 'conditioning', name:'1.5 mile run', value: "#{params[:one_and_half_mile_run_minutes].to_i + (params[:one_and_half_mile_run_seconds].to_f / 60)}")
+        @power = @profile.exercises.create!(category: 'conditioning', name:'400m run', value: "#{params[:four_hundred_run_minutes].to_i + (params[:four_hundred_run_seconds].to_f / 60)}")
+    end 
+
+    def leo_profile_strength_wc_exercise_creator
+        @squat_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:squat]}", value: @squat_weight)
+        @deadlift_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:deadlift]}", value: @deadlift_weight)
+        @press_variation = @profile.exercises.create!(category: 'strength', name: "#{params[:press]}", value: @press_weight)
+        @weighted_pullup = @profile.exercises.create!(category: 'strength', name: "Weighted Pull-up", value: @pullup_weight)
+        @pushups = @profile.exercises.create!(category: 'work capacity', name: "Pushups", value: "#{params[:pushup_reps].to_i}")
+        @pullups = @profile.exercises.create!(category: 'work capacity', name: "Pull-ups", value: "#{params[:pullup_reps].to_i}")
+        @hang = @profile.exercises.create!(category: 'work capacity', name: "Hang", value: "#{params[:hang_minutes].to_i + (params[:hang_seconds].to_f / 60)}")
     end 
 
     def fire_wildland_profile_calc_starter_method(profile)
