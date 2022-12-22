@@ -1,7 +1,6 @@
 class ProfilesController < ApplicationController
     before_action :require_logged_in
     include ProfileHelper
-    include CreateProfileHelper
 
     def new 
         if params[:commit] != nil  
