@@ -22,6 +22,7 @@ class UsersController < ApplicationController
         if user != nil 
             password_update(user)
         else 
+            redirect_to "/password_reset"
             flash[:error] = "That email is not associated with an account"
         end 
     end 
