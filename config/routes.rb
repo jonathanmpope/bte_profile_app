@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # resources :users, only: [:new, :create]
   get '/users/new', to: 'users#new'
   post '/users', to: 'users#create'
+  get '/password_reset', to: 'users#edit'
+  patch '/password_reset', to: 'users#update'
 
   get '/results', to: 'results#show'
 end

@@ -4,9 +4,9 @@ RSpec.describe 'the landing page' do
     before :each do 
         visit '/'
 
-        user = User.create!(email: 'test@test.com', password: "test", password_confirmation: "test")
+        user = User.create!(email: 'test@test.com', password: "test123", password_confirmation: "test123")
 
-        password = "test"
+        password = "test123"
         @email = 'test@test.com'
 
         fill_in :email, with: @email
@@ -400,7 +400,6 @@ RSpec.describe 'the landing page' do
         fill_in("hang_seconds", with:19)
         choose(id="units_imperial")
         fill_in("body_weight", with:195)
-        fill_in("tgu_weight", with:60)
         select("Back Squat", from: "squat")
         fill_in("squat_weight", with:292) 
         select("Trap Bar", from: "deadlift")
@@ -409,13 +408,13 @@ RSpec.describe 'the landing page' do
         fill_in("press_weight", with:241)
         fill_in("pullup_weight", with:261)
         click_button("Submit Results") 
-
+        
         expect(current_path).to eq("/results")
         expect(page).to have_content("Operator(short) Assessment Results")
-        expect(page).to have_content("Overall Score: 80")
+        expect(page).to have_content("Overall Score: 82")
         expect(page).to have_content("Strength Score: 86")
         expect(page).to have_content("Conditioning Score: 67")
-        expect(page).to have_content("Work Capacity Score: 87")
+        expect(page).to have_content("Work Capacity Score: 92")
     end 
 
     it 'has operator long track tests' do
@@ -438,7 +437,6 @@ RSpec.describe 'the landing page' do
         fill_in("hang_seconds", with:19)
         choose(id="units_imperial")
         fill_in("body_weight", with:195)
-        fill_in("tgu_weight", with:60)
         select("Back Squat", from: "squat")
         fill_in("squat_weight", with:292) 
         select("Trap Bar", from: "deadlift")
@@ -447,13 +445,13 @@ RSpec.describe 'the landing page' do
         fill_in("press_weight", with:241)
         fill_in("pullup_weight", with:261)
         click_button("Submit Results") 
-        
+
         expect(current_path).to eq("/results")
         expect(page).to have_content("Operator(long) Assessment Results")
-        expect(page).to have_content("Overall Score: 82")
+        expect(page).to have_content("Overall Score: 84")
         expect(page).to have_content("Strength Score: 86")
         expect(page).to have_content("Conditioning Score: 73")
-        expect(page).to have_content("Work Capacity Score: 87")
+        expect(page).to have_content("Work Capacity Score: 92")
     end 
 
     it 'has HRT track tests' do
@@ -634,8 +632,8 @@ RSpec.describe 'the landing page' do
        
         expect(current_path).to eq("/results")
         expect(page).to have_content("Civilian Assessment Results")
-        expect(page).to have_content("Overall Score: 72")
-        expect(page).to have_content("Strength Score: 42")
+        expect(page).to have_content("Overall Score: 77")
+        expect(page).to have_content("Strength Score: 59")
         expect(page).to have_content("Conditioning Score: 85")
         expect(page).to have_content("Work Capacity Score: 88")
     end 

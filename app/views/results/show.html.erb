@@ -44,7 +44,7 @@
 <% elsif @profile_bias == 'Strength' %>
     <h3 class="headline"> Strength is your limiting factor. Your program should bias development in this area.</h3>
 <% else %>
-    <h3 class="headline"> Your hitting, or are close to hitting all the standards in this track. It's time to level up!</h3>
+    <h3 class="headline"> You are hitting, or are close to hitting all the standards in this track. It's time to level up!</h3>
 <% end %> 
 <p id='result_graph_info'>*Work capacity is a product of strength & conditioning, so even if this score is low, it's never the main focus of a program, but is always a consideration in all programs.*</p>
 <h2>Strength Score: <%= "#{@profile.strength_score.round(0)}" %></h2>
@@ -408,17 +408,7 @@
 
 <h2>Work Capacity Score: <%= "#{@profile.work_capacity_score.round(0)}" %></h2>
 <div class = "secondary_chart">
-    <% if @profile.track ==  'operator_short' || @profile.track ==  'operator_long' %>
-        <% wc_series_2 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i, "TGU" => (@tgu_score).to_i}}] %>
-        <% options_2 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
-                        xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
-                        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style: { colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '16px', fontWeight: 'bold'}}}, 
-                        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold' }}, 
-                        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}, 
-                        plotOptions: { bar: { distributed: true }}, 
-                        legend: { show: false }} %>
-        <%= column_chart(wc_series_2, options_2) %>
-    <% elsif @profile.track ==  'hrt' %>
+    <% if @profile.track ==  'hrt' %>
         <% wc_series_3 = [{ name: "Your Score", data: {"Pushups" => (@pushup_score * 100).to_i , "Pull-ups" => (@pullup_score * 100).to_i, "Hang" => (@hang_score * 100).to_i, "Dips" => (@dips_score * 100).to_i}}] %>
         <% options_3 = { theme: 'palette1', fill: { opacity: 0.7 }, chart: {height: '400px'}, 
                         xaxis: {labels: {show: true, style:{colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"], fontSize: '20px', fontWeight: 'bold'}}}, 
@@ -452,14 +442,7 @@
 </div>
 <h3 class="headline"> *Your Current Numbers* </h3>
 <table>
-    <% if @profile.track ==  'operator_short' || @profile.track ==  'operator_long'%>
-        <tr>
-            <td>Pushups: <%= @pushups.value.to_i %> reps</td>
-            <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
-            <td>Hang: <%= @hang.value.to_i %> minute(s) <%= ((@hang.value - @hang.value.to_i) * 60).round(0) %> seconds </td>
-            <td>TGU: <%= @tgu.value.to_i %> </td>
-        </tr>
-    <% elsif @profile.track ==  'hrt' %>
+    <% if @profile.track ==  'hrt' %>
         <tr>
             <td>Pushups: <%= @pushups.value.to_i %> reps</td>
             <td>Pull-ups: <%= @pullups.value.to_i %> reps</td>
@@ -491,7 +474,6 @@
             <td>Pushups: 50 reps</td>
             <td>Pull-ups: 8 reps</td>
             <td>Hang: 1 minute 30 seconds </td>
-            <td>TGU: 70# / 32KG </td>
         <% elsif @profile.track ==  'hrt' %>
             <td>Pushups: 50 reps</td>
             <td>Pull-ups: 8 reps</td>

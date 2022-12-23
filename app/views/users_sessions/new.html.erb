@@ -17,7 +17,10 @@
         <%= form.text_field :password, required: true %>
         <br>
         <br>
-        <%= form.submit "Login" %>
+        <%= form.submit "Login" %> 
     <% end %>
+    <%= link_to 'Forgot your password?', '/password_reset', method: :get %>
+    <br>
+    <br>
 <% end %>
 </div>
