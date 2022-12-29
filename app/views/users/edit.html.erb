@@ -1,3 +1,5 @@
+<h2> Already have an account?</h2>
+<h2><%= link_to "Login", '/', {:class => "link_2"} %></h2>
 <%= form_with url: '/password_reset', method: :patch, local: true do |form|%>
     <%= form.label :email %>
     <%= form.text_field :email, required: true %>
