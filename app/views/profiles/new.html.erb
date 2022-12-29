@@ -33,6 +33,9 @@
     <% else %>
         <h2>SOF Maritime Prep Assessments</h2>
     <% end %>
+    <h3>Instructions:</h3>
+    <p>Input the data in the form below from your assessment week</p>
+    <p>Strength inputs = projected 1-rep max (found in the app when opening a workout).</p>
     <%= form_with url: '/profile', method: :post, local: true do |form|%>
         <% if @track == 'sof_mar_cont'  || @track == 'sof_land_cont' || @track == 'operator_long' ||  @track == 'hrt' ||  @track == 'fire_wildland' %>
             <h3>8 Mile / 12.9 km Ruck:</h3>
@@ -148,12 +151,16 @@
         <%= form.number_field :hang_seconds, in: 0..59, required: true %>
         <h3>Strength Work Units:</h3>
         <%= form.radio_button :units, "imperial", required: true %>
-        <%= form.label :units, "Freedom Units (pounds)" %>
+        <%= form.label :units, "Imperial (pounds)" %>
         <%= form.radio_button :units, "metric" %>
         <%= form.label :units, "Metric (kilograms)" %>
         <h3>Current Bodyweight:</h3>
         <%= form.label :weight %>
         <%= form.number_field :body_weight, in: 0..999, required: true %>
+        <p>*Barbell front + back squat, bench press, barbell deadlift, and trap bar deadlift = barbell weight + weights on the bar.*</p>
+        <p>*Goblet squat, overhead press (1-arm), 3-point row = dumbbell or kettlebell weight*</p>
+        <p>*Weighted Pull-up = your bodyweight plus any additional weight (use projected 1-rep max from Everfit).*</p>
+        <p>*If you need to re-calculate a 1-rep max, you can <a href="https://www.nasm.org/resources/one-rep-max-calculator" target="_blank">calculate one here</a>*</p>
         <% if @track != 'civilian' %>
             <h3>Squat:</h3>
             <%= form.select :squat, [["Back Squat",'Back Squat'],["Front Squat",'Front Squat']], required: true %>

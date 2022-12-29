@@ -80,7 +80,7 @@ module ResultsHelper
     end 
 
     def profile_bias_calc
-        if @profile.strength_score >= 90 && @profile.strength_score >= 90 && @profile.work_capacity_score >= 90 
+        if @profile.strength_score >= 90 && @profile.conditioning_score >= 90 && @profile.work_capacity_score >= 90 
             @profile_bias = 'Progress'
         elsif (@profile.conditioning_score - @profile.strength_score) > 10 && @profile.conditioning_score > 70
             @profile_bias = 'Strength'
