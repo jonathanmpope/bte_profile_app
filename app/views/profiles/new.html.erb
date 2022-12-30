@@ -186,6 +186,7 @@
             <%= form.label :weight %>
             <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
             <h3>Press:</h3>
+            <p>*DB Bench Press = weight of one of the db's (not both combined).*</p>
             <%= form.select :press, [["DB Bench Press",'DB Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
             <%= form.label :weight %>
             <%= form.number_field :press_weight, in: 0..999, required: true %>
