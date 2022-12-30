@@ -1,6 +1,9 @@
 <% if current_user %>
     <h2>Welcome, <%=current_user.email%>!</h2>
 <% end %>
+<p>*Video explanation of how to use the app*</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cxMeM08SJK8" frameborder="0" allowfullscreen></iframe>
+
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>
     <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long'], ['HRT','hrt'], ['LEO','leo'], ['Fire Urban','fire_urban'], ['Fire Wildland','fire_wildland'], ['Civilian','civilian']], required: true %>
@@ -186,6 +189,7 @@
             <%= form.label :weight %>
             <%= form.number_field :deadlift_weight, in: 0..999, required: true %>
             <h3>Press:</h3>
+            <p>*DB Bench Press = weight of one of the db's (not both combined).*</p>
             <%= form.select :press, [["DB Bench Press",'DB Bench Press'],["Overhead Press (1 Arm)",'Overhead Press (1 Arm)']], required: true %>
             <%= form.label :weight %>
             <%= form.number_field :press_weight, in: 0..999, required: true %>
