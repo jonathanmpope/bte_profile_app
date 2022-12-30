@@ -1,7 +1,7 @@
 <% if current_user %>
     <h2>Welcome, <%=current_user.email%>!</h2>
 <% end %>
-<p>*Video explanation of how to use the app*</p>
+<p>*Here's how to use this app (watch the video before asking us questions)*</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cxMeM08SJK8" frameborder="0" allowfullscreen></iframe>
 
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
