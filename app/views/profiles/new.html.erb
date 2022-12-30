@@ -1,6 +1,9 @@
 <% if current_user %>
     <h2>Welcome, <%=current_user.email%>!</h2>
 <% end %>
+<p>*Video explanation of how to use the app*</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cxMeM08SJK8" frameborder="0" allowfullscreen></iframe>
+
 <%= form_with url: '/profile', method: :get, local: true do |form|%>
     <h1>Assessment Track</h1>
     <%= form.select :track, [["SOF Maritime Contract",'sof_mar_cont'],["SOF Land Contract",'sof_land_cont'],['SOF Maritime Prep','sof_mar_prep'], ['SOF Land Prep','sof_land_prep'], ['Operator - Short','operator_short'], ['Operator - Long','operator_long'], ['HRT','hrt'], ['LEO','leo'], ['Fire Urban','fire_urban'], ['Fire Wildland','fire_wildland'], ['Civilian','civilian']], required: true %>
