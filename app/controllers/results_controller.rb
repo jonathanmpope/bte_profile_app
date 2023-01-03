@@ -5,6 +5,8 @@ class ResultsController < ApplicationController
     def show 
         if params[:profile_id] != nil
             @profile = current_user.profiles.find(params[:profile_id])
+        elsif params[:admin_profile_id] != nil 
+            @profile = Profile.find(params[:admin_profile_id])
         else 
             @profile = current_user.profiles.last
         end 

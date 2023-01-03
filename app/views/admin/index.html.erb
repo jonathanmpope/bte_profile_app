@@ -8,15 +8,16 @@
   <%= f.submit "Search" %>
 <% end %>
 
-<% @profiles.each do |profile| %>
     <table>
         <tr>
-            <th><%= binding.pry %></th>
+            <th>User</th>
             <th>Track</th>
             <th>Created At</th>
             <th>View</th>
         </tr>
+        <% @profiles.each do |profile| %>
         <tr>
+            <td><%= profile.user.email %></td>
             <% if profile.track == 'sof_land_cont' %>  
                 <td>SOF Land Contract</td>
             <% elsif profile.track == 'sof_mar _cont' %>
@@ -41,7 +42,7 @@
                 <td>SOF Maritime Prep</td>
             <% end %>
             <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
-            <td><%= button_to 'View', '/results', params: {profile_id: profile.id}, method: :get %></td>
+            <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
         </tr>
+        <% end %>
     </table>
-<% end %>
