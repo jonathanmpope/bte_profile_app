@@ -1,11 +1,11 @@
 <h1>Your Profiles</h1>
-<% @profiles.each do |profile| %>
     <table>
         <tr>
             <th>Track</th>
             <th>Created At</th>
             <th>View</th>
         </tr>
+        <% @profiles.each do |profile| %>
         <tr>
             <% if profile.track == 'sof_land_cont' %>  
                 <td>SOF Land Contract</td>
@@ -33,5 +33,5 @@
             <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
             <td><%= button_to 'View', '/results', params: {profile_id: profile.id}, method: :get %></td>
         </tr>
+        <% end %>
     </table>
-<% end %>
