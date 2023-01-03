@@ -46,11 +46,13 @@
             <%= form.number_field :ruck_hours, in: 0..4, required: true %>
             <%= form.label :minutes %>
             <%= form.number_field :ruck_minutes, in: 0..59, required: true %>
-            <h3>5 Mile Run:</h3>
-            <%= form.label :minutes %>
-            <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
-            <%= form.label :seconds %>
-            <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+            <% if @track != 'fire_wildland' %>
+                <h3>5 Mile Run:</h3>
+                <%= form.label :minutes %>
+                <%= form.number_field :five_mile_minutes, in: 0..59, required: true %>
+                <%= form.label :seconds %>
+                <%= form.number_field :five_mile_seconds, in: 0..59, required: true %>
+            <% end %>
         <% end %>
         <% if @track == 'sof_mar_cont' %>
             <h3>2000m Swim:</h3>
@@ -116,7 +118,7 @@
             <%= form.select :extended_power, [["2000m Row",'2000m Row'],["1.5 Mile Run",'1.5 Mile Run']], required: true %>
             <%= form.label :minutes %>
             <%= form.number_field :extended_power_minutes, in: 0..30, value: 0, required: true %>
-            <%= form.label :minutes %>
+            <%= form.label :seconds %>
             <%= form.number_field :extended_power_seconds, in: 0..59, required: true %>
         <% end %>
         <% if @track != 'civilian' %>
@@ -131,7 +133,7 @@
             <%= form.select :power, [["500m Row",'500m Row'],["400m Run",'400m Run']], required: true %>
             <%= form.label :minutes %>
             <%= form.number_field :power_minutes, in: 0..10, value: 0, required: true %>
-            <%= form.label :minutes %>
+            <%= form.label :seconds %>
             <%= form.number_field :power_seconds, in: 0..59, required: true %>
         <% end %>
         <h3>Pushups:</h3>

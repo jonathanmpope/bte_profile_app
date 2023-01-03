@@ -3,9 +3,19 @@ class ResultsController < ApplicationController
     include ResultsHelper
 
     def show 
-        @profile = current_user.profiles.last
+        if params[:profile_id] != nil
+            @profile = current_user.profiles.find(params[:profile_id])
+        elsif params[:admin_profile_id] != nil 
+            @profile = Profile.find(params[:admin_profile_id])
+        else 
+            @profile = current_user.profiles.last
+        end 
         profile_bias_calc
         exercise_creator
+    end 
+
+    def index  
+        @profiles = Profile.find_by_user(@user.id)
     end 
 
     private
