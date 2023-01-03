@@ -20,7 +20,4 @@ class Profile < ApplicationRecord
         where(user_id: user_id)
     end 
 
-    def self.search_by_email(search_phrase)
-        where("email ILIKE ?", "%#{search_phrase}%")
-    end 
-end 
+end

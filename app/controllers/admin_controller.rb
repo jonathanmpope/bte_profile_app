@@ -4,7 +4,7 @@ class AdminController < ApplicationController
     def index 
         @admin = @current_admin
         if params[:search].present?
-            @profiles = Profile.search_by_email(params[:search])
+            @profiles = User.search_by_email(params[:search]).profiles
         else 
             @profiles = Profile.all 
         end

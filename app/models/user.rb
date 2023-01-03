@@ -14,4 +14,8 @@ class User < ApplicationRecord
     validates :password_confirmation, presence: true
 
     has_secure_password
+
+    def self.search_by_email(search_phrase)
+        where("email ILIKE ?", "%#{search_phrase}%")[0]
+    end 
 end
