@@ -16,4 +16,6 @@ Rails.application.routes.draw do
 
   get '/results', to: 'results#show'
   get '/profiles', to: 'results#index'
+
+  get '/admin', to: 'admin#index'
 end
