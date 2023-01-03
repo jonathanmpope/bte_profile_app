@@ -3,7 +3,11 @@ class ResultsController < ApplicationController
     include ResultsHelper
 
     def show 
-        @profile = current_user.profiles.last
+        if params[:profile_id] != nil
+            @profile = current_user.profiles.find(params[:profile_id])
+        else 
+            @profile = current_user.profiles.last
+        end 
         profile_bias_calc
         exercise_creator
     end 

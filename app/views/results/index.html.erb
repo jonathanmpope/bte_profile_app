@@ -4,7 +4,6 @@
         <tr>
             <th>Track</th>
             <th>Created At</th>
-            <th>Delete</th>
             <th>View</th>
         </tr>
         <tr>
@@ -32,8 +31,7 @@
                 <td>SOF Maritime Prep</td>
             <% end %>
             <td><%= profile.created_at %></td>
-            <td><%= button_to 'Delete', '/profiles', method: :delete %></td>
-            <td><%= button_to 'View', '/profile', method: :get %></td>
+            <td><%= button_to 'View', '/results', params: {profile_id: profile.id}, method: :get %></td>
         </tr>
     </table>
 <% end %>
