@@ -15,4 +15,8 @@ class Profile < ApplicationRecord
     validates_presence_of :conditioning_score
     validates_presence_of :work_capacity_score
     validates_presence_of :unit_type
+
+    def self.find_by_user(user_id)
+        where(user_id: user_id)
+    end 
 end 

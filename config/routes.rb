@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'profiles#new'
   post '/profile', to: 'profiles#create'
+  
 
   # resources :users, only: [:new, :create]
   get '/users/new', to: 'users#new'
@@ -14,4 +15,5 @@ Rails.application.routes.draw do
   patch '/password_reset', to: 'users#update'
 
   get '/results', to: 'results#show'
+  get '/profiles', to: 'results#index'
 end

@@ -8,6 +8,10 @@ class ResultsController < ApplicationController
         exercise_creator
     end 
 
+    def index  
+        @profiles = Profile.find_by_user(@user.id)
+    end 
+
     private
     def require_logged_in
         if !current_user
