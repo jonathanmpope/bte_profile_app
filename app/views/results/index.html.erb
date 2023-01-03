@@ -1,4 +1,4 @@
-<td>Your Profiles</h1>
+<h1>Your Profiles</h1>
 <% @profiles.each do |profile| %>
     <table>
         <tr>
@@ -30,7 +30,7 @@
             <% else %>
                 <td>SOF Maritime Prep</td>
             <% end %>
-            <td><%= profile.created_at %></td>
+            <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
             <td><%= button_to 'View', '/results', params: {profile_id: profile.id}, method: :get %></td>
         </tr>
     </table>
