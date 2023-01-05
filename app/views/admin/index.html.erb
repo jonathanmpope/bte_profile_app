@@ -14,6 +14,7 @@
             <th>Track</th>
             <th>Created At</th>
             <th>View</th>
+            <th>Delete</th>
         </tr>
         <% @profiles.each do |profile| %>
         <tr>
@@ -43,6 +44,7 @@
             <% end %>
             <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
             <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
+            <td><%= button_to 'Delete', '/admin', params: {admin_profile_id: profile.id}, method: :delete %></td>
         </tr>
         <% end %>
     </table>
