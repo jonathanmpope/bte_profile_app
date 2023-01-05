@@ -1,0 +1,15 @@
+<h3>Calculate your Running Paces for Training</h3>
+<p>Input your average pace over your threshold test below:</p>
+<%= form_with url: '/threshold', method: :post, local: true do |form| %>
+    <h3>Units:</h3>
+    <%= form.radio_button :units, "imperial", required: true %>
+    <%= form.label :units, "Imperial (min/mile)" %>
+    <%= form.radio_button :units, "metric" %>
+    <%= form.label :units, "Metric (min/km)" %>
+    <h3>Pace:</h3>
+    <%= form.label :minutes %>
+    <%= form.text_field :minutes, required: true %>
+    <%= form.label :seconds %>
+    <%= form.text_field :seconds, required: true %>
+    <%= form.submit "Convert to Pacing" %>
+<% end %>

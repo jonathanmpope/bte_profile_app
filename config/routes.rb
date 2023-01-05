@@ -19,4 +19,6 @@ Rails.application.routes.draw do
 
   get '/admin', to: 'admin#index'
   delete '/admin', to: 'admin#destroy'
+
+  get '/threshold', to: 'threshold#show'
 end
