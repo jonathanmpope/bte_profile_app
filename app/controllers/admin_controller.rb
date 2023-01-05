@@ -11,7 +11,6 @@ class AdminController < ApplicationController
     end 
 
     def destroy 
-        binding.pry 
         profile = Profile.find(params[:admin_profile_id])
         profile.destroy  
         redirect_to '/admin'
