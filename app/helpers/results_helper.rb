@@ -17,7 +17,7 @@ module ResultsHelper
     def civilian_exercise_results_lookup
         @capacity = @profile.exercises.where(name: "4 Mile Ruck").or(@profile.exercises.where(name: "10k Row"))[0]
         @extended_power = @profile.exercises.where(name: "1.5 Mile Run").or(@profile.exercises.where(name: "2000m Row"))[0]
-        @power = @profile.exercises.where(name: "400m run").or(@profile.exercises.where(name: "500m Row"))[0]
+        @power = @profile.exercises.where(name: "400m Run").or(@profile.exercises.where(name: "500m Row"))[0]
         @pushups = @profile.exercises.where(name: "Pushups")[0] 
         @hang = @profile.exercises.where(name: "Hang")[0] 
         @squat = @profile.exercises.where(name: "Goblet Squat").or(@profile.exercises.where(name: "Front Squat"))[0]
