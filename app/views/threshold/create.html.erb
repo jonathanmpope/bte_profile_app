@@ -1,0 +1,17 @@
+<h3>Your Running Paces</h3>
+<p>Your Threshold Pace: <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds min/mile</p>
+ <table>
+    <tr>
+        <th>Type of Run</th>
+        <th>Pacing Adjustment</th>
+        <th>Top of Range (fastest pace)</th>
+        <th>Bottom of Range (slowest pace)</th>
+    </tr>
+
+    <tr>
+        <td>Distance Run</td>
+        <td>30-60s min / mile slower than threshold pace</td>
+        <td><%= (@distance_top / 60).floor %> minutes, <%= @distance_top % 60 %> seconds</td>
+        <td><%= (@distance_bottom / 60).floor %> minutes, <%= @distance_bottom % 60 %> seconds</td>
+    </tr>
+</table>

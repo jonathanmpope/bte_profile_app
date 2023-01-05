@@ -8,8 +8,11 @@
     <%= form.label :units, "Metric (min/km)" %>
     <h3>Pace:</h3>
     <%= form.label :minutes %>
-    <%= form.text_field :minutes, required: true %>
+    <%= form.number_field :minutes, required: true %>
     <%= form.label :seconds %>
-    <%= form.text_field :seconds, required: true %>
+    <%= form.number_field :seconds, required: true %>
+    <br>
+    <br>
     <%= form.submit "Convert to Pacing" %>
 <% end %>
+

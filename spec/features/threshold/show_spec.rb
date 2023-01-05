@@ -22,4 +22,15 @@ RSpec.describe 'the threshold page' do
          expect(page).to have_content('Input your average pace over your threshold test below')
      end 
 
+     it 'has a form to convert threshold' do
+         visit '/threshold'
+        
+         choose(id="units_imperial")
+         fill_in("minutes", with:8)
+         fill_in("seconds", with:30)
+         click_button("Convert to Pacing")
+        save_and_open_page
+         expect(current_path).to eq('/threshold')
+     end
+
 end 
