@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   get '/profiles', to: 'results#index'
 
   get '/admin', to: 'admin#index'
+  delete '/admin', to: 'admin#destroy'
 end

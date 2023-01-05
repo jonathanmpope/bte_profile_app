@@ -10,6 +10,13 @@ class AdminController < ApplicationController
         end
     end 
 
+    def destroy 
+        binding.pry 
+        profile = Profile.find(params[:admin_profile_id])
+        profile.destroy  
+        redirect_to '/admin'
+    end 
+
     private
     def require_logged_in
         if !current_admin

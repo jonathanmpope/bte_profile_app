@@ -1,6 +1,6 @@
 class Profile < ApplicationRecord
     belongs_to :user
-    has_many :exercises 
+    has_many :exercises, dependent: :delete_all
 
     validates_presence_of :weight
     validates_presence_of :track

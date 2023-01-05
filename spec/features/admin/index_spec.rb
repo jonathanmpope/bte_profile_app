@@ -35,7 +35,7 @@ RSpec.describe 'the landing page' do
 
      
 
-    it 'has an admin page with results' do
+    it 'has an admin page with search results' do
         @user2 = User.create!(email: 'test2@test.com', password: "test123", password_confirmation: "test123")
         @user3 = User.create!(email: 'test3@test.com', password: "test123", password_confirmation: "test123")
         @profile1 = @user2.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 100.0, strength_upper_score: 97.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial')
@@ -51,5 +51,4 @@ RSpec.describe 'the landing page' do
         expect(page).to_not have_content("Operator(short)")
         expect(page).to_not have_content("test3@test.com")
      end 
-
 end 
