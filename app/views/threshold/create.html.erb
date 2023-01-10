@@ -1,17 +1,58 @@
 <h3>Your Running Paces</h3>
-<p>Your Threshold Pace: <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds min/mile</p>
- <table>
-    <tr>
-        <th>Type of Run</th>
-        <th>Pacing Adjustment</th>
-        <th>Top of Range (fastest pace)</th>
-        <th>Bottom of Range (slowest pace)</th>
-    </tr>
-
-    <tr>
-        <td>Distance Run</td>
-        <td>30-60s min / mile slower than threshold pace</td>
-        <td><%= (@distance_top / 60).floor %> minutes, <%= @distance_top % 60 %> seconds</td>
-        <td><%= (@distance_bottom / 60).floor %> minutes, <%= @distance_bottom % 60 %> seconds</td>
-    </tr>
-</table>
+<% if @units == 'imperial' %>
+    <p>Your Threshold Pace: <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds min/mile</p>
+    <table>
+        <tr>
+            <th>Type of Run</th>
+            <th>Pacing Adjustment</th>
+            <th>Bottom of Range (slowest pace)</th>
+            <th>Top of Range (fastest pace)</th>
+        </tr>
+        <tr>
+            <td>Distance Run</td>
+            <td>30-60s min / mile slower than threshold pace</td>
+            <td><%= (@distance_top / 60).floor %> minutes, <%= @distance_top % 60 %> seconds</td>
+            <td><%= (@distance_bottom / 60).floor %> minutes, <%= @distance_bottom % 60 %> seconds</td>
+        </tr>
+        <tr>
+            <td>Threshold Run</td>
+            <td>0-30s min / mile faster than threshold pace</td>
+            <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds</td>
+            <td><%= (@threshold_bottom / 60).floor %> minutes, <%= @threshold_bottom % 60 %> seconds</td>
+        </tr>
+        <tr>
+            <td>Repeats</td>
+            <td>45-75s min / mile faster than threshold pace</td>
+            <td><%= (@repeat_top / 60).floor %> minutes, <%= @repeat_top % 60 %> seconds</td>
+            <td><%= (@repeat_bottom / 60).floor %> minutes, <%= @repeat_bottom % 60 %> seconds</td>
+        </tr>
+    </table>
+<% else %>
+    <p>Your Threshold Pace: <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds min/km</p>
+    <table>
+        <tr>
+            <th>Type of Run</th>
+            <th>Pacing Adjustment</th>
+            <th>Bottom of Range (slowest pace)</th>
+            <th>Top of Range (fastest pace)</th>
+        </tr>
+        <tr>
+            <td>Distance Run</td>
+            <td>18-37s min / km slower than threshold pace</td>
+            <td><%= (@distance_top / 60).floor %> minutes, <%= (@distance_top % 60).round(0) %> seconds</td>
+            <td><%= (@distance_bottom / 60).floor %> minutes, <%= (@distance_bottom % 60).round(0) %> seconds</td>
+        </tr>
+        <tr>
+            <td>Threshold Run</td>
+            <td>0-18s min / km faster than threshold pace</td>
+            <td><%= (@threshold_top / 60).floor %> minutes, <%= (@threshold_top % 60).round(0) %> seconds</td>
+            <td><%= (@threshold_bottom / 60).floor %> minutes, <%= (@threshold_bottom % 60).round(0) %> seconds</td>
+        </tr>
+        <tr>
+            <td>Repeats</td>
+            <td>28-47s min / km faster than threshold pace</td>
+            <td><%= (@repeat_top / 60).floor %> minutes, <%= (@repeat_top % 60).round(0) %> seconds</td>
+            <td><%= (@repeat_bottom / 60).floor %> minutes, <%= (@repeat_bottom % 60).round(0) %> seconds</td>
+        </tr>
+    </table>
+<% end %>

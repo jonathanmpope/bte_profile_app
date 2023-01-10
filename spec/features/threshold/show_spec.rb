@@ -29,8 +29,26 @@ RSpec.describe 'the threshold page' do
          fill_in("minutes", with:8)
          fill_in("seconds", with:30)
          click_button("Convert to Pacing")
-        save_and_open_page
+        
          expect(current_path).to eq('/threshold')
+     end
+
+     it 'converts imperial pacing' do
+         visit '/threshold'
+        
+         choose(id="units_imperial")
+         fill_in("minutes", with:8)
+         fill_in("seconds", with:30)
+         click_button("Convert to Pacing")
+        
+         expect(current_path).to eq('/threshold')
+
+         expect(page).to have_content('9 minutes, 30 seconds')
+         expect(page).to have_content('9 minutes, 0 seconds')
+         expect(page).to have_content('8 minutes, 30 seconds')
+         expect(page).to have_content('8 minutes, 0 seconds')
+         expect(page).to have_content('7 minutes, 45 seconds')
+         expect(page).to have_content('7 minutes, 15 seconds')
      end
 
 end 
