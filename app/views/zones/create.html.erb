@@ -1,0 +1,38 @@
+<h3>Your Heart Rate Zones</h3>
+<table>
+    <tr class = 'zones'>
+        <th class = 'zones'>Zone</th>
+        <th class = 'zones'>Bottom of Range</th>
+        <th class = 'zones'>Top of Range</th>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 0</td>
+        <td class = 'zones'>Anything below -></td>
+        <td class = 'zones'><%= @zone_0_top.round(0) %></td>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 1</td>
+        <td class = 'zones'><%= @zone_0_top.round(0) %></td>
+        <td class = 'zones'><%= @zone_1_top.round(0) %></td>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 2</td>
+        <td class = 'zones'><%= @zone_1_top.round(0) %></td>
+        <td class = 'zones'><%= @zone_2_top.round(0) %></td>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 3</td>
+        <td class = 'zones'><%= @zone_2_top.round(0) %></td>
+        <td class = 'zones'><%= @zone_3_top.round(0) %></td>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 4</td>
+        <td class = 'zones'><%= @zone_3_top.round(0) %></td>
+        <td class = 'zones'><%= @zone_4_top.round(0) %></td>
+    </tr>
+    <tr class = 'zones'>
+        <td class = 'zones'>Zone 5</td>
+        <td class = 'zones'><%= @zone_4_top.round(0) %></td>
+        <td class = 'zones'>Max HR</td>
+    </tr>
+</table>

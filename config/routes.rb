@@ -22,4 +22,7 @@ Rails.application.routes.draw do
 
   get '/threshold', to: 'threshold#new'
   post '/threshold', to: 'threshold#create'
+
+  get '/zones', to: 'zones#new'
+  post '/zones', to: 'zones#create'
 end

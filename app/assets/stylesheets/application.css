@@ -228,3 +228,53 @@
  #result_graph_info{
     font-size: 14px;
  }
+
+
+ td.zones,
+ th.zones {
+     border: 1px solid #dddddd;
+     text-align: center;
+     padding: 8px;
+ }
+
+ tr.zones:nth-child(2) {
+     background-color: #99ff74;
+     color: black;
+ }
+
+ tr.zones:nth-child(3) {
+     background-color: #23bd44;
+     color: black;
+ }
+
+ tr.zones:nth-child(4) {
+     background-color: #058321;
+     color: black;
+ }
+
+ tr.zones:nth-child(5) {
+     background-color: #f8f801;
+     color: black;
+ }
+
+ tr.zones:nth-child(6) {
+     background-color: #f8c301;
+     color: black;
+ }
+
+ tr.zones:nth-child(7) {
+     background-color: #f82601;
+     color: black;
+ }
+
+  td.pacing,
+  th.pacing {
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 8px;
+  }
+
+  tr.pacing:nth-child(even) {
+      background-color: #dddddd;
+      color: black;
+  }

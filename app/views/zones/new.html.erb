@@ -1,0 +1,9 @@
+<h3>Calculate your Heart Rate Zones</h3>
+<p>Input your average heart rate over your threshold test:</p>
+<%= form_with url: '/zones', method: :post, local: true do |form| %>
+    <%= form.label :heart_rate %>
+    <%= form.number_field :heartrate, required: true %>
+    <br>
+    <br>
+    <%= form.submit "Calculate Zones" %>
+<% end %>
