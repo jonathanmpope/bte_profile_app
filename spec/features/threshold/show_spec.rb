@@ -51,4 +51,21 @@ RSpec.describe 'the threshold page' do
          expect(page).to have_content('7 minutes, 15 seconds')
      end
 
+    it 'converts metric pacing' do
+         visit '/threshold'
+        
+         choose(id="units_metric")
+         fill_in("minutes", with:5)
+         fill_in("seconds", with:10)
+         click_button("Convert to Pacing")
+        
+         expect(current_path).to eq('/threshold')
+
+         expect(page).to have_content('5 minutes, 47 seconds')
+         expect(page).to have_content('5 minutes, 29 seconds')
+         expect(page).to have_content('5 minutes, 10 seconds')
+         expect(page).to have_content('4 minutes, 51 seconds')
+         expect(page).to have_content('4 minutes, 42 seconds')
+         expect(page).to have_content('4 minutes, 23 seconds')
+     end
 end 
