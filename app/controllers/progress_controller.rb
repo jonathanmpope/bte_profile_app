@@ -1,10 +1,11 @@
 class ProgressController < ApplicationController
     before_action :require_logged_in
-    include ProfileHelper
+    include ProgressHelper
 
     def show
         if current_user.profiles != nil
             @profiles = current_user.profiles
+            main_graph_data
         end 
     end 
 

@@ -1,18 +1,24 @@
 <script src = "https://cdn.jsdelivr.net/npm/apexcharts" > </script>
 <h1>Your Profiles</h1>
 <p>Each track shows your progress over time. Hover for details.</p>
-<div class = "main_chart">
-<% @profile_data = Hash.new(0) %>
-<% @profiles.map { |profile| @profile_data[profile.created_at] = profile.strength_lower_score }%>
-    <% line_series = [{ name: "Your Score", data: @profile_data }] %>
-    <% options = { grid: { padding: {top: -60, bottom: -200} }, 
-                markers: {size: 10}, 
-                theme: 'palette4', 
-                fill: { opacity: 0.7 }, 
-                chart: {height: '400px'}, 
-                xaxis: {labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: ["#fcf8f7", "#fcf8f7", "#fcf8f7"]}}}, 
-                yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: false, style:{colors: ["#fcf8f7", '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7', '#fcf8f7'], fontSize: '10px', fontWeight: 'bold'}}}, 
-                dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}}, 
-                tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}} %>
+<h3>Profile and Category Scores Over Time</h3>
+<div class = "secondary_chart">
+    <% line_series = [
+        {name: "Total Score", data: @total_scores},
+        {name: "Strength Score", data: @strength_scores},
+        {name: "Conditioning Score", data: @conditioning_scores},
+        {name: "Work Capacity Score", data: @work_capacity_scores}
+    ] %>
+    <% options = {
+        title: {text: 'Profile Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Score',
+        xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Score", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
     <%= line_chart(line_series, options) %>
 </div>
