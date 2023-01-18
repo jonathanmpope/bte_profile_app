@@ -5,6 +5,8 @@ module ProgressHelper
         strength_scores
         conditioning_scores
         work_capacity_scores
+        strength_lower_scores 
+        strength_upper_scores 
     end 
 
     def total_scores
@@ -24,7 +26,17 @@ module ProgressHelper
 
     def work_capacity_scores
         @work_capacity_scores = Hash.new(0)
-        @profiles.each { |profile|  @work_capacity_scores[profile.created_at] = profile.work_capacity_score.round(0)}
+        @profiles.each { |profile| @work_capacity_scores[profile.created_at] = profile.work_capacity_score.round(0)}
     end
+
+    def strength_lower_scores
+        @strength_lower_scores = Hash.new(0)
+        @profiles.each { |profile| @strength_lower_scores[profile.created_at] = profile.strength_lower_score.round(0)}
+    end 
+
+    def strength_upper_scores 
+        @strength_upper_scores = Hash.new(0)
+        @profiles.each { |profile| @strength_upper_scores[profile.created_at] = profile.strength_upper_score.round(0)}
+    end 
 
 end 

@@ -23,45 +23,63 @@
         } %>
     <%= line_chart(line_series, options) %>
 </div>
-
-
 <h3>Your Profiles</h3>
-
 <table>
+    <tr>
+        <th>Track</th>
+        <th>Created At</th>
+        <th>View</th>
+    </tr>
+    <% if @profiles != nil %>
+        <% @profiles.each do |profile| %>
         <tr>
-            <th>Track</th>
-            <th>Created At</th>
-            <th>View</th>
-        </tr>
-        <% if @profiles != nil %>
-            <% @profiles.each do |profile| %>
-            <tr>
-                <% if profile.track == 'sof_land_cont' %>  
-                    <td>SOF Land Contract</td>
-                <% elsif profile.track == 'sof_mar _cont' %>
-                    <td>SOF Maritime Contract</td>
-                <% elsif profile.track == 'sof_land_prep' %>
-                    <td>SOF Land Prep</td>
-                <% elsif profile.track == 'operator_short' %>
-                    <td>Operator(short)</td>
-                <% elsif profile.track == 'operator_long' %>
-                    <td>Operator(long)</td>
-                <% elsif profile.track == 'hrt' %>
-                    <td>HRT</td>
-                <% elsif profile.track == 'leo' %>
-                    <td>LEO</td>
-                <% elsif profile.track == 'fire_urban' %>
-                    <td>Fire - Urban</td>
-                <% elsif profile.track == 'fire_wildland' %>
-                    <td>Fire - Wildland</td>
-                <% elsif profile.track == 'civilian' %>
-                    <td>Civilian</td>
-                <% else %>
-                    <td>SOF Maritime Prep</td>
-                <% end %>
-                <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
-                <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
-            </tr>
+            <% if profile.track == 'sof_land_cont' %>  
+                <td>SOF Land Contract</td>
+            <% elsif profile.track == 'sof_mar _cont' %>
+                <td>SOF Maritime Contract</td>
+            <% elsif profile.track == 'sof_land_prep' %>
+                <td>SOF Land Prep</td>
+            <% elsif profile.track == 'operator_short' %>
+                <td>Operator(short)</td>
+            <% elsif profile.track == 'operator_long' %>
+                <td>Operator(long)</td>
+            <% elsif profile.track == 'hrt' %>
+                <td>HRT</td>
+            <% elsif profile.track == 'leo' %>
+                <td>LEO</td>
+            <% elsif profile.track == 'fire_urban' %>
+                <td>Fire - Urban</td>
+            <% elsif profile.track == 'fire_wildland' %>
+                <td>Fire - Wildland</td>
+            <% elsif profile.track == 'civilian' %>
+                <td>Civilian</td>
+            <% else %>
+                <td>SOF Maritime Prep</td>
             <% end %>
+            <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
+            <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
+        </tr>
         <% end %>
-    </table>
+    <% end %>
+</table>
+<h3>Strength Scores Over Time</h3>
+<div class = "secondary_chart">
+    <% line_series_2 = [
+        {name: "Total Score", data: @strength_scores},
+        {name: "Upper Body Strength Score", data: @strength_upper_scores},
+        {name: "Lower Body Strength Score", data: @strength_lower_scores}
+    ] %>
+    <% options_2 = {
+        chart: { offsetX: 20 },
+        title: {text: 'Strength Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Score',
+        xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Score", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_2, options_2) %>
+</div>
