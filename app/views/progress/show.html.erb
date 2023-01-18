@@ -1,6 +1,6 @@
 <script src = "https://cdn.jsdelivr.net/npm/apexcharts" > </script>
 <h1>Your Profiles</h1>
-<p>Each track shows your progress over time. Hover for details.</p>
+<p>Each graph shows your progress over time. Hover for details.</p>
 <h3>Profile and Category Scores Over Time</h3>
 <div class = "secondary_chart">
     <% line_series = [
@@ -10,6 +10,7 @@
         {name: "Work Capacity Score", data: @work_capacity_scores}
     ] %>
     <% options = {
+        chart: { offsetX: 20 },
         title: {text: 'Profile Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
         ytitle: 'Score',
         xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
@@ -22,3 +23,45 @@
         } %>
     <%= line_chart(line_series, options) %>
 </div>
+
+
+<h3>Your Profiles</h3>
+
+<table>
+        <tr>
+            <th>Track</th>
+            <th>Created At</th>
+            <th>View</th>
+        </tr>
+        <% if @profiles != nil %>
+            <% @profiles.each do |profile| %>
+            <tr>
+                <% if profile.track == 'sof_land_cont' %>  
+                    <td>SOF Land Contract</td>
+                <% elsif profile.track == 'sof_mar _cont' %>
+                    <td>SOF Maritime Contract</td>
+                <% elsif profile.track == 'sof_land_prep' %>
+                    <td>SOF Land Prep</td>
+                <% elsif profile.track == 'operator_short' %>
+                    <td>Operator(short)</td>
+                <% elsif profile.track == 'operator_long' %>
+                    <td>Operator(long)</td>
+                <% elsif profile.track == 'hrt' %>
+                    <td>HRT</td>
+                <% elsif profile.track == 'leo' %>
+                    <td>LEO</td>
+                <% elsif profile.track == 'fire_urban' %>
+                    <td>Fire - Urban</td>
+                <% elsif profile.track == 'fire_wildland' %>
+                    <td>Fire - Wildland</td>
+                <% elsif profile.track == 'civilian' %>
+                    <td>Civilian</td>
+                <% else %>
+                    <td>SOF Maritime Prep</td>
+                <% end %>
+                <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
+                <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
+            </tr>
+            <% end %>
+        <% end %>
+    </table>
