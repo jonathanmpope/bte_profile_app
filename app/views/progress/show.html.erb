@@ -10,7 +10,6 @@
         {name: "Work Capacity Score", data: @work_capacity_scores}
     ] %>
     <% options = {
-        chart: { offsetX: 20 },
         title: {text: 'Profile Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
         ytitle: 'Score',
         xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
@@ -70,7 +69,6 @@
         {name: "Lower Body Strength Score", data: @strength_lower_scores}
     ] %>
     <% options_2 = {
-        chart: { offsetX: 20 },
         title: {text: 'Strength Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
         ytitle: 'Score',
         xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
@@ -82,4 +80,27 @@
         tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
         } %>
     <%= line_chart(line_series_2, options_2) %>
+</div>
+
+<h3>Conditioning Scores Over Time</h3>
+<div class = "secondary_chart">
+    <% line_series_3 = [
+        {name: "Total Score", data: @conditioning_scores},
+        {name: "Extended Capacity", data: @extended_capacity_scores},
+        {name: "Capacity", data: @capacity_scores},
+        {name: "Extended Power", data: @extended_power_scores},
+        {name: "Power", data: @power_scores}
+    ] %>
+    <% options_3 = {
+        title: {text: 'Conditioning Scores', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Score',
+        xaxis: {labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 100, tickAmount: 5, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Score", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_3, options_3) %>
 </div>
