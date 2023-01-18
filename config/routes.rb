@@ -25,4 +25,6 @@ Rails.application.routes.draw do
 
   get '/zones', to: 'zones#new'
   post '/zones', to: 'zones#create'
+
+  get '/progress', to: 'progress#show'
 end
