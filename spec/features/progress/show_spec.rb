@@ -206,4 +206,18 @@ RSpec.describe 'the profiles report page' do
 
         expect(page).to have_content('Conditioning Scores Over Time')
     end 
+
+    it 'shows conditioning scores over time graph' do
+        @profile1 = @user.profiles.create!(weight: 195.0, track: "sof_land_cont", strength_lower_score: 90.0, strength_upper_score: 87.06959706959707, strength_score: 88.53479853479854, conditioning_extended_capacity_score: 77.77777777777777, conditioning_capacity_score: 88.75776397515527, conditioning_extended_power_score: 66.15384615384615, conditioning_power_score: 54.666666666666664, conditioning_score: 74.33901364336147, work_capacity_score: 53.464999999999996, unit_type: 'imperial', created_at: "Thu, 19 Jan 2022 21:20:02 UTC +00:00")
+        @profile2 = @user.profiles.create!(weight: 197.0, track: "sof_land_cont", strength_lower_score: 97.0, strength_upper_score: 99.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 87.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 86.15384615384615, conditioning_power_score: 74.666666666666664, conditioning_score: 94.33901364336147, work_capacity_score: 83.464999999999996, unit_type: 'imperial', created_at: "Thu, 15 July 2022 21:20:02 UTC +00:00")
+        @profile2 = @user.profiles.create!(weight: 197.0, track: "sof_land_cont", strength_lower_score: 97.0, strength_upper_score: 99.06959706959707, strength_score: 98.53479853479854, conditioning_extended_capacity_score: 87.77777777777777, conditioning_capacity_score: 98.75776397515527, conditioning_extended_power_score: 86.15384615384615, conditioning_power_score: 74.666666666666664, conditioning_score: 94.33901364336147, work_capacity_score: 83.464999999999996, unit_type: 'imperial', created_at: "Thu, 15 July 2022 21:20:02 UTC +00:00")
+         
+
+        visit '/'
+       
+        expect(page).to have_link('Progress')
+        click_on('Progress')
+
+        expect(current_path).to eq('/progress')
+    end 
 end 
