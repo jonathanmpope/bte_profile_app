@@ -104,3 +104,26 @@
         } %>
     <%= line_chart(line_series_3, options_3) %>
 </div>
+<h3>Strength Movement Maxes Over Time</h3>
+<div class = "secondary_chart">
+    <% line_series_4 = [
+        {name: "Goblet Squat", data: @goblet_squat_scores},
+        {name: "Front Squat", data: @front_squat_scores},
+        {name: "Back Squat", data: @back_squat_scores},
+        {name: "Trap Bar DL", data: @trap_bar_scores},
+        {name: "Straight Bar DL", data: @straight_bar_scores},
+
+    ] %>
+    <% options_4 = {
+        title: {text: 'Lower Body Strength Movement 1RMs', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Weight',
+        xaxis: {type: 'category', labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 500, tickAmount: 5, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Weight", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_4, options_4) %>
+</div>

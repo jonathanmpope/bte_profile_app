@@ -309,13 +309,17 @@ module ProfileHelper
             if @profile.track != 'civilian'
                 @pullup_weight = params[:pullup_weight].to_f
             else  
-                @row_weight = params[:row_weight]
+                @row_weight = params[:row_weight].to_f
             end
         else 
             @squat_weight = params[:squat_weight].to_f * 2.20462
             @deadlift_weight = params[:deadlift_weight].to_f * 2.20462
             @press_weight = params[:press_weight].to_f * 2.20462
-            @pullup_weight = params[:pullup_weight].to_f * 2.20462
+            if @profile.track != 'civilian'
+                @pullup_weight = params[:pullup_weight].to_f * 2.20462
+            else  
+                @row_weight = params[:row_weight].to_f * 2.20462
+            end
         end
     end 
 
