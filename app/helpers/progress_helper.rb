@@ -12,6 +12,8 @@ module ProgressHelper
         extended_power_scores
         power_scores
         lower_body_strength_movements
+        uppper_body_strength_movements
+        work_capacity_movements 
     end 
 
     def total_scores
@@ -120,5 +122,111 @@ module ProgressHelper
         else 
             @straight_bar_movements.each { |dl| @straight_bar_scores[dl.created_at.strftime("%b %d, %Y")] = "#{dl.value.round(0)}"}
         end
+    end 
+
+    def uppper_body_strength_movements 
+        bench_press_movements_calc
+        overhead_press_movements_calc
+        db_bench_press_movements_calc
+        db_row_movements_calc
+        weighted_pullup_movements_calc
+    end 
+
+    def bench_press_movements_calc
+        @bench_press_movements = @user.bench_press_movements
+        @bench_press_scores = Hash.new(0)
+        if @bench_press_movements == []
+            @bench_press_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @bench_press_movements.each { |press| @bench_press_scores[press.created_at.strftime("%b %d, %Y")] = "#{press.value.round(0)}"}
+        end
+
+    end 
+
+    def db_bench_press_movements_calc
+        @db_bench_press_movements = @user.db_bench_press_movements
+        @db_bench_press_scores = Hash.new(0)
+        if @db_bench_press_movements == []
+            @db_bench_press_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @db_bench_press_movements.each { |press| @db_bench_press_scores[press.created_at.strftime("%b %d, %Y")] = "#{press.value.round(0)}"}
+        end
+    end 
+
+    def overhead_press_movements_calc
+        @overhead_press_movements = @user.overhead_press_movements
+        @overhead_press_scores = Hash.new(0)
+        if @overhead_press_movements == []
+            @overhead_press_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @overhead_press_movements.each { |press| @overhead_press_scores[press.created_at.strftime("%b %d, %Y")] = "#{press.value.round(0)}"}
+        end
+    end
+
+    def db_row_movements_calc
+        @db_row_movements = @user.db_row_movements
+        @db_row_scores = Hash.new(0)
+        if @db_row_movements == []
+            @db_row_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @db_row_movements.each { |pull| @db_row_scores[pull.created_at.strftime("%b %d, %Y")] = "#{pull.value.round(0)}"}
+        end
+    end
+
+    def weighted_pullup_movements_calc
+        @weighted_pullup_movements = @user.weighted_pullup_movements
+        @weighted_pullup_scores = Hash.new(0)
+        if @weighted_pullup_movements == []
+            @weighted_pullup_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @weighted_pullup_movements.each { |pull| @weighted_pullup_scores[pull.created_at.strftime("%b %d, %Y")] = "#{pull.value.round(0)}"}
+        end
+    end
+
+    def work_capacity_movements
+        pushup_movements
+        pullup_movements
+        dip_movements
+        hang_movements
+    end 
+
+    def pushup_movements
+        @pushup_movements = @user.pushup_movements
+        @pushup_scores = Hash.new(0)
+        if @pushup_movements == []
+            @pushup_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @pushup_movements.each { |pushup| @pushup_scores[pushup.created_at.strftime("%b %d, %Y")] = "#{pushup.value.round(0)}"}
+        end
+    end 
+
+    def pullup_movements
+        @pullup_movements = @user.pullup_movements
+        @pullup_scores = Hash.new(0)
+        if @pullup_movements == []
+            @pullup_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @pullup_movements.each { |pullup| @pullup_scores[pullup.created_at.strftime("%b %d, %Y")] = "#{pullup.value.round(0)}"}
+        end
+    end 
+
+    def dip_movements
+        @dip_movements = @user.dip_movements
+        @dip_scores = Hash.new(0)
+        if @dip_movements == []
+            @dip_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @dip_movements.each { |dip| @dip_scores[dip.created_at.strftime("%b %d, %Y")] = "#{dip.value.round(0)}"}
+        end
+    end 
+
+    def hang_movements
+        @hang_movements = @user.hang_movements
+        @hang_scores = Hash.new(0)
+        if @hang_movements == []
+            @hang_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @hang_movements.each { |hang| @hang_scores[hang.created_at.strftime("%b %d, %Y")] = "#{(hang.value * 60).round(0)}"}
+        end 
     end 
 end 

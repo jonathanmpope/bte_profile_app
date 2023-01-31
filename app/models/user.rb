@@ -45,4 +45,49 @@ class User < ApplicationRecord
         profiles.joins(:exercises).where(exercises: {name: "Straight Bar"})
         .select('exercises.*')
     end 
+    
+    def bench_press_movements
+        profiles.joins(:exercises).where(exercises: {name: "Bench Press"})
+        .select('exercises.*')
+    end 
+
+    def overhead_press_movements
+        profiles.joins(:exercises).where(exercises: {name: "Overhead Press (1 Arm)"})
+        .select('exercises.*')
+    end 
+
+    def db_bench_press_movements
+        profiles.joins(:exercises).where(exercises: {name: "DB Bench Press"})
+        .select('exercises.*')
+    end 
+
+    def db_row_movements
+        profiles.joins(:exercises).where(exercises: {name: "3 Point Row"})
+        .select('exercises.*')
+    end
+
+    def weighted_pullup_movements
+        profiles.joins(:exercises).where(exercises: {name: "Weighted Pull-up"})
+        .select('exercises.*')
+    end
+
+    def pullup_movements
+        profiles.joins(:exercises).where(exercises: {name: "Pull-ups"})
+        .select('exercises.*')
+    end
+
+    def pushup_movements
+        profiles.joins(:exercises).where(exercises: {name: "Pushups"})
+        .select('exercises.*')
+    end
+
+    def dip_movements
+        profiles.joins(:exercises).where(exercises: {name: "Dips"})
+        .select('exercises.*')
+    end
+
+    def hang_movements
+        profiles.joins(:exercises).where(exercises: {name: "Hang"})
+        .select('exercises.*')
+    end
 end

@@ -111,8 +111,7 @@
         {name: "Front Squat", data: @front_squat_scores},
         {name: "Back Squat", data: @back_squat_scores},
         {name: "Trap Bar DL", data: @trap_bar_scores},
-        {name: "Straight Bar DL", data: @straight_bar_scores},
-
+        {name: "Straight Bar DL", data: @straight_bar_scores}
     ] %>
     <% options_4 = {
         title: {text: 'Lower Body Strength Movement 1RMs', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
@@ -126,4 +125,45 @@
         tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
         } %>
     <%= line_chart(line_series_4, options_4) %>
+</div>
+<div class = "secondary_chart">
+    <% line_series_5 = [
+        {name: "DB Bench Press", data: @db_bench_press_scores},
+        {name: "DB Row", data: @db_row_scores},
+        {name: "Weighted Pullup", data: @weighted_pullup_scores},
+        {name: "Barbell Bench Press", data: @bench_press_scores},
+        {name: "Overhead Press (1 Arm)", data: @overhead_press_scores}
+    ] %>
+    <% options_5 = {
+        title: {text: 'Upper Body Strength Movement 1RMs', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Weight',
+        xaxis: {type: 'category', labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 300, tickAmount: 3, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Weight", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_5, options_5) %>
+</div>
+<div class = "secondary_chart">
+    <% line_series_6 = [
+        {name: "Pushups", data: @pushup_scores},
+        {name: "Pullups", data: @pullup_scores},
+        {name: "Dips", data: @dip_scores},
+        {name: "Hang (duration in seconds)", data: @hang_scores}
+    ] %>
+    <% options_6 = {
+        title: {text: 'Work Capacity Movements', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Reps',
+        xaxis: {type: 'category', labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 120, tickAmount: 3, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Weight", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_6, options_6) %>
 </div>
