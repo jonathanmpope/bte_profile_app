@@ -65,6 +65,14 @@ module ProgressHelper
     end
 
     def lower_body_strength_movements
+        goblet_squat_movements_calc
+        front_squat_movements_calc
+        back_squat_movements_calc
+        trap_bar_movements_calc
+        straight_bar_movements_calc
+    end 
+
+    def goblet_squat_movements_calc
         @goblet_squat_movements = @user.goblet_squat_movements
         @goblet_squat_scores = Hash.new(0)
         if @goblet_squat_movements == []
@@ -72,23 +80,29 @@ module ProgressHelper
         else 
             @goblet_squat_movements.each { |squat| @goblet_squat_scores[squat.created_at.strftime("%b %d, %Y")] = "#{squat.value.round(0)}"}
         end 
+    end 
 
-        @front_squat_movements = @user.front_squat_movements
-        @front_squat_scores = Hash.new(0)
-        if @front_squat_movements == []
-            @front_squat_scores = {'Jan 05, 2021' => 0} 
-        else 
-            @front_squat_movements.each { |squat| @front_squat_scores[squat.created_at.strftime("%b %d, %Y")] = "#{squat.value.round(0)}"}
-        end 
-
-        @back_squat_movements = @user.back_squat_movements
+    def back_squat_movements_calc
+         @back_squat_movements = @user.back_squat_movements
         @back_squat_scores = Hash.new(0)
         if @back_squat_movements == []
             @back_squat_scores = {'Jan 05, 2021' => 0} 
         else 
             @back_squat_movements.each { |squat| @back_squat_scores[squat.created_at.strftime("%b %d, %Y")] = "#{squat.value.round(0)}"}
         end 
+    end 
 
+    def front_squat_movements_calc
+         @front_squat_movements = @user.front_squat_movements
+        @front_squat_scores = Hash.new(0)
+        if @front_squat_movements == []
+            @front_squat_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @front_squat_movements.each { |squat| @front_squat_scores[squat.created_at.strftime("%b %d, %Y")] = "#{squat.value.round(0)}"}
+        end 
+    end 
+
+    def trap_bar_movements_calc
         @trap_bar_movements = @user.trap_bar_movements
         @trap_bar_scores = Hash.new(0)
         if @trap_bar_movements == []
@@ -96,7 +110,9 @@ module ProgressHelper
         else 
             @trap_bar_movements.each { |dl| @trap_bar_scores[dl.created_at.strftime("%b %d, %Y")] = "#{dl.value.round(0)}"}
         end
+    end 
 
+    def straight_bar_movements_calc
         @straight_bar_movements = @user.straight_bar_movements
         @straight_bar_scores = Hash.new(0)
         if @straight_bar_movements == []
@@ -104,6 +120,5 @@ module ProgressHelper
         else 
             @straight_bar_movements.each { |dl| @straight_bar_scores[dl.created_at.strftime("%b %d, %Y")] = "#{dl.value.round(0)}"}
         end
-        
     end 
 end 
