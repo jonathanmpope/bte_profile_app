@@ -167,3 +167,31 @@
         } %>
     <%= line_chart(line_series_6, options_6) %>
 </div>
+<div class = "secondary_chart">
+    <% line_series_7 = [
+        {name: "4-Mile Ruck", data: @four_mile_ruck_scores},
+        {name: "8-Mile Ruck", data: @extended_capacity_scores},
+        {name: "5-Mile Run", data: @five_mile_run_scores},
+        {name: "3-Mile Run", data: @three_mile_run_scores},
+        {name: "2000m Swim", data: @two_thousand_swim_scores},
+        {name: "10k Row", data: @ten_thousand_row_scores},
+        {name: "1.5-Mile Run", data: @one_half_mile_run_scores},
+        {name: "500m Swim", data: @five_hundred_swim_scores},
+        {name: "2000m Row", data: @two_thousand_row_scores},
+        {name: "2-Mile Run", data: @two_mile_run_scores},
+        {name: "400m Run", data: @four_hundred_run_scores},
+        {name: "500m Row", data: @five_hundred_row_scores}
+    ] %>
+    <% options_7 = {
+        title: {text: 'Conditioning Movements', style:{fontSize: '25px', fontWeight: 'bold', color: "#fcf8f7" }},
+        ytitle: 'Minutes',
+        xaxis: {type: 'category', labels: {show: true, style:{fontSize: '16px', fontWeight: 'bold', colors: "#fcf8f7" }}}, 
+        yaxis: {min: 0, max: 125, tickAmount: 5, labels: {show: true, style:{fontSize: '20px', fontWeight: 'bold', colors: "#fcf8f7" }}, title: { text: "Weight", style:{fontSize: '16px', fontWeight: 'bold', color: "#fcf8f7" }}}, 
+        stroke: { curve: 'smooth' },
+        legend:  { fontSize: '16px', fontWeight: 'bold', labels: { colors: "#fcf8f7", useSeriesColors: false }, itemMargin: { horizontal: 20, vertical: 0 }},
+        markers: { size: 5 },
+        dataLabels: { enabled: true, style: { fontSize: '16px', fontWeight: 'bold'}},
+        tooltip: { theme: 'dark', style: { fontSize: '16px', fontWeight: 'bold'}}
+        } %>
+    <%= line_chart(line_series_7, options_7) %>
+</div>

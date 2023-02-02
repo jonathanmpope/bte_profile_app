@@ -90,4 +90,64 @@ class User < ApplicationRecord
         profiles.joins(:exercises).where(exercises: {name: "Hang"})
         .select('exercises.*')
     end
+
+    def extended_capacity_movements
+        profiles.joins(:exercises).where(exercises: {name: "8 mile ruck"})
+        .select('exercises.*')
+    end
+
+    def five_mile_run_movements
+        profiles.joins(:exercises).where(exercises: {name: "5 mile run"})
+        .select('exercises.*')
+    end
+
+    def four_mile_ruck_movements
+        profiles.joins(:exercises).where(exercises: {name: "4 Mile Ruck"})
+        .select('exercises.*')
+    end
+
+    def three_mile_run_movements
+        profiles.joins(:exercises).where(exercises: {name: "3 Mile Run"})
+        .select('exercises.*')
+    end
+
+    def two_thousand_swim_movements
+        profiles.joins(:exercises).where(exercises: {name: "2000m Swim"})
+        .select('exercises.*')
+    end
+
+    def ten_thousand_row_movements
+        profiles.joins(:exercises).where(exercises: {name: "10k Row"})
+        .select('exercises.*')
+    end
+
+    def one_half_mile_run_movements 
+        profiles.joins(:exercises).where(exercises: {name: "1.5 Mile Run"})
+        .select('exercises.*')
+    end 
+
+    def five_hundred_swim_movements 
+        profiles.joins(:exercises).where(exercises: {name: "500m Swim"})
+        .select('exercises.*')
+    end 
+
+    def two_thousand_row_movements 
+        profiles.joins(:exercises).where(exercises: {name: "2000m Row"})
+        .select('exercises.*')
+    end 
+
+    def two_mile_run_movements
+        profiles.joins(:exercises).where(exercises: {name: "2-Mile Run"})
+        .select('exercises.*')
+    end
+    
+    def four_hundred_run_movements
+        profiles.joins(:exercises).where(exercises: {name: "400m Run"})
+        .select('exercises.*')
+    end 
+
+    def five_hundred_row_movements
+        profiles.joins(:exercises).where(exercises: {name: "500m Row"})
+        .select('exercises.*')
+    end 
 end

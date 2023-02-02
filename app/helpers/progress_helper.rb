@@ -14,6 +14,7 @@ module ProgressHelper
         lower_body_strength_movements
         uppper_body_strength_movements
         work_capacity_movements 
+        conditioning_movements
     end 
 
     def total_scores
@@ -228,5 +229,140 @@ module ProgressHelper
         else 
             @hang_movements.each { |hang| @hang_scores[hang.created_at.strftime("%b %d, %Y")] = "#{(hang.value * 60).round(0)}"}
         end 
+    end
+    
+    def conditioning_movements
+        extended_capacity_movements
+        five_mile_run_movements
+        four_mile_ruck_movements
+        three_mile_run_movements
+        two_thousand_swim_movements
+        ten_thousand_row_movements
+        one_half_mile_run_movements 
+        five_hundred_swim_movements
+        two_thousand_row_movements 
+        two_mile_run_movements 
+        four_hundred_run_movements
+        five_hundred_row_movements
     end 
+
+    def extended_capacity_movements
+        @extended_capacity_movements = @user.extended_capacity_movements
+        @extended_capacity_scores = Hash.new(0)
+        if @extended_capacity_movements == []
+            @extended_capacity_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @extended_capacity_movements.each { |cond| @extended_capacity_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def five_mile_run_movements
+        @five_mile_run_movements = @user.five_mile_run_movements
+        @five_mile_run_scores = Hash.new(0)
+        if @five_mile_run_movements == []
+            @five_mile_run_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @five_mile_run_movements.each { |cond| @five_mile_run_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def four_mile_ruck_movements
+        @four_mile_ruck_movements = @user.four_mile_ruck_movements
+        @four_mile_ruck_scores = Hash.new(0)
+        if @four_mile_ruck_movements == []
+            @four_mile_ruck_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @four_mile_ruck_movements.each { |cond| @four_mile_ruck_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def three_mile_run_movements
+        @three_mile_run_movements = @user.three_mile_run_movements
+        @three_mile_run_scores = Hash.new(0)
+        if @three_mile_run_movements == []
+            @three_mile_run_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @three_mile_run_movements.each { |cond| @three_mile_run_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end
+
+    def two_thousand_swim_movements
+        @two_thousand_swim_movements = @user.two_thousand_swim_movements
+        @two_thousand_swim_scores = Hash.new(0)
+        if @two_thousand_swim_movements == []
+            @two_thousand_swim_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @two_thousand_swim_movements.each { |cond| @two_thousand_swim_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end
+
+    def ten_thousand_row_movements
+        @ten_thousand_row_movements = @user.ten_thousand_row_movements
+        @ten_thousand_row_scores = Hash.new(0)
+        if @ten_thousand_row_movements == []
+            @ten_thousand_row_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @ten_thousand_row_movements.each { |cond| @ten_thousand_row_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end
+
+    def one_half_mile_run_movements 
+        @one_half_mile_run_movements = @user.one_half_mile_run_movements
+        @one_half_mile_run_scores = Hash.new(0)
+        if @one_half_mile_run_movements == []
+            @one_half_mile_run_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @one_half_mile_run_movements.each { |cond| @one_half_mile_run_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def five_hundred_swim_movements 
+        @five_hundred_swim_movements = @user.five_hundred_swim_movements
+        @five_hundred_swim_scores = Hash.new(0)
+        if @five_hundred_swim_movements == []
+            @five_hundred_swim_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @five_hundred_swim_movements.each { |cond| @five_hundred_swim_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def two_thousand_row_movements 
+        @two_thousand_row_movements = @user.two_thousand_row_movements
+        @two_thousand_row_scores = Hash.new(0)
+        if @two_thousand_row_movements == []
+            @two_thousand_row_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @two_thousand_row_movements.each { |cond| @two_thousand_row_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def two_mile_run_movements 
+        @two_mile_run_movements = @user.two_mile_run_movements
+        @two_mile_run_scores = Hash.new(0)
+        if @two_mile_run_movements == []
+            @two_mile_run_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @two_mile_run_movements.each { |cond| @two_mile_run_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def four_hundred_run_movements 
+        @four_hundred_run_movements = @user.four_hundred_run_movements
+        @four_hundred_run_scores = Hash.new(0)
+        if @four_hundred_run_movements == []
+            @four_hundred_run_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @four_hundred_run_movements.each { |cond| @four_hundred_run_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end 
+
+    def five_hundred_row_movements 
+        @five_hundred_row_movements = @user.five_hundred_row_movements
+        @five_hundred_row_scores = Hash.new(0)
+        if @five_hundred_row_movements == []
+            @five_hundred_row_scores = {'Jan 05, 2021' => 0} 
+        else 
+            @five_hundred_row_movements.each { |cond| @five_hundred_row_scores[cond.created_at.strftime("%b %d, %Y")] = "#{(cond.value).round(1)}"}
+        end
+    end
 end 
