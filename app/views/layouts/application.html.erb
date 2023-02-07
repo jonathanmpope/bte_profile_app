@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ProfileApp</title>
+    <title>BTE Profile App</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -16,8 +16,11 @@
     <nav class="item-b">      
         <% if current_user %>
           <%= link_to "New Profile", "/profile", {:class => "link"}%>
-          <%= link_to "Logout", '/logout', method: :delete, :class => "link" %>
           <%= link_to "My Profiles", '/profiles', {:class => "link"} %>
+            <% if current_user.profiles.count > 0 %>
+              <%= link_to "Progress Tracking", '/progress', {:class => "link"} %>
+            <% end %>
+          <%= link_to "Logout", '/logout', method: :delete, :class => "link" %>
         <% end %>
     </nav>
     <section class = "item-c">

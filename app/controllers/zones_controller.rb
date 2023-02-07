@@ -1,7 +1,6 @@
 class ZonesController < ApplicationController
     
     def new 
-
     end 
 
     def create 
