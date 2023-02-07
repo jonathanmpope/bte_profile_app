@@ -147,7 +147,8 @@ class User < ApplicationRecord
     end 
 
     def five_hundred_row_movements
-        profiles.joins(:exercises).where(exercises: {name: "500m Row"})
+        profiles.joins(:exercises).
+        where(exercises: {name: "500m Row"})
         .select('exercises.*')
     end 
 end
