@@ -18,7 +18,7 @@ class User < ApplicationRecord
     has_secure_password
 
     def self.search_by_email(search_phrase)
-        where("email ILIKE ?", "%#{search_phrase}%")[0]
+        where("email ILIKE ?", "%#{search_phrase}%")
     end 
 
     def goblet_squat_movements
