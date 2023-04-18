@@ -16,37 +16,39 @@
             <th>View</th>
             <th>Delete</th>
         </tr>
-        <% if @profiles != nil %>
-            <% @profiles.each do |profile| %>
-            <tr>
-                <td><%= profile.user.email %></td>
-                <% if profile.track == 'sof_land_cont' %>  
-                    <td>SOF Land Contract</td>
-                <% elsif profile.track == 'sof_mar _cont' %>
-                    <td>SOF Maritime Contract</td>
-                <% elsif profile.track == 'sof_land_prep' %>
-                    <td>SOF Land Prep</td>
-                <% elsif profile.track == 'operator_short' %>
-                    <td>Operator(short)</td>
-                <% elsif profile.track == 'operator_long' %>
-                    <td>Operator(long)</td>
-                <% elsif profile.track == 'hrt' %>
-                    <td>HRT</td>
-                <% elsif profile.track == 'leo' %>
-                    <td>LEO</td>
-                <% elsif profile.track == 'fire_urban' %>
-                    <td>Fire - Urban</td>
-                <% elsif profile.track == 'fire_wildland' %>
-                    <td>Fire - Wildland</td>
-                <% elsif profile.track == 'civilian' %>
-                    <td>Civilian</td>
-                <% else %>
-                    <td>SOF Maritime Prep</td>
+        <% if @users != nil %>
+            <% @users.each do |user| %>
+                <% user.profiles.each do |profile| %>
+                <tr>
+                    <td><%= profile.user.email %></td>
+                    <% if profile.track == 'sof_land_cont' %>  
+                        <td>SOF Land Contract</td>
+                    <% elsif profile.track == 'sof_mar _cont' %>
+                        <td>SOF Maritime Contract</td>
+                    <% elsif profile.track == 'sof_land_prep' %>
+                        <td>SOF Land Prep</td>
+                    <% elsif profile.track == 'operator_short' %>
+                        <td>Operator(short)</td>
+                    <% elsif profile.track == 'operator_long' %>
+                        <td>Operator(long)</td>
+                    <% elsif profile.track == 'hrt' %>
+                        <td>HRT</td>
+                    <% elsif profile.track == 'leo' %>
+                        <td>LEO</td>
+                    <% elsif profile.track == 'fire_urban' %>
+                        <td>Fire - Urban</td>
+                    <% elsif profile.track == 'fire_wildland' %>
+                        <td>Fire - Wildland</td>
+                    <% elsif profile.track == 'civilian' %>
+                        <td>Civilian</td>
+                    <% else %>
+                        <td>SOF Maritime Prep</td>
+                    <% end %>
+                    <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
+                    <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
+                    <td><%= button_to 'Delete', '/admin', params: {admin_profile_id: profile.id}, method: :delete %></td>
+                </tr>
                 <% end %>
-                <td><%= profile.created_at.strftime("%b %d, %Y") %></td>
-                <td><%= button_to 'View', '/results', params: {admin_profile_id: profile.id}, method: :get %></td>
-                <td><%= button_to 'Delete', '/admin', params: {admin_profile_id: profile.id}, method: :delete %></td>
-            </tr>
             <% end %>
         <% end %>
     </table>
