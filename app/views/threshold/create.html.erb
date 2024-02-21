@@ -22,11 +22,45 @@
         </tr>
         <tr class = 'pacing'>
             <td class = 'pacing'>Repeats</td>
-            <td class = 'pacing'>45-75s min / mile faster than threshold pace</td>
+            <td class = 'pacing'>45-105s min / mile faster than threshold pace</td>
             <td class = 'pacing'><%= (@repeat_top / 60).floor %> minutes, <%= @repeat_top % 60 %> seconds</td>
             <td class = 'pacing'><%= (@repeat_bottom / 60).floor %> minutes, <%= @repeat_bottom % 60 %> seconds</td>
         </tr>
     </table>
+    <h3>Repeat Running Pace Breakdown</h3>
+    <table>
+        <tr class = 'pacing'>
+            <th class = 'pacing'>Type of Run</th>
+            <th class = 'pacing'>Pacing Adjustment</th>
+            <th class = 'pacing'>Bottom of Range (slowest pace)</th>
+            <th class = 'pacing'>Top of Range (fastest pace)</th>
+        </tr>
+        <tr class = 'pacing'>
+            <td class = 'pacing'>400m Repeats</td>
+            <td class = 'pacing'>85-105s min / mile faster than threshold pace</td>
+            <td class = 'pacing'><%= (@four_hundred_top / 60).floor %> minutes, <%= @four_hundred_top % 60 %> seconds</td>
+            <td class = 'pacing'><%= (@four_hundred_bottom / 60).floor %> minutes, <%= @four_hundred_bottom % 60 %> seconds</td>
+        </tr>
+        <tr class = 'pacing'>
+            <td class = 'pacing'>600m Repeats</td>
+            <td class = 'pacing'>65-85s min / mile faster than threshold pace</td>
+            <td class = 'pacing'><%= (@six_hundred_top / 60).floor %> minutes, <%= @six_hundred_top % 60 %> seconds</td>
+            <td class = 'pacing'><%= (@six_hundred_bottom / 60).floor %> minutes, <%= @six_hundred_bottom % 60 %> seconds</td>
+        </tr>
+        <tr class = 'pacing'>
+            <td class = 'pacing'>800m Repeats</td>
+            <td class = 'pacing'>45-65s min / mile faster than threshold pace</td>
+            <td class = 'pacing'><%= (@eight_hundred_top / 60).floor %> minutes, <%= @eight_hundred_top % 60 %> seconds</td>
+            <td class = 'pacing'><%= (@eight_hundred_bottom / 60).floor %> minutes, <%= @eight_hundred_bottom % 60 %> seconds</td>
+        </tr>
+        <tr class = 'pacing'>
+            <td class = 'pacing'>1-mile Repeats</td>
+            <td class = 'pacing'>45-60s min / mile faster than threshold pace</td>
+            <td class = 'pacing'><%= (@one_mile_top / 60).floor %> minutes, <%= @one_mile_top % 60 %> seconds</td>
+            <td class = 'pacing'><%= (@one_mile_bottom / 60).floor %> minutes, <%= @one_mile_bottom % 60 %> seconds</td>
+        </tr>
+    </table>
+    <br>
 <% else %>
     <p>Your Threshold Pace: <td><%= (@threshold_top / 60).floor %> minutes, <%= @threshold_top % 60 %> seconds min/km</p>
     <table>

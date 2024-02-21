@@ -19,7 +19,15 @@ class ThresholdController < ApplicationController
         @distance_top = time + 60 
         @distance_bottom = time + 30 
         @repeat_top = time -45 
-        @repeat_bottom = time -75 
+        @repeat_bottom = time -105 
+        @four_hundred_top = time -85
+        @four_hundred_bottom = time -105
+        @six_hundred_top = time -65
+        @six_hundred_bottom = time -85
+        @eight_hundred_top = time -45
+        @eight_hundred_bottom = time -65
+        @one_mile_top = time -45
+        @one_mile_bottom = time -60
      end 
 
      def threshold_converter_calc_metric
