@@ -38,7 +38,15 @@ class ThresholdController < ApplicationController
         @distance_top = time + 37.28226
         @distance_bottom = time + 18.64113
         @repeat_top = time - 27.961695 
-        @repeat_bottom = time - 46.602825
+        @repeat_bottom = time -65.244
+        @four_hundred_top = time -52.816
+        @four_hundred_bottom = time -65.244
+        @six_hundred_top = time -40.389
+        @six_hundred_bottom = time -52.816
+        @eight_hundred_top = time -27.961
+        @eight_hundred_bottom = time -40.389
+        @one_mile_top = time -27.961
+        @one_mile_bottom = time -37.282
      end 
 
 end 
